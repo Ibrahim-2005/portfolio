@@ -1,19 +1,19 @@
 """
 app/schemas/message.py
 ──────────────────────
-Pydantic schemas for Message (contact form) requests and responses.
-(Stub — full schemas implemented in Phase 2 alongside routers.)
+Pydantic schemas for Message (contact form) requests.
 """
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
 
-class MessageBase(BaseModel):
-    pass
+class MessageCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
+    email: EmailStr
+    message: str = Field(..., min_length=10, max_length=5000)
 
 
-class MessageCreate(MessageBase):
-    pass
-
-
-class MessageOut(MessageBase):
+class MessageOut(BaseModel):
     model_config = {"from_attributes": True}
+    
+    id: int
+    is_read: bool

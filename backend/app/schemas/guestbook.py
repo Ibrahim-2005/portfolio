@@ -1,19 +1,20 @@
 """
 app/schemas/guestbook.py
 ────────────────────────
-Pydantic schemas for GuestbookEntry requests and responses.
-(Stub — full schemas implemented in Phase 2 alongside routers.)
+Pydantic schemas for GuestbookEntry requests.
 """
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
-class GuestbookEntryBase(BaseModel):
-    pass
+class GuestbookEntryCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
+    message: str = Field(..., min_length=1, max_length=1000)
 
 
-class GuestbookEntryCreate(GuestbookEntryBase):
-    pass
-
-
-class GuestbookEntryOut(GuestbookEntryBase):
+class GuestbookEntryOut(BaseModel):
     model_config = {"from_attributes": True}
+    
+    id: int
+    name: str
+    message: str
+    is_approved: bool
