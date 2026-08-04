@@ -62,25 +62,52 @@
 
 .terminal-input-line {
     display: flex;
-    align-items: center;
-    margin-top: 5px;
+    align-items: center; /* changed from baseline to center for input alignment */
+}
+
+.terminal-real-input {
+    background: transparent;
+    border: none;
+    color: var(--fg-main);
+    font-family: var(--font-code);
+    font-size: 13px;
+    flex-grow: 1;
+    outline: none;
+    padding: 0;
+    margin-left: 8px;
+    caret-color: var(--accent);
+}
+
+.prompt {
+    color: var(--accent);
+    margin-right: 0px; /* spacing handled by input margin */
 }
 
 .terminal-input-line .prompt {
-    color: var(--terminal-prompt);
-    margin-right: 8px;
+    color: var(--terminal-prompt, var(--accent));
+    margin-right: 8px; /* spacing */
 }
 
-.terminal-input-line .cursor {
-    animation: blink 1s step-end infinite;
-    display: inline-block;
-    width: 8px;
-    background-color: var(--terminal-fg);
-    height: 1em;
-    vertical-align: middle;
+.terminal-suggestions {
+    margin-top: 5px;
+    margin-left: 140px; /* roughly align with input start */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 11px;
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+.suggestion-pill {
+    background-color: var(--bg-hover);
+    color: var(--fg-main);
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
+
+.suggestion-pill:hover {
+    background-color: var(--accent);
+    color: var(--bg-main);
+}
+

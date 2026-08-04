@@ -109,3 +109,12 @@ export function updateSidebarActive() {
         if (el) el.classList.add('active');
     }
 }
+
+export function openTabBySlug(slug) {
+    const node = flatFileNodes.find(n => n.slug === slug || n.title.toLowerCase() === slug);
+    if (node && node.type !== 'folder') {
+        state.openTab(node);
+        return true;
+    }
+    return false;
+}

@@ -5,6 +5,8 @@ import { initPalette } from './components/command-palette.js';
 import { initShortcuts } from './features/keyboard-shortcuts.js';
 import { initCursorEngine } from './features/cursor-engine.js';
 import { initPetCompanions } from './features/pet-companion.js';
+import { initTerminal } from './components/terminal.js';
+import { api } from './core/api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System
@@ -19,4 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Fetch initial data and render sidebar
     initSidebar();
+
+    // Initialize Terminal
+    initTerminal();
+
+    // Fire initial page view analytics event
+    api.postAnalyticsEvent('page_view', window.location.pathname);
 });
