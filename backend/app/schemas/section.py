@@ -1,23 +1,45 @@
 """
 app/schemas/section.py
 ──────────────────────
-Pydantic schemas for Section requests and responses.
-(Stub — full schemas implemented in Phase 2 alongside routers.)
+Pydantic schemas for Section API responses.
+
+Two response shapes are used:
+  - SectionNode   : item in the full tree (nested children, no content)
+  - SectionDetail : single-section response that includes content
 """
-from pydantic import BaseModel
+from __future__ import annotations
+
+from pydantic import BaseModel, ConfigDict
 
 
-class SectionBase(BaseModel):
-    pass
+# ── Shared leaf fields exposed in every section response ──────────────────────
+class _SectionBase(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    slug: str
+    title: str
+    icon: str | None = None
+    type: str
+    parent_id: int | None = None
+    sort_order: int
 
 
-class SectionCreate(SectionBase):
-    pass
+# ── Tree node (used in GET /sections) ─────────────────────────────────────────
+class SectionNode(_SectionBase):
+    """
+    Represents one node in the sidebar tree.
+    Folders carry a ``children`` list; pages have an empty list.
+    ``content`` is intentionally excluded — callers fetch it via /sections/{slug}.
+    """
+    children: list[SectionNode] = []
+
+# Pydantic v2 requires explicit model_rebuild() for self-referencing models.
+SectionNode.model_rebuild()
 
 
-class SectionUpdate(SectionBase):
-    pass
-
-
-class SectionOut(SectionBase):
-    model_config = {"from_attributes": True}
+# ── Detail view (used in GET /sections/{slug}) ────────────────────────────────
+class SectionDetail(_SectionBase):
+    """Single section with its full content field."""
+    content: str | None = None
+    is_visible: bool

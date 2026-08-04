@@ -17,7 +17,7 @@ class Section(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
     # ── Fields ────────────────────────────────────────────────────────────────
-    slug: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    slug: Mapped[str] = mapped_column(String(255), nullable=False)
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     icon: Mapped[str | None] = mapped_column(String(255), nullable=True)
     # "page" | "folder"
@@ -32,7 +32,6 @@ class Section(Base):
         Integer,
         ForeignKey("sections.id", ondelete="SET NULL"),
         nullable=True,
-        index=True,
     )
 
     # ── Relationships ─────────────────────────────────────────────────────────
