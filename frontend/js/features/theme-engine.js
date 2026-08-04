@@ -39,6 +39,9 @@ export function setTheme(themeId, save = true) {
     if (themeNameEl) {
         themeNameEl.textContent = themeObj.name;
     }
+
+    // Dispatch event for other features to listen to
+    document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: themeId } }));
 }
 
 export function getCurrentTheme() {
