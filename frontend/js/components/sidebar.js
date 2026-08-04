@@ -2,7 +2,11 @@
 import { api } from '../core/api.js';
 import { state } from '../core/state.js';
 
-let flatFileNodes = []; // Store a flat map for easy lookup
+export let flatFileNodes = []; // Store a flat map for easy lookup
+
+export function getFiles() {
+    return flatFileNodes.filter(n => n.type !== 'folder');
+}
 
 export async function initSidebar() {
     const sidebarContent = document.querySelector('.sidebar-content');

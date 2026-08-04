@@ -59,6 +59,58 @@ export async function renderContent() {
         return;
     }
 
+    // Special case for Keyboard Shortcuts (virtual)
+    if (activeTab.slug === 'shortcuts') {
+        pane.innerHTML = `
+        <div style="padding: 2rem;">
+            <h1 style="margin-bottom: 1rem; color: var(--fg-default);">Keyboard Shortcuts</h1>
+            <p style="margin-bottom: 2rem; color: var(--fg-muted);">These shortcuts work anywhere on the site (unless you're typing in an input field).</p>
+            <table style="width: 100%; border-collapse: collapse; color: var(--fg-default);">
+                <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                    <th style="padding: 10px;">Command</th>
+                    <th style="padding: 10px;">Keybinding</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Show Command Palette</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Quick Open File</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>P</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Preferences: Color Theme</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>K</kbd> <kbd>Ctrl</kbd> + <kbd>T</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Toggle Terminal Panel</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>\`</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Toggle Sidebar Visibility</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>B</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Close Active Editor</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>W</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Open Next Editor</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>Tab</kbd></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 10px;">Open Previous Editor</td>
+                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Navigate Sidebar</td>
+                    <td style="padding: 10px;"><kbd>↑</kbd> / <kbd>↓</kbd> / <kbd>Enter</kbd> (when sidebar is focused)</td>
+                </tr>
+            </table>
+        </div>`;
+        return;
+    }
+
     // Special case for Home tab (static)
     if (activeTab.slug === 'home' || activeTab.title.toLowerCase() === 'home') {
         pane.innerHTML = HOME_STATIC_HTML;

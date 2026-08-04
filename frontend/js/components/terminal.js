@@ -3,41 +3,37 @@ import { api } from '../core/api.js';
 import { openTabBySlug } from './sidebar.js';
 import { setTheme, themes } from '../features/theme-engine.js';
 
-let isTerminalOpen = false;
+export let isTerminalOpen = false;
+let termInput;
+let terminalPanel;
+
+export const toggleTerminal = () => {
+    isTerminalOpen = !isTerminalOpen;
+    if (isTerminalOpen) {
+        terminalPanel.classList.remove('collapsed');
+        termInput.focus();
+    } else {
+        terminalPanel.classList.add('collapsed');
+        terminalPanel.style.height = '';
+        terminalPanel.style.top = '';
+    }
+    document.dispatchEvent(new CustomEvent('terminalToggled', { detail: { isOpen: isTerminalOpen } }));
+};
+
+export const closeTerminal = () => {
+    if (isTerminalOpen) {
+        toggleTerminal();
+    }
+};
 
 export function initTerminal() {
-    const terminalPanel = document.getElementById('terminal-panel');
+    terminalPanel = document.getElementById('terminal-panel');
     const toggleBtns = document.querySelectorAll('.term-toggle-status-btn, .term-close-btn');
-    const termInput = document.getElementById('terminal-input');
+    termInput = document.getElementById('terminal-input');
     const termOutput = document.querySelector('.terminal-output');
     const termSuggestions = document.getElementById('terminal-suggestions');
 
-    // Toggle terminal open/close
-    const toggleTerminal = () => {
-        isTerminalOpen = !isTerminalOpen;
-        if (isTerminalOpen) {
-            terminalPanel.classList.remove('collapsed');
-            termInput.focus();
-        } else {
-            terminalPanel.classList.add('collapsed');
-            // reset any visual viewport inline styles
-            terminalPanel.style.height = '';
-            terminalPanel.style.top = '';
-        }
-        
-        // Dispatch event so pet can pause if needed
-        document.dispatchEvent(new CustomEvent('terminalToggled', { detail: { isOpen: isTerminalOpen } }));
-    };
-
     toggleBtns.forEach(btn => btn.addEventListener('click', toggleTerminal));
-
-    // Listen for Ctrl/Cmd + `
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === '`') {
-            e.preventDefault();
-            toggleTerminal();
-        }
-    });
 
     // Mobile Keyboard visualViewport Handling
     if (window.visualViewport) {

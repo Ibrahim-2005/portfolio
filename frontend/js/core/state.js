@@ -52,6 +52,20 @@ class State {
     getActiveTab() {
         return this.openTabs.find(t => t.id === this.activeTabId);
     }
+
+    cycleNextTab() {
+        if (this.openTabs.length < 2) return;
+        const currentIndex = this.openTabs.findIndex(t => t.id === this.activeTabId);
+        const nextIndex = (currentIndex + 1) % this.openTabs.length;
+        this.activateTab(this.openTabs[nextIndex].id);
+    }
+
+    cyclePrevTab() {
+        if (this.openTabs.length < 2) return;
+        const currentIndex = this.openTabs.findIndex(t => t.id === this.activeTabId);
+        const prevIndex = (currentIndex - 1 + this.openTabs.length) % this.openTabs.length;
+        this.activateTab(this.openTabs[prevIndex].id);
+    }
 }
 
 export const state = new State();
