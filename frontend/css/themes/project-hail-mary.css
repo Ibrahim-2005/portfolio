@@ -1,0 +1,21 @@
+/* Project Hail Mary Theme (Amber/Rust) */
+html[data-theme="project-hail-mary"] {
+    --bg-main: #1c1511;
+    --bg-sidebar: #120d09;
+    --bg-titlebar: #120d09;
+    --bg-statusbar: #d66428;
+    --bg-tab-active: #1c1511;
+    --bg-tab-inactive: #120d09;
+    --bg-terminal: #1c1511;
+    --bg-panel-header: #120d09;
+    
+    --fg-main: #d9c4b1;
+    --fg-muted: #8c7362;
+    --fg-active: #ffb86c;
+    
+    --accent: #e58835;
+    --border-color: #3b281c;
+    
+    --terminal-fg: #d9c4b1;
+    --terminal-prompt: #d66428;
+}

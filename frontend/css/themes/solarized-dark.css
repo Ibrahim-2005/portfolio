@@ -1,0 +1,21 @@
+/* Solarized Dark Theme */
+html[data-theme="solarized-dark"] {
+    --bg-main: #002b36;
+    --bg-sidebar: #00212b;
+    --bg-titlebar: #00212b;
+    --bg-statusbar: #859900;
+    --bg-tab-active: #002b36;
+    --bg-tab-inactive: #00212b;
+    --bg-terminal: #002b36;
+    --bg-panel-header: #00212b;
+    
+    --fg-main: #839496;
+    --fg-muted: #586e75;
+    --fg-active: #93a1a1;
+    
+    --accent: #2aa198;
+    --border-color: #073642;
+    
+    --terminal-fg: #839496;
+    --terminal-prompt: #859900;
+}

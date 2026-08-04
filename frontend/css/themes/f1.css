@@ -1,0 +1,27 @@
+/* F1 Theme (Racing red/carbon-fiber) */
+html[data-theme="f1"] {
+    --bg-main: #1a1a1a;
+    --bg-sidebar: #111111;
+    --bg-titlebar: #111111;
+    --bg-statusbar: #e10600; /* F1 Red */
+    --bg-tab-active: #1a1a1a;
+    --bg-tab-inactive: #111111;
+    --bg-terminal: #1a1a1a;
+    --bg-panel-header: #111111;
+    
+    --fg-main: #e0e0e0;
+    --fg-muted: #7a7a7a;
+    --fg-active: #ffffff;
+    
+    --accent: #e10600;
+    --border-color: #333333;
+    
+    --terminal-fg: #e0e0e0;
+    --terminal-prompt: #ffffff;
+}
+
+/* Carbon fiber subtle pattern for sidebar */
+html[data-theme="f1"] .sidebar {
+    background-image: radial-gradient(#222 1px, transparent 1px);
+    background-size: 4px 4px;
+}

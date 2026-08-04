@@ -1,0 +1,21 @@
+/* One Dark Pro Theme */
+html[data-theme="one-dark-pro"] {
+    --bg-main: #282c34;
+    --bg-sidebar: #21252b;
+    --bg-titlebar: #21252b;
+    --bg-statusbar: #98c379;
+    --bg-tab-active: #282c34;
+    --bg-tab-inactive: #21252b;
+    --bg-terminal: #282c34;
+    --bg-panel-header: #21252b;
+    
+    --fg-main: #abb2bf;
+    --fg-muted: #5c6370;
+    --fg-active: #d7dae0;
+    
+    --accent: #61afef;
+    --border-color: #181a1f;
+    
+    --terminal-fg: #abb2bf;
+    --terminal-prompt: #98c379;
+}

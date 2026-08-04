@@ -1,0 +1,21 @@
+/* Nord Theme */
+html[data-theme="nord"] {
+    --bg-main: #2e3440;
+    --bg-sidebar: #242933;
+    --bg-titlebar: #242933;
+    --bg-statusbar: #88c0d0;
+    --bg-tab-active: #2e3440;
+    --bg-tab-inactive: #242933;
+    --bg-terminal: #2e3440;
+    --bg-panel-header: #242933;
+    
+    --fg-main: #d8dee9;
+    --fg-muted: #4c566a;
+    --fg-active: #eceff4;
+    
+    --accent: #88c0d0;
+    --border-color: #3b4252;
+    
+    --terminal-fg: #e5e9f0;
+    --terminal-prompt: #a3be8c;
+}

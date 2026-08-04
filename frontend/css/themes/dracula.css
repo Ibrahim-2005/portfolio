@@ -1,0 +1,21 @@
+/* Dracula Theme */
+html[data-theme="dracula"] {
+    --bg-main: #282a36;
+    --bg-sidebar: #21222c;
+    --bg-titlebar: #191a21;
+    --bg-statusbar: #bd93f9;
+    --bg-tab-active: #282a36;
+    --bg-tab-inactive: #21222c;
+    --bg-terminal: #282a36;
+    --bg-panel-header: #21222c;
+    
+    --fg-main: #f8f8f2;
+    --fg-muted: #6272a4;
+    --fg-active: #f8f8f2;
+    
+    --accent: #ff79c6;
+    --border-color: #191a21;
+    
+    --terminal-fg: #f8f8f2;
+    --terminal-prompt: #50fa7b;
+}

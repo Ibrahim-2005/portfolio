@@ -1,0 +1,21 @@
+/* Monokai Theme */
+html[data-theme="monokai"] {
+    --bg-main: #272822;
+    --bg-sidebar: #1e1f1c;
+    --bg-titlebar: #1e1f1c;
+    --bg-statusbar: #a6e22e;
+    --bg-tab-active: #272822;
+    --bg-tab-inactive: #1e1f1c;
+    --bg-terminal: #272822;
+    --bg-panel-header: #1e1f1c;
+    
+    --fg-main: #f8f8f2;
+    --fg-muted: #75715e;
+    --fg-active: #ffffff;
+    
+    --accent: #f92672;
+    --border-color: #3e3d32;
+    
+    --terminal-fg: #f8f8f2;
+    --terminal-prompt: #a6e22e;
+}

@@ -8,9 +8,22 @@
     <link rel="stylesheet" href="css/base/reset.css">
     <link rel="stylesheet" href="css/base/variables.css">
     <link rel="stylesheet" href="css/base/typography.css">
-    <!-- Theme (Default: Dark+) -->
+    <!-- Themes -->
     <link rel="stylesheet" href="css/themes/dark-plus.css">
-    <!-- Layout -->
+    <link rel="stylesheet" href="css/themes/dracula.css">
+    <link rel="stylesheet" href="css/themes/one-dark-pro.css">
+    <link rel="stylesheet" href="css/themes/monokai.css">
+    <link rel="stylesheet" href="css/themes/nord.css">
+    <link rel="stylesheet" href="css/themes/solarized-dark.css">
+    <link rel="stylesheet" href="css/themes/night-owl.css">
+    <link rel="stylesheet" href="css/themes/light-plus.css">
+    <link rel="stylesheet" href="css/themes/solarized-light.css">
+    <link rel="stylesheet" href="css/themes/github-light.css">
+    <link rel="stylesheet" href="css/themes/project-hail-mary.css">
+    <link rel="stylesheet" href="css/themes/interstellar.css">
+    <link rel="stylesheet" href="css/themes/f1.css">
+
+    <!-- Components -->
     <link rel="stylesheet" href="css/layout/titlebar.css">
     <link rel="stylesheet" href="css/layout/sidebar.css">
     <link rel="stylesheet" href="css/layout/tabs.css">
@@ -20,6 +33,7 @@
     <link rel="stylesheet" href="css/components/terminal.css">
     <link rel="stylesheet" href="css/components/home.css">
     <link rel="stylesheet" href="css/components/project-card.css">
+    <link rel="stylesheet" href="css/components/command-palette.css">
     <!-- Responsive -->
     <link rel="stylesheet" href="css/responsive/tablet.css">
     <link rel="stylesheet" href="css/responsive/mobile.css">
@@ -158,8 +172,8 @@
                 </span>
             </div>
             <div class="statusbar-right">
-                <span class="statusbar-item" title="Select Theme">
-                    <span class="icon">🎨</span> Dark+
+                <span class="statusbar-item" title="Select Theme" id="status-theme-toggle" style="cursor:pointer;">
+                    <span class="icon">🎨</span> <span id="current-theme-name">Dark+</span>
                 </span>
                 <span class="statusbar-item">
                     <span class="icon">✉</span> Contact
@@ -169,6 +183,18 @@
                 </button>
             </div>
         </footer>
+    </div>
+
+    <!-- Command Palette Overlay -->
+    <div id="command-palette-overlay" class="command-palette-overlay">
+        <div class="command-palette">
+            <div class="cmd-input-wrapper">
+                <input type="text" id="cmd-input" class="cmd-input" placeholder="Type a theme name (e.g., Dracula, Nord, F1)..." autocomplete="off" spellcheck="false">
+            </div>
+            <div id="cmd-list" class="cmd-list">
+                <!-- Theme options injected here via JS -->
+            </div>
+        </div>
     </div>
 
     <!-- External Libraries -->

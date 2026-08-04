@@ -1,0 +1,28 @@
+/* Interstellar Theme (Deep space black/navy, Gargantua gradient) */
+html[data-theme="interstellar"] {
+    --bg-main: #050814;
+    --bg-sidebar: #02040a;
+    --bg-titlebar: #02040a;
+    --bg-statusbar: #050814; /* Uses gradient in status bar sometimes, but fallback to dark */
+    --bg-tab-active: #050814;
+    --bg-tab-inactive: #02040a;
+    --bg-terminal: #050814;
+    --bg-panel-header: #02040a;
+    
+    --fg-main: #c4d0df;
+    --fg-muted: #5e6f85;
+    --fg-active: #ffffff;
+    
+    /* A bright accretion disk glow color */
+    --accent: #f5b971; 
+    --border-color: #1a2538;
+    
+    --terminal-fg: #c4d0df;
+    --terminal-prompt: #f5b971;
+}
+
+/* Specific Gargantua accent effect */
+html[data-theme="interstellar"] .statusbar {
+    background: linear-gradient(90deg, #050814, #1a1005, #050814);
+    border-top: 1px solid #f5b97133;
+}

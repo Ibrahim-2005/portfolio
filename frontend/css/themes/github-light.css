@@ -1,0 +1,21 @@
+/* GitHub Light Theme */
+html[data-theme="github-light"] {
+    --bg-main: #ffffff;
+    --bg-sidebar: #f6f8fa;
+    --bg-titlebar: #f6f8fa;
+    --bg-statusbar: #24292e;
+    --bg-tab-active: #ffffff;
+    --bg-tab-inactive: #f6f8fa;
+    --bg-terminal: #ffffff;
+    --bg-panel-header: #f6f8fa;
+    
+    --fg-main: #24292e;
+    --fg-muted: #6a737d;
+    --fg-active: #000000;
+    
+    --accent: #0366d6;
+    --border-color: #e1e4e8;
+    
+    --terminal-fg: #24292e;
+    --terminal-prompt: #28a745;
+}

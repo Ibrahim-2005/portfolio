@@ -1,0 +1,113 @@
+/* Command Palette Overlay */
+.command-palette-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.command-palette-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.command-palette {
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    width: 600px;
+    max-width: 90vw;
+    margin-top: 15vh;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.15s ease;
+}
+
+.command-palette-overlay.visible .command-palette {
+    transform: translateY(0);
+}
+
+.cmd-input-wrapper {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cmd-input {
+    width: 100%;
+    background-color: var(--bg-main);
+    color: var(--fg-main);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    outline: none;
+    font-family: var(--font-main);
+}
+
+.cmd-input:focus {
+    border-color: var(--accent);
+}
+
+.cmd-list {
+    max-height: 40vh;
+    overflow-y: auto;
+    padding: 6px;
+}
+
+.cmd-item {
+    padding: 8px 12px;
+    color: var(--fg-main);
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cmd-item:hover {
+    background-color: var(--bg-main);
+}
+
+.cmd-item.selected {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.cmd-item-group {
+    padding: 8px 12px 4px 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 600;
+}
+
+/* Mobile specific overrides */
+@media (max-width: 600px) {
+    .command-palette-overlay {
+        align-items: flex-end; /* Bottom sheet style */
+    }
+
+    .command-palette {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 0;
+        border-radius: 12px 12px 0 0;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        transform: translateY(100%);
+    }
+}

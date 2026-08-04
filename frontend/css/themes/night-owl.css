@@ -1,0 +1,21 @@
+/* Night Owl Theme */
+html[data-theme="night-owl"] {
+    --bg-main: #011627;
+    --bg-sidebar: #01121f;
+    --bg-titlebar: #01121f;
+    --bg-statusbar: #82aaff;
+    --bg-tab-active: #011627;
+    --bg-tab-inactive: #01121f;
+    --bg-terminal: #011627;
+    --bg-panel-header: #01121f;
+    
+    --fg-main: #d6deeb;
+    --fg-muted: #5f7e97;
+    --fg-active: #ffffff;
+    
+    --accent: #c792ea;
+    --border-color: #1e3a5f;
+    
+    --terminal-fg: #d6deeb;
+    --terminal-prompt: #addb67;
+}

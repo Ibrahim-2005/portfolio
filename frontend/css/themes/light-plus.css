@@ -1,0 +1,21 @@
+/* Light+ Theme */
+html[data-theme="light-plus"] {
+    --bg-main: #ffffff;
+    --bg-sidebar: #f3f3f3;
+    --bg-titlebar: #dddddd;
+    --bg-statusbar: #007acc;
+    --bg-tab-active: #ffffff;
+    --bg-tab-inactive: #ececec;
+    --bg-terminal: #ffffff;
+    --bg-panel-header: #f3f3f3;
+    
+    --fg-main: #333333;
+    --fg-muted: #767676;
+    --fg-active: #000000;
+    
+    --accent: #007fd4;
+    --border-color: #cccccc;
+    
+    --terminal-fg: #333333;
+    --terminal-prompt: #008000;
+}

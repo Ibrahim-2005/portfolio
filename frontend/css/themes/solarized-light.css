@@ -1,0 +1,21 @@
+/* Solarized Light Theme */
+html[data-theme="solarized-light"] {
+    --bg-main: #fdf6e3;
+    --bg-sidebar: #eee8d5;
+    --bg-titlebar: #eee8d5;
+    --bg-statusbar: #2aa198;
+    --bg-tab-active: #fdf6e3;
+    --bg-tab-inactive: #eee8d5;
+    --bg-terminal: #fdf6e3;
+    --bg-panel-header: #eee8d5;
+    
+    --fg-main: #657b83;
+    --fg-muted: #93a1a1;
+    --fg-active: #073642;
+    
+    --accent: #b58900;
+    --border-color: #d33682;
+    
+    --terminal-fg: #657b83;
+    --terminal-prompt: #859900;
+}
