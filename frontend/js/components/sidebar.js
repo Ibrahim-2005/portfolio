@@ -23,6 +23,23 @@ export async function initSidebar() {
     if (homeNode) {
         state.openTab(homeNode);
     }
+
+    // Bind sidebar toggle button
+    const toggleBtn = document.querySelector('.sidebar-toggle-btn');
+    const sidebar = document.querySelector('.sidebar');
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar if clicking outside of it when open
+        document.addEventListener('click', (e) => {
+            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
 }
 
 function renderTree(nodes, container, depth) {
@@ -86,6 +103,11 @@ function renderTree(nodes, container, depth) {
                 }
             } else {
                 state.openTab(node);
+                // Close sidebar on mobile/tablet after selection
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
             }
         });
 

@@ -20,7 +20,13 @@ export function initTerminal() {
             termInput.focus();
         } else {
             terminalPanel.classList.add('collapsed');
+            // reset any visual viewport inline styles
+            terminalPanel.style.height = '';
+            terminalPanel.style.top = '';
         }
+        
+        // Dispatch event so pet can pause if needed
+        document.dispatchEvent(new CustomEvent('terminalToggled', { detail: { isOpen: isTerminalOpen } }));
     };
 
     toggleBtns.forEach(btn => btn.addEventListener('click', toggleTerminal));
@@ -32,6 +38,26 @@ export function initTerminal() {
             toggleTerminal();
         }
     });
+
+    // Mobile Keyboard visualViewport Handling
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            if (isTerminalOpen && window.innerWidth <= 599) {
+                // Adjust terminal to fit exactly within the visual viewport (above the keyboard)
+                terminalPanel.style.height = `${window.visualViewport.height}px`;
+                terminalPanel.style.top = `${window.visualViewport.offsetTop}px`;
+            } else {
+                terminalPanel.style.height = '';
+                terminalPanel.style.top = '';
+            }
+        });
+        
+        window.visualViewport.addEventListener('scroll', () => {
+            if (isTerminalOpen && window.innerWidth <= 599) {
+                terminalPanel.style.top = `${window.visualViewport.offsetTop}px`;
+            }
+        });
+    }
 
     // Helper to print text to terminal
     const printLine = (text, isCommand = false) => {

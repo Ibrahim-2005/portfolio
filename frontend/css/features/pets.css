@@ -26,6 +26,22 @@ body.cursor-f1 {
     transform: translate(-50%, -50%);
 }
 
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    #pet-container, #pet-sprite, .cursor, * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Touch Fallback for Cursors */
+@media (hover: none) {
+    * {
+        cursor: auto !important; /* Disable custom cursors on touch devices */
+    }
+}
+
 body.cursor-interstellar .cursor-trail {
     opacity: 0.8;
 }

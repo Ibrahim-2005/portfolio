@@ -125,6 +125,20 @@ export function initPetCompanions() {
         }
     });
 
+    // Pause pet on mobile if terminal is full screen
+    document.addEventListener('terminalToggled', (e) => {
+        const isOpen = e.detail.isOpen;
+        if (window.innerWidth <= 599) {
+            if (isOpen && walkAnimation) {
+                walkAnimation.pause();
+                container.style.display = 'none'; // visually hide beneath overlay
+            } else if (!isOpen && walkAnimation) {
+                container.style.display = 'block';
+                walkAnimation.play();
+            }
+        }
+    });
+
     // Click reactions
     container.addEventListener('click', () => {
         if (!currentPet) return;

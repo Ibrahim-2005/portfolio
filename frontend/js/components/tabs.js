@@ -42,4 +42,16 @@ export function renderTabs() {
 
         tabsContainer.appendChild(tabEl);
     });
+
+    // Add mobile dropdown toggle button
+    if (state.openTabs.length > 1) {
+        const dropdownBtn = document.createElement('div');
+        dropdownBtn.className = 'mobile-tab-dropdown-btn';
+        dropdownBtn.innerHTML = '▼';
+        dropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tabsContainer.classList.toggle('dropdown-open');
+        });
+        tabsContainer.appendChild(dropdownBtn);
+    }
 }

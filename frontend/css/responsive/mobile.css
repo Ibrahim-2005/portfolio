@@ -1,60 +1,64 @@
-/* Mobile Responsive Layout (< 600px) */
+/* responsive/mobile.css */
+/* For screens < 600px */
 @media screen and (max-width: 599px) {
-    .sidebar-toggle-btn {
-        display: block;
-    }
-
     /* Sidebar Drawer */
     .sidebar {
-        position: absolute;
-        top: var(--titlebar-height);
-        left: -100%;
-        width: 80%; /* Takes up most of screen */
-        height: calc(100vh - var(--titlebar-height));
-        z-index: 1000;
-        transition: left 0.3s ease;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+        width: 85% !important;
+        max-width: 320px;
     }
 
-    .sidebar.open {
-        left: 0;
-    }
-
-    /* Tabs - Simplified */
+    /* Tabs as Dropdown */
     .tabs {
-        justify-content: center;
-        background-color: var(--bg-main);
-    }
-    
-    .tab {
-        border-right: none;
-        flex-grow: 1;
-        justify-content: center;
-        background-color: transparent;
-    }
-    
-    .tab:not(.active) {
-        display: none; /* Only show active tab on mobile */
-    }
-    
-    .tab .close-btn {
-        display: none; /* No close btn on single tab view */
-    }
-    
-    .tab::after {
-        content: '▼';
-        font-size: 8px;
-        margin-left: 8px;
+        flex-wrap: wrap;
+        overflow: visible;
+        position: relative;
     }
 
-    /* Terminal - Full Screen Overlay */
+    /* Hide non-active tabs initially on mobile */
+    .tabs:not(.dropdown-open) .tab:not(.active) {
+        display: none;
+    }
+
+    .tabs.dropdown-open .tab {
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-panel-header);
+    }
+    
+    /* Dropdown toggle button styling */
+    .mobile-tab-dropdown-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        min-width: 44px;
+        cursor: pointer;
+        color: var(--fg-muted);
+    }
+
+    /* Terminal Mobile Fullscreen Overlay */
     .terminal-panel {
-        position: fixed;
+        position: fixed !important;
         top: 0;
         left: 0;
-        right: 0;
+        width: 100vw;
+        height: 100vh; /* fallback, overridden by visualViewport JS */
+        z-index: 10000;
+    }
+
+    /* Command Palette Bottom Sheet */
+    .command-palette {
+        width: 100% !important;
+        max-width: none !important;
+        border-radius: 12px 12px 0 0 !important;
         bottom: 0;
-        z-index: 2000;
-        height: 100vh;
+        top: auto !important;
+        transform: translateY(0) !important;
+        position: absolute;
+    }
+    
+    .cmd-list .cmd-item {
+        padding: 14px 10px !important; /* Larger touch targets */
     }
 }

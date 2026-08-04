@@ -61,5 +61,10 @@
 }
 
 .tab .close-btn:hover {
+    background: var(--bg-hover);
     color: var(--fg-main);
+}
+
+.mobile-tab-dropdown-btn {
+    display: none;
 }
