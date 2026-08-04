@@ -78,12 +78,12 @@ def seed_projects(db):
         title="Job Tracker API",
         description="> A production-ready 12-endpoint REST API for tracking the full job application lifecycle — Applied → Interview → Offer/Rejected — with complete status-history logging via a normalized relational schema. Built with strict per-user data isolation in mind from day one.",
         tech_stack=["Flask", "PostgreSQL", "JWT (access/refresh)", "Flask-Caching", "Flask-Limiter", "APScheduler", "Pytest", "GitHub Actions"],
-        highlights=[
+        highlights="\n".join([
             "JWT access/refresh authentication with strict per-user data isolation",
             "Response caching and rate limiting built in from the start",
             "Automated background jobs via APScheduler",
             "Full Pytest suite wired into GitHub Actions CI/CD"
-        ],
+        ]),
         sort_order=1
     )
 
@@ -91,12 +91,12 @@ def seed_projects(db):
         title="Money Tracker (Expense & Income Tracking App)",
         description="> A full-stack personal finance web app for tracking expenses and income, with an interactive dashboard that gives instant income/expense/net-balance summaries. Built with a normalized schema and strict multi-user data isolation, so every user's financial data stays properly separated and secure.",
         tech_stack=["Flask", "SQLite", "HTML/CSS", "Session-based auth"],
-        highlights=[
+        highlights="\n".join([
             "Normalized relational schema for users, categories, and transactions",
             "Secure CRUD with strict multi-user data isolation",
             "Optimized queries powering real-time financial summaries",
             "Server-side validation and error handling throughout"
-        ],
+        ]),
         sort_order=2
     )
 
@@ -104,12 +104,12 @@ def seed_projects(db):
         title="Curated by Afza — Handmade Gifts E-Commerce",
         description="> A full Flask e-commerce platform built for a handmade gifts business, from initial build through a rigorous multi-audit technical review. Took the codebase through a 59-task, 14-phase remediation roadmap covering security hardening, a Cloudinary-backed media pipeline, and a full architectural cleanup.",
         tech_stack=["Flask", "Cloudinary", "CSS/JS modular refactor"],
-        highlights=[
+        highlights="\n".join([
             "Refactored a monolithic stylesheet into 5 modular files and a monolithic JS file into 4 decoupled modules with a reusable cropper API",
             "Ran a full security and reliability audit, identifying and roadmapping fixes including an account-takeover path in the password reset flow",
             "Delivered brand identity work — logo iterations, social presence, print-ready business card assets",
             "Wrote a beginner-level full-codebase PDF study guide documenting the entire system"
-        ],
+        ]),
         sort_order=3
     )
 
@@ -117,12 +117,12 @@ def seed_projects(db):
         title="Awaken Your Inner Power — Life Coaching Platform",
         description="> A complete Flask website built from scratch for a life-coaching business, live at awakenyourinnerpower.co.in. Owns and maintains the site end-to-end — from the booking system to the brand identity.",
         tech_stack=["Flask", "FullCalendar.js", "CallMeBot WhatsApp API", "Admin dashboard"],
-        highlights=[
+        highlights="\n".join([
             "FullCalendar.js-powered booking system with WhatsApp notifications via CallMeBot",
             "Full custom admin dashboard for site management",
             "Complete brand system built around a lotus logo motif",
             "Professional README and MIT license — packaged like a real open-source-quality repo"
-        ],
+        ]),
         sort_order=4
     )
 

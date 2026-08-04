@@ -3,6 +3,7 @@ tests/test_contact.py
 ─────────────────────
 Tests for POST /api/contact
 """
+
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
@@ -39,3 +40,21 @@ async def test_submit_contact_validation(client: AsyncClient):
     }
     resp = await client.post("/api/contact", json=payload)
     assert resp.status_code == 422
+
+@pytest.mark.asyncio
+async def test_submit_contact_rate_limit(client: AsyncClient):
+    payload = {
+        "name": "Spammer",
+        "email": "spam@example.com",
+        "message": "This is a spam message.",
+    }
+
+    statuses = []
+    for _ in range(8):
+        resp = await client.post("/api/contact", json=payload)
+        statuses.append(resp.status_code)
+
+    assert 201 in statuses
+    assert 429 in statuses
+    first_429 = statuses.index(429)
+    assert all(s == 429 for s in statuses[first_429:])
