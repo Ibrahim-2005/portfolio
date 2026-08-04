@@ -18,6 +18,11 @@
     .tabs:not(.dropdown-open) .tab:not(.active) {
         display: none;
     }
+    
+    /* Make active tab expand to fill space next to dropdown toggle */
+    .tabs:not(.dropdown-open) .tab.active {
+        flex: 1;
+    }
 
     .tabs.dropdown-open .tab {
         display: flex;
@@ -45,6 +50,10 @@
         width: 100vw;
         height: 100vh; /* fallback, overridden by visualViewport JS */
         z-index: 10000;
+    }
+    
+    .terminal-panel .term-action-btn[aria-label="Maximize"] {
+        display: none;
     }
 
     /* Command Palette Bottom Sheet */
