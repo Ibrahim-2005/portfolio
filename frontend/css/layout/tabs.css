@@ -1,0 +1,65 @@
+/* Tabs Layout */
+.workspace {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.tabs {
+    height: var(--tab-height);
+    background-color: var(--bg-titlebar); /* Typically matches titlebar in VS Code */
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-shrink: 0;
+}
+
+/* Hide scrollbar for tabs */
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+.tabs {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    min-width: 120px;
+    height: 100%;
+    background-color: var(--bg-tab-inactive);
+    color: var(--fg-muted);
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.tab.active {
+    background-color: var(--bg-tab-active);
+    color: var(--accent);
+}
+
+.tab .icon {
+    margin-right: 8px;
+}
+
+.tab .close-btn {
+    margin-left: auto;
+    opacity: 0;
+    color: var(--fg-muted);
+    font-size: 14px;
+}
+
+.tab:hover .close-btn,
+.tab.active .close-btn {
+    opacity: 1;
+}
+
+.tab .close-btn:hover {
+    color: var(--fg-main);
+}

@@ -1,0 +1,7 @@
+/* Content Pane Layout */
+.content-pane {
+    flex-grow: 1;
+    padding: 20px 40px;
+    overflow-y: auto;
+    background-color: var(--bg-main);
+}

@@ -1,0 +1,33 @@
+/* Global typography settings */
+body {
+    font-family: var(--font-ui);
+    color: var(--fg-main);
+    background-color: var(--bg-main);
+    font-size: 13px; /* Standard VS Code UI size */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography for content pane (Markdown simulation) */
+.content-pane h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+.content-pane h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+    font-weight: 600;
+}
+
+.content-pane p {
+    margin-bottom: 1em;
+}
+
+/* Code block typography */
+code, pre, .terminal-body {
+    font-family: var(--font-code);
+    font-size: 14px;
+}

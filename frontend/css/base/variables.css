@@ -1,0 +1,33 @@
+/* Variable definitions (names only, values provided by themes) */
+:root {
+    /* Colors */
+    --bg-main: transparent;
+    --bg-sidebar: transparent;
+    --bg-titlebar: transparent;
+    --bg-statusbar: transparent;
+    --bg-tab-active: transparent;
+    --bg-tab-inactive: transparent;
+    --bg-terminal: transparent;
+    --bg-panel-header: transparent;
+    
+    --fg-main: transparent;
+    --fg-muted: transparent;
+    --fg-active: transparent;
+    
+    --accent: transparent;
+    --border-color: transparent;
+    
+    --terminal-fg: transparent;
+    --terminal-prompt: transparent;
+
+    /* Metrics & Layout */
+    --titlebar-height: 35px;
+    --statusbar-height: 22px;
+    --sidebar-width: 250px;
+    --tab-height: 35px;
+    --terminal-height: 250px; /* Default desktop height */
+    
+    /* Typography */
+    --font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-code: 'Consolas', 'Courier New', Courier, monospace;
+}

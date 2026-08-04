@@ -1,0 +1,53 @@
+/* Title Bar Layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.titlebar {
+    height: var(--titlebar-height);
+    background-color: var(--bg-titlebar);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.titlebar-controls-mac {
+    display: flex;
+    gap: 8px;
+    width: 60px; /* fixed width to balance title centering */
+}
+
+.mac-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.mac-btn.close { background-color: #ff5f56; }
+.mac-btn.minimize { background-color: #ffbd2e; }
+.mac-btn.maximize { background-color: #27c93f; }
+
+.titlebar-title {
+    text-align: center;
+    flex-grow: 1;
+    font-size: 12px;
+}
+
+.titlebar-actions {
+    width: 60px; /* balance */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sidebar-toggle-btn {
+    display: none; /* Hidden on desktop */
+    color: var(--fg-main);
+    font-size: 16px;
+    padding: 4px;
+}

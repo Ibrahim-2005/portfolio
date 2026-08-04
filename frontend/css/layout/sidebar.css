@@ -1,0 +1,64 @@
+/* Sidebar Layout */
+.main-body {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-header {
+    padding: 10px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+}
+
+.sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.tree-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 10px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--fg-muted);
+}
+
+.tree-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--fg-main);
+}
+
+.tree-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--fg-active);
+}
+
+.tree-item .chevron {
+    font-size: 10px;
+    width: 16px;
+    text-align: center;
+}
+
+.tree-item .icon {
+    margin: 0 6px;
+    font-size: 14px;
+}
+
+.tree-item .indent {
+    width: 16px;
+    display: inline-block;
+}

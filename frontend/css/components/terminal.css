@@ -1,0 +1,86 @@
+/* Terminal Component Layout */
+.terminal-panel {
+    height: var(--terminal-height);
+    background-color: var(--bg-terminal);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.terminal-panel.collapsed {
+    display: none;
+}
+
+.terminal-header {
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background-color: var(--bg-panel-header);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.terminal-tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.term-tab {
+    font-size: 11px;
+    color: var(--fg-muted);
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.term-tab.active {
+    color: var(--fg-active);
+    border-bottom: 1px solid var(--accent);
+}
+
+.terminal-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.term-action-btn {
+    color: var(--fg-muted);
+    font-size: 14px;
+}
+
+.term-action-btn:hover {
+    color: var(--fg-main);
+}
+
+.terminal-body {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: var(--terminal-fg);
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.terminal-input-line .prompt {
+    color: var(--terminal-prompt);
+    margin-right: 8px;
+}
+
+.terminal-input-line .cursor {
+    animation: blink 1s step-end infinite;
+    display: inline-block;
+    width: 8px;
+    background-color: var(--terminal-fg);
+    height: 1em;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

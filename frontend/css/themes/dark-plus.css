@@ -1,0 +1,21 @@
+/* Dark+ Theme */
+html[data-theme="dark-plus"] {
+    --bg-main: #1e1e1e;
+    --bg-sidebar: #252526;
+    --bg-titlebar: #323233;
+    --bg-statusbar: #007acc;
+    --bg-tab-active: #1e1e1e;
+    --bg-tab-inactive: #2d2d2d;
+    --bg-terminal: #1e1e1e;
+    --bg-panel-header: #1e1e1e;
+    
+    --fg-main: #cccccc;
+    --fg-muted: #969696;
+    --fg-active: #ffffff;
+    
+    --accent: #007fd4;
+    --border-color: #3c3c3c;
+    
+    --terminal-fg: #cccccc;
+    --terminal-prompt: #4ebd15;
+}

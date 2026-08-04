@@ -24,6 +24,19 @@ flowchart LR
     TitleBar --> Body --> Terminal --> StatusBar
 ```
 
+## 2.1 Home Content Design (Hero Style)
+The VS Code chrome (sidebar, tabs, status bar) stays literal and structural everywhere — but the **Home** tab's content pane is the one place that breaks from plain markdown-in-a-file and reads as a proper landing hero, matching the personal-brand energy of the reference site while staying inside the editor metaphor (monospace touches, comment-style intro line):
+
+- **Comment-style intro line** (small, muted, monospace): `// hello world — welcome to my portfolio`
+- **Name**, large and bold: "Mohamed Ibrahim Y"
+- **Tagline**, medium weight: "Building real, working software 🚀"
+- **Role badge row** (pill-shaped, theme-accent colored): Backend Developer · Full-Stack · Freelancer & Educator · Final-Year CSE
+- **Short intro line**: pulled from the Bio content, 1-2 sentences, not the full bio
+- **CTA button row**: "Projects" (primary/filled), "About Me" (outline), "Contact" (outline) — each jumps to that sidebar section/tab, same as clicking the sidebar item
+- **Stats row** below the fold, 4 stat blocks with large numbers: **4+** Projects Shipped · **13** Themes · **100%** Backend Tests Passing · **∞** Curiosity — real, verifiable numbers only, no invented metrics
+
+Every other section (About Me, Projects, Skills, README, Files, Contact) stays as literal rendered content in the content pane per §2 — Home is intentionally the one exception, since it's the first thing every visitor sees and earns the extra design attention.
+
 ## 3. Responsiveness
 
 ### 3.1 Breakpoints

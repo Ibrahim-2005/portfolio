@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark-plus">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ibrahim's Portfolio</title>
+    <!-- Base -->
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/typography.css">
+    <!-- Theme (Default: Dark+) -->
+    <link rel="stylesheet" href="css/themes/dark-plus.css">
+    <!-- Layout -->
+    <link rel="stylesheet" href="css/layout/titlebar.css">
+    <link rel="stylesheet" href="css/layout/sidebar.css">
+    <link rel="stylesheet" href="css/layout/tabs.css">
+    <link rel="stylesheet" href="css/layout/content-pane.css">
+    <link rel="stylesheet" href="css/layout/statusbar.css">
+    <!-- Components -->
+    <link rel="stylesheet" href="css/components/terminal.css">
+    <link rel="stylesheet" href="css/components/home.css">
+    <!-- Responsive -->
+    <link rel="stylesheet" href="css/responsive/tablet.css">
+    <link rel="stylesheet" href="css/responsive/mobile.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Title Bar -->
+        <header class="titlebar">
+            <div class="titlebar-controls-mac">
+                <div class="mac-btn close"></div>
+                <div class="mac-btn minimize"></div>
+                <div class="mac-btn maximize"></div>
+            </div>
+            <div class="titlebar-title">
+                PortfolioOS - Ibrahim
+            </div>
+            <div class="titlebar-actions">
+                <button class="sidebar-toggle-btn" aria-label="Toggle Sidebar">☰</button>
+            </div>
+        </header>
+
+        <div class="main-body">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    EXPLORER
+                </div>
+                <div class="sidebar-content">
+                    <div class="tree-item folder expanded">
+                        <span class="chevron">▼</span> <span class="icon">📁</span> portfolio
+                    </div>
+                    <div class="tree-item file active">
+                        <span class="indent"></span><span class="icon">📄</span> Home.md
+                    </div>
+                    <div class="tree-item file">
+                        <span class="indent"></span><span class="icon">📄</span> About.md
+                    </div>
+                    <div class="tree-item file">
+                        <span class="indent"></span><span class="icon">📄</span> Projects.json
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Workspace -->
+            <main class="workspace">
+                <!-- Tab Bar -->
+                <nav class="tabs">
+                    <div class="tab active">
+                        <span class="icon">📄</span> Home.md
+                        <button class="close-btn">×</button>
+                    </div>
+                    <div class="tab">
+                        <span class="icon">📄</span> About.md
+                        <button class="close-btn">×</button>
+                    </div>
+                </nav>
+
+                <!-- Content Pane -->
+                <article class="content-pane">
+                    <div class="home-content">
+                        <div class="home-comment">// main.py</div>
+                        <h1 class="home-title">Mohamed Ibrahim Y</h1>
+                        <h2 class="home-tagline">Building real, working software 🚀</h2>
+                        
+                        <div class="home-badges">
+                            <span class="badge">Backend Developer</span>
+                            <span class="badge">Full-Stack</span>
+                            <span class="badge">Freelancer & Educator</span>
+                            <span class="badge">Final-Year CSE</span>
+                        </div>
+                        
+                        <p class="home-intro">I build and ship real software — REST APIs, CI/CD pipelines, and full-stack apps that go from my machine to a live URL.</p>
+                        
+                        <div class="home-ctas">
+                            <button class="cta-button primary" onclick="alert('Navigate to Projects')">Projects</button>
+                            <button class="cta-button" onclick="alert('Navigate to About Me')">About Me</button>
+                            <button class="cta-button" onclick="alert('Navigate to Contact')">Contact</button>
+                        </div>
+                        
+                        <div class="home-stats">
+                            <div class="stat-block">
+                                <span class="stat-value">4+</span>
+                                <span class="stat-label">Projects Shipped</span>
+                            </div>
+                            <div class="stat-block">
+                                <span class="stat-value">13</span>
+                                <span class="stat-label">Themes</span>
+                            </div>
+                            <div class="stat-block">
+                                <span class="stat-value">100%</span>
+                                <span class="stat-label">Backend Tests Passing</span>
+                            </div>
+                            <div class="stat-block">
+                                <span class="stat-value">∞</span>
+                                <span class="stat-label">Curiosity</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </main>
+        </div>
+
+        <!-- Terminal Panel -->
+        <section class="terminal-panel collapsed" id="terminal-panel">
+            <div class="terminal-header">
+                <div class="terminal-tabs">
+                    <div class="term-tab active">TERMINAL</div>
+                    <div class="term-tab">OUTPUT</div>
+                    <div class="term-tab">DEBUG CONSOLE</div>
+                    <div class="term-tab">PORTS</div>
+                </div>
+                <div class="terminal-actions">
+                    <button class="term-action-btn" aria-label="Maximize">^</button>
+                    <button class="term-action-btn term-close-btn" aria-label="Close Terminal">×</button>
+                </div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-output">
+                    <div class="terminal-line">PortfolioOS v0.1.0 — type 'help' to get started</div>
+                </div>
+                <div class="terminal-input-line">
+                    <span class="prompt">guest@portfolio:~$</span>
+                    <span class="input-placeholder"></span><span class="cursor">_</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Bar -->
+        <footer class="statusbar">
+            <div class="statusbar-left">
+                <a href="#" class="statusbar-item" title="GitHub Repository">
+                    <span class="icon"></span> main*
+                </a>
+                <span class="statusbar-item" title="CI Status">
+                    <span class="icon">✓</span> passing
+                </span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item" title="Select Theme">
+                    <span class="icon">🎨</span> Dark+
+                </span>
+                <span class="statusbar-item">
+                    <span class="icon">✉</span> Contact
+                </span>
+                <button class="statusbar-item term-toggle-status-btn" title="Toggle Terminal">
+                    <span class="icon">🖵</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* Home Content Specific Styles */
+.home-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+}
+
+.home-comment {
+    font-family: var(--font-code);
+    color: var(--fg-muted);
+    font-size: 14px;
+}
+
+.home-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--fg-active);
+}
+
+.home-tagline {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--fg-main);
+}
+
+.home-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    background-color: rgba(0, 127, 212, 0.1); /* Fallback accent bg */
+    background-color: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+}
+
+.home-intro {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--fg-main);
+}
+
+.home-ctas {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.cta-button {
+    padding: 8px 16px;
+    background-color: var(--bg-tab-inactive);
+    color: var(--fg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.cta-button.primary {
+    background-color: var(--accent);
+    color: #ffffff; /* Primary buttons usually have white text */
+    border-color: var(--accent);
+}
+
+.cta-button:hover {
+    background-color: var(--bg-titlebar);
+}
+
+.cta-button.primary:hover {
+    opacity: 0.9;
+}
+
+.home-stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 20px;
+}
+
+.stat-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--fg-active);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+}
