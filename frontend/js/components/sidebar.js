@@ -1,6 +1,6 @@
 // components/sidebar.js - Renders and manages the file tree
-import { api } from '../core/api.js';
-import { state } from '../core/state.js';
+import { api } from '../core/api.js?v=5';
+import { state } from '../core/state.js?v=5';
 
 export let flatFileNodes = []; // Store a flat map for easy lookup
 
