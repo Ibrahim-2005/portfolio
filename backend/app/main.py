@@ -7,6 +7,8 @@ No route logic lives here — just wiring.
 """
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+import os
 
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -94,3 +96,9 @@ def health() -> dict:
 def admin_me(admin=Depends(get_current_admin_user)):
     """Return the current admin's email. Protected by JWT."""
     return {"email": admin.email}
+
+
+# ── Mount Frontend (StaticFiles) ──────────────────────────────────────────────
+# Mount the frontend directory. This MUST be the last route registered so API routes take precedence.
+frontend_path = os.path.join(os.path.dirname(__file__), "..", "..", "frontend")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
