@@ -89,6 +89,31 @@ async def test_section_crud(client: AsyncClient, auth_headers: dict):
     assert resp.status_code == 204
 
 
+@pytest.mark.asyncio
+async def test_section_public_visibility(client: AsyncClient, auth_headers: dict):
+    # 1. Create a root folder via admin API
+    resp = await client.post(
+        "/api/admin/sections",
+        json={"slug": "public-test", "title": "Public Test", "type": "folder", "sort_order": 99},
+        headers=auth_headers,
+    )
+    assert resp.status_code == 201
+    folder = resp.json()
+
+    # 2. Verify it appears in the public GET /api/sections response
+    public_resp = await client.get("/api/sections")
+    assert public_resp.status_code == 200
+    sections = public_resp.json()
+    
+    # Check if a section with the slug "public-test" exists
+    found = next((s for s in sections if s["slug"] == "public-test"), None)
+    assert found is not None
+    assert found["title"] == "Public Test"
+
+    # 3. Clean up
+    await client.delete(f"/api/admin/sections/{folder['id']}", headers=auth_headers)
+
+
 # ── PROJECTS ──────────────────────────────────────────────────────────────────
 
 @pytest.mark.asyncio
