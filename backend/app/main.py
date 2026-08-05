@@ -22,6 +22,7 @@ from app.routers.public import guestbook as pub_guestbook
 from app.routers.public import projects as pub_projects
 from app.routers.public import sections as pub_sections
 from app.routers.public import skills as pub_skills
+from app.routers.public import resume as pub_resume
 
 # ── Auth router (public — login endpoint) ─────────────────────────────────────
 from app.routers.admin import auth as adm_auth
@@ -65,6 +66,7 @@ app.include_router(pub_skills.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_contact.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_guestbook.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_analytics.router, prefix=_PUBLIC_PREFIX)
+app.include_router(pub_resume.router, prefix=_PUBLIC_PREFIX)
 
 # Auth — /api/auth/login (public, no JWT required)
 app.include_router(adm_auth.router, prefix=_PUBLIC_PREFIX)
