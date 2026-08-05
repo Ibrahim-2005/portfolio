@@ -1,0 +1,133 @@
+/* Admin Content Editor */
+
+.editor-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    height: calc(100vh - 160px); /* Fill remaining height */
+}
+
+/* Sidebar List */
+.editor-sidebar {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.editor-controls {
+    padding: 1rem;
+    border-bottom: 1px solid var(--admin-border);
+    display: flex;
+    gap: 0.5rem;
+    background-color: #f1f3f5;
+}
+
+.editor-controls select {
+    flex: 1;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--admin-border);
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.resource-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.resource-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--admin-border);
+    cursor: pointer;
+    transition: background-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resource-item:hover {
+    background-color: #f8f9fa;
+}
+
+.resource-item.selected {
+    background-color: #e7f1ff;
+    border-left: 3px solid var(--admin-primary);
+}
+
+.resource-item .icon {
+    color: var(--admin-muted);
+}
+.resource-item.selected .icon {
+    color: var(--admin-primary);
+}
+
+/* Main Form Area */
+.editor-form-container {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+    padding: 2rem;
+    overflow-y: auto;
+    position: relative;
+}
+
+.empty-state {
+    display: none;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: var(--admin-muted);
+    font-size: 1.1rem;
+}
+
+.empty-state.active {
+    display: flex;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.form-header h3 {
+    font-size: 1.25rem;
+}
+
+/* Checkbox specific layout */
+.form-group.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group.checkbox-group label {
+    margin-bottom: 0;
+}
+
+.form-group.checkbox-group input[type="checkbox"] {
+    width: auto;
+    transform: scale(1.2);
+}
+
+/* Textareas for Markdown */
+textarea.code-font {
+    font-family: 'Courier New', Courier, monospace;
+    min-height: 300px;
+    resize: vertical;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--admin-border);
+    display: flex;
+    justify-content: flex-end;
+}

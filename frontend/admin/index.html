@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortfolioOS Admin</title>
+    
+    <!-- Admin-specific styles, completely isolated from public site -->
+    <link rel="stylesheet" href="css/admin-layout.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
+    <link rel="stylesheet" href="css/admin-editor.css">
+
+    <!-- Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="screen active">
+        <div class="login-card">
+            <h2>Admin Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <div id="login-error" class="error-message"></div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboard-screen" class="screen">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h3>PortfolioOS</h3>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="admin-nav">
+                <button class="nav-btn active" data-tab="messages">Messages</button>
+                <button class="nav-btn" data-tab="guestbook">Guestbook</button>
+                <button class="nav-btn" data-tab="analytics">Analytics</button>
+                <button class="nav-btn" data-tab="editor">Content Editor</button>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <button id="logout-btn" class="btn btn-danger">Logout</button>
+                <a href="/" class="view-site-link" target="_blank">View Live Site &rarr;</a>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <!-- Messages Tab -->
+            <section id="tab-messages" class="tab-pane active">
+                <header class="tab-header">
+                    <h2>Messages</h2>
+                    <p>Contact form submissions</p>
+                </header>
+                <div class="table-container">
+                    <table id="messages-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="messages-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Guestbook Tab -->
+            <section id="tab-guestbook" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Guestbook</h2>
+                    <p>Approve or reject public entries</p>
+                </header>
+                <div class="table-container">
+                    <table id="guestbook-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="guestbook-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Analytics Tab -->
+            <section id="tab-analytics" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Analytics</h2>
+                    <p>Site traffic and terminal usage</p>
+                </header>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Page Views (Last 30 Days)</h3>
+                        <canvas id="page-views-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Top Terminal Commands</h3>
+                        <canvas id="commands-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Editor Tab -->
+            <section id="tab-editor" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Content Editor</h2>
+                    <p>Manage sidebar sections, projects, and skills</p>
+                </header>
+                
+                <div class="editor-layout">
+                    <!-- Resource List -->
+                    <div class="editor-sidebar">
+                        <div class="editor-controls">
+                            <select id="resource-type-select">
+                                <option value="sections">Sections</option>
+                                <option value="projects">Projects</option>
+                                <option value="skills">Skills</option>
+                            </select>
+                            <button id="btn-create-new" class="btn btn-primary btn-sm">+ New</button>
+                        </div>
+                        <ul id="resource-list" class="resource-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Editor Form -->
+                    <div class="editor-form-container">
+                        <div id="editor-empty-state" class="empty-state active">
+                            <p>Select an item to edit, or create a new one.</p>
+                        </div>
+                        
+                        <form id="resource-form" class="hidden">
+                            <input type="hidden" id="form-original-slug">
+                            <input type="hidden" id="form-resource-type">
+                            
+                            <div class="form-header">
+                                <h3 id="form-title">Edit Item</h3>
+                                <button type="button" id="btn-delete" class="btn btn-danger btn-sm hidden">Delete</button>
+                            </div>
+
+                            <!-- Dynamic fields container -->
+                            <div id="dynamic-fields"></div>
+                            
+                            <div id="form-error" class="error-message"></div>
+                            <div id="form-success" class="success-message"></div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Admin JS, isolated from public app -->
+    <!-- Use type="module" so we can use exports -->
+    <script type="module" src="js/admin-api.js?v=2"></script>
+    <script type="module" src="js/admin-auth.js?v=2"></script>
+    <script type="module" src="js/admin-dashboard.js?v=2"></script>
+    <script type="module" src="js/admin-editor.js?v=2"></script>
+</body>
+</html>
