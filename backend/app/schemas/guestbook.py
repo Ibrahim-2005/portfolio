@@ -1,8 +1,10 @@
 """
 app/schemas/guestbook.py
 ────────────────────────
-Pydantic schemas for GuestbookEntry requests.
+Pydantic schemas for GuestbookEntry requests and admin responses.
 """
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -13,8 +15,27 @@ class GuestbookEntryCreate(BaseModel):
 
 class GuestbookEntryOut(BaseModel):
     model_config = {"from_attributes": True}
-    
+
     id: int
     name: str
     message: str
+    is_approved: bool
+
+
+# ── Admin response (full entry details) ──────────────────────────────────────
+class GuestbookAdminOut(BaseModel):
+    """Full guestbook entry returned by admin listing."""
+    model_config = {"from_attributes": True}
+
+    id: int
+    name: str
+    message: str
+    created_at: datetime
+    is_approved: bool
+
+
+# ── Admin input: patch ────────────────────────────────────────────────────────
+class GuestbookPatch(BaseModel):
+    """Body of ``PATCH /api/admin/guestbook/{id}``."""
+
     is_approved: bool

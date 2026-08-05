@@ -1,7 +1,7 @@
 """
 app/schemas/analytics.py
 ────────────────────────
-Pydantic schemas for AnalyticsEvent requests.
+Pydantic schemas for AnalyticsEvent requests and admin summary responses.
 """
 from pydantic import BaseModel, Field
 from typing import Literal, Optional
@@ -19,3 +19,22 @@ class AnalyticsEventOut(BaseModel):
     event_type: str
     value: str
     session_id: str
+
+
+# ── Admin summary response ───────────────────────────────────────────────────
+class PageViewBucket(BaseModel):
+    """Daily page view count."""
+    date: str
+    count: int
+
+
+class CommandCount(BaseModel):
+    """Terminal command usage count, ordered by count desc."""
+    command: str
+    count: int
+
+
+class AnalyticsSummaryOut(BaseModel):
+    """Response of ``GET /api/admin/analytics/summary``."""
+    page_views: list[PageViewBucket]
+    top_commands: list[CommandCount]

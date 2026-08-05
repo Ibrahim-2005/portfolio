@@ -131,3 +131,21 @@ async def client(db_session):
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
     fastapi_app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def auth_headers(db_session):
+    """Seed an admin user and return a valid Authorization header."""
+    from app.core.security import hash_password, create_access_token
+    from app.models.admin_user import AdminUser
+
+    email = "admin@example.com"
+    hashed = hash_password("password123")
+    
+    admin = AdminUser(email=email, hashed_password=hashed)
+    db_session.add(admin)
+    db_session.commit()
+    db_session.refresh(admin)
+
+    token = create_access_token(data={"sub": str(admin.id)})
+    return {"Authorization": f"Bearer {token}"}

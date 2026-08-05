@@ -81,3 +81,85 @@ def get_by_slug(db: Session, slug: str) -> SectionDetail:
         )
 
     return SectionDetail.model_validate(row)
+
+
+# ── Admin CRUD ────────────────────────────────────────────────────────────────
+
+def _check_slug_unique(db: Session, slug: str, exclude_id: int | None = None) -> None:
+    """Raise 400 if slug already exists."""
+    query = select(Section).where(Section.slug == slug)
+    if exclude_id is not None:
+        query = query.where(Section.id != exclude_id)
+    if db.execute(query).scalar_one_or_none():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Section with slug '{slug}' already exists.",
+        )
+
+
+def _check_parent_exists(db: Session, parent_id: int) -> None:
+    """Raise 404 if parent_id does not exist."""
+    if not db.execute(select(Section).where(Section.id == parent_id)).scalar_one_or_none():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Parent section with id {parent_id} not found.",
+        )
+
+
+def create_section(db: Session, payload) -> SectionDetail:
+    """Create a new section."""
+    _check_slug_unique(db, payload.slug)
+    if payload.parent_id is not None:
+        _check_parent_exists(db, payload.parent_id)
+
+    row = Section(**payload.model_dump())
+    db.add(row)
+    db.commit()
+    db.refresh(row)
+    return SectionDetail.model_validate(row)
+
+
+def update_section(db: Session, section_id: int, payload) -> SectionDetail:
+    """Update an existing section (partial)."""
+    row = db.execute(select(Section).where(Section.id == section_id)).scalar_one_or_none()
+    if row is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Section with id {section_id} not found.",
+        )
+
+    if payload.slug is not None and payload.slug != row.slug:
+        _check_slug_unique(db, payload.slug, exclude_id=section_id)
+    if payload.parent_id is not None and payload.parent_id != row.parent_id:
+        _check_parent_exists(db, payload.parent_id)
+
+    update_data = payload.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(row, key, value)
+
+    db.commit()
+    db.refresh(row)
+    return SectionDetail.model_validate(row)
+
+
+def delete_section(db: Session, section_id: int) -> None:
+    """Delete a section. Prevents deletion if it has children."""
+    row = db.execute(select(Section).where(Section.id == section_id)).scalar_one_or_none()
+    if row is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Section with id {section_id} not found.",
+        )
+
+    # Check for children
+    has_children = db.execute(
+        select(Section).where(Section.parent_id == section_id)
+    ).first()
+    if has_children:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Cannot delete section {section_id} because it has child sections.",
+        )
+
+    db.delete(row)
+    db.commit()
