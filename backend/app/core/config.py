@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     # ── JWT Auth ──────────────────────────────────────────────────────────────
     SECRET_KEY: str = "change-me-in-production-at-least-32-chars"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     # ── CORS ──────────────────────────────────────────────────────────────────
     # Comma-separated list of allowed origins, e.g. "http://localhost:5500,https://example.com"
@@ -26,6 +26,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=True,
+        extra="ignore",
     )
 
     @property

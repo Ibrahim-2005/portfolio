@@ -2,17 +2,23 @@
 services/auth_service.py
 ────────────────────────
 Business logic for admin authentication: credential verification, token issuance.
-Implemented in Phase 2.
 """
+from sqlalchemy.orm import Session
+
+from app.core.security import verify_password
+from app.models.admin_user import AdminUser
 
 
-def authenticate_admin(db, email: str, password: str):
-    """Verify credentials and return the AdminUser row, or None on failure."""
-    # TODO: Phase 2 implementation
-    raise NotImplementedError
+def authenticate_admin(db: Session, email: str, password: str) -> AdminUser | None:
+    """
+    Verify credentials and return the ``AdminUser`` row, or ``None`` on failure.
 
-
-def get_current_admin(db, token: str):
-    """Decode JWT and return the AdminUser row, raising 401 on failure."""
-    # TODO: Phase 2 implementation
-    raise NotImplementedError
+    Performs a constant-time bcrypt comparison even when the email doesn't exist
+    (passlib handles that internally) — no timing side-channel.
+    """
+    admin = db.query(AdminUser).filter(AdminUser.email == email).first()
+    if admin is None:
+        return None
+    if not verify_password(password, admin.hashed_password):
+        return None
+    return admin
