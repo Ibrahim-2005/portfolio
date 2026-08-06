@@ -4,7 +4,7 @@ app/models/section.py
 The backbone of the VS Code-style sidebar file tree.
 Self-referencing via parent_id to support folder/page nesting.
 """
-from sqlalchemy import Boolean, ForeignKey, Index, Integer, Text, String
+from sqlalchemy import Boolean, ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base

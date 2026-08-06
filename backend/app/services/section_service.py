@@ -17,7 +17,6 @@ from sqlalchemy.orm import Session
 from app.models.section import Section
 from app.schemas.section import SectionDetail, SectionNode
 
-
 # ── Public helpers ────────────────────────────────────────────────────────────
 
 def get_full_tree(db: Session) -> list[SectionNode]:
@@ -34,7 +33,7 @@ def get_full_tree(db: Session) -> list[SectionNode]:
     """
     rows: list[Section] = db.execute(
         select(Section)
-        .where(Section.is_visible == True)  # noqa: E712
+        .where(Section.is_visible == True)
         .order_by(Section.sort_order)
     ).scalars().all()
 
@@ -70,7 +69,7 @@ def get_by_slug(db: Session, slug: str) -> SectionDetail:
     row: Section | None = db.execute(
         select(Section).where(
             Section.slug == slug,
-            Section.is_visible == True,  # noqa: E712
+            Section.is_visible == True,
         )
     ).scalar_one_or_none()
 

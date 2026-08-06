@@ -2,10 +2,10 @@
 routers/admin/guestbook.py  — ADMIN (JWT-protected)
 Routes implemented in Phase 2.
 """
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from typing import Optional
 
 from app.core.database import get_db
 from app.models.guestbook import GuestbookEntry
@@ -20,7 +20,7 @@ router = APIRouter(prefix="/guestbook", tags=["admin:guestbook"])
     summary="List all guestbook entries",
 )
 def list_guestbook(
-    is_approved: Optional[bool] = None, db: Session = Depends(get_db)
+    is_approved: bool | None = None, db: Session = Depends(get_db)
 ) -> list[GuestbookAdminOut]:
     query = select(GuestbookEntry).order_by(GuestbookEntry.created_at.desc())
     if is_approved is not None:

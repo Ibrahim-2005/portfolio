@@ -5,9 +5,10 @@ Database seed script to populate initial portfolio data.
 Run this after creating tables (alembic upgrade head).
 """
 from app.core.database import SessionLocal
-from app.models.section import Section
 from app.models.project import Project
+from app.models.section import Section
 from app.models.skill import Skill
+
 
 def seed_sections(db):
     if db.query(Section).first():

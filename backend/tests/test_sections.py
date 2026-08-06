@@ -6,11 +6,9 @@ Tests for:
   GET /api/sections/{slug}   → single section detail, 404 on miss
 """
 import pytest
-import pytest_asyncio
 from httpx import AsyncClient
 
 from app.models.section import Section
-
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 

@@ -5,11 +5,11 @@ FastAPI application entrypoint.
 Creates the app, registers CORS middleware, and includes all routers.
 No route logic lives here — just wiring.
 """
+import os
+
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-import os
-
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -17,25 +17,25 @@ from app.core.config import settings
 from app.core.limiter import limiter
 from app.core.security import _wire_db_dependency, get_current_admin_user
 
-# ── Public routers ────────────────────────────────────────────────────────────
-from app.routers.public import analytics as pub_analytics
-from app.routers.public import contact as pub_contact
-from app.routers.public import guestbook as pub_guestbook
-from app.routers.public import projects as pub_projects
-from app.routers.public import sections as pub_sections
-from app.routers.public import skills as pub_skills
-from app.routers.public import resume as pub_resume
+# ── Admin routers (JWT-protected) ─────────────────────────────────────────────
+from app.routers.admin import analytics as adm_analytics
 
 # ── Auth router (public — login endpoint) ─────────────────────────────────────
 from app.routers.admin import auth as adm_auth
-
-# ── Admin routers (JWT-protected) ─────────────────────────────────────────────
-from app.routers.admin import analytics as adm_analytics
 from app.routers.admin import guestbook as adm_guestbook
 from app.routers.admin import messages as adm_messages
 from app.routers.admin import projects as adm_projects
 from app.routers.admin import sections as adm_sections
 from app.routers.admin import skills as adm_skills
+
+# ── Public routers ────────────────────────────────────────────────────────────
+from app.routers.public import analytics as pub_analytics
+from app.routers.public import contact as pub_contact
+from app.routers.public import guestbook as pub_guestbook
+from app.routers.public import projects as pub_projects
+from app.routers.public import resume as pub_resume
+from app.routers.public import sections as pub_sections
+from app.routers.public import skills as pub_skills
 
 # ── Wire the DB dependency into get_current_admin_user ────────────────────────
 _wire_db_dependency()

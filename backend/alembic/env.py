@@ -12,8 +12,9 @@ import sys
 from logging.config import fileConfig
 from pathlib import Path
 
-from alembic import context
 from sqlalchemy import create_engine, pool
+
+from alembic import context
 
 # ── sys.path: add backend/ so `app.*` imports resolve ────────────────────────
 _BACKEND_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +22,13 @@ if str(_BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(_BACKEND_DIR))
 
 # ── Load .env before importing app modules ────────────────────────────────────
-from dotenv import load_dotenv  # noqa: E402
+from dotenv import load_dotenv
 
 load_dotenv(_BACKEND_DIR / ".env")
 
 # ── Import declarative Base + register all models ─────────────────────────────
-from app.core.database import Base  # noqa: E402
-import app.models  # noqa: E402, F401
+import app.models  # noqa: F401
+from app.core.database import Base
 
 # ── Alembic Config object ─────────────────────────────────────────────────────
 config = context.config

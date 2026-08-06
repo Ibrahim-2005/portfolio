@@ -4,6 +4,7 @@ routers/public/resume.py  — PUBLIC (unauthenticated)
 GET /api/resume → Serves the resume PDF file
 """
 import os
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 

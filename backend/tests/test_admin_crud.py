@@ -10,7 +10,6 @@ from app.models.analytics import AnalyticsEvent
 from app.models.guestbook import GuestbookEntry
 from app.models.message import Message
 
-
 # ── SECTIONS ──────────────────────────────────────────────────────────────────
 
 @pytest.mark.asyncio

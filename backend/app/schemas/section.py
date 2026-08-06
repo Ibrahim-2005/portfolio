@@ -52,7 +52,6 @@ class SectionDetail(_SectionBase):
 # ── Admin response ────────────────────────────────────────────────────────────
 class SectionAdminOut(SectionDetail):
     """Admin response for a section (same as detail, always includes is_visible)."""
-    pass
 
 
 # ── Admin input: create ───────────────────────────────────────────────────────

@@ -3,9 +3,11 @@ tests/test_resume.py
 ────────────────────────
 Tests for the public resume endpoint.
 """
-import pytest
 from unittest.mock import patch
+
+import pytest
 from httpx import AsyncClient
+
 
 @pytest.mark.asyncio
 async def test_get_resume_success(client: AsyncClient):
