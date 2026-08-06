@@ -1,2 +1,7 @@
 [lint]
 extend-ignore = ["B008", "BLE001", "FLY002", "C408"]
+
+[lint.per-file-ignores]
+"alembic/env.py" = ["E402"]
+"create_admin.py" = ["E402"]
+"app/services/section_service.py" = ["E712"]
