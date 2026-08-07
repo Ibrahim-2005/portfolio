@@ -6,24 +6,48 @@ body {
     font-size: 13px; /* Standard VS Code UI size */
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
 }
 
 /* Typography for content pane (Markdown simulation) */
 .content-pane h1 {
     font-size: 2em;
     margin-bottom: 0.5em;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 0;
 }
 
 .content-pane h2 {
     font-size: 1.5em;
     margin-bottom: 0.5em;
     margin-top: 1em;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0;
 }
 
 .content-pane p {
     margin-bottom: 1em;
+}
+
+.content-pane h1,
+.content-pane h2,
+.content-pane h3 {
+    color: var(--fg-active);
+}
+
+.content-pane a {
+    color: var(--accent-strong);
+    text-decoration: underline;
+    text-decoration-color: var(--accent-soft);
+    text-underline-offset: 4px;
+    transition: color var(--motion-fast), text-decoration-color var(--motion-fast);
+}
+
+.content-pane a:hover {
+    color: var(--fg-active);
+    text-decoration-color: var(--accent-strong);
 }
 
 /* Code block typography */

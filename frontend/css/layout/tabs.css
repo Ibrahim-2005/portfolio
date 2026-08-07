@@ -9,11 +9,12 @@
 
 .tabs {
     height: var(--tab-height);
-    background-color: var(--bg-titlebar); /* Typically matches titlebar in VS Code */
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-titlebar) 92%, transparent), color-mix(in srgb, var(--bg-titlebar) 76%, transparent));
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
     flex-shrink: 0;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 /* Hide scrollbar for tabs */
@@ -31,17 +32,24 @@
     padding: 0 12px;
     min-width: 120px;
     height: 100%;
-    background-color: var(--bg-tab-inactive);
+    background: color-mix(in srgb, var(--bg-tab-inactive) 86%, transparent);
     color: var(--fg-muted);
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-subtle);
     cursor: pointer;
     user-select: none;
     position: relative;
+    transition: background var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
 }
 
 .tab.active {
-    background-color: var(--bg-tab-active);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-tab-active) 94%, transparent), var(--bg-tab-active));
     color: var(--accent);
+    box-shadow: inset 0 2px 0 var(--accent), 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.tab:hover {
+    background: var(--bg-hover);
+    color: var(--fg-active);
 }
 
 .tab .icon {
@@ -53,6 +61,8 @@
     opacity: 0;
     color: var(--fg-muted);
     font-size: 14px;
+    border-radius: var(--radius-sm);
+    transition: opacity var(--motion-fast), background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast);
 }
 
 .tab:hover .close-btn,
@@ -63,6 +73,7 @@
 .tab .close-btn:hover {
     background: var(--bg-hover);
     color: var(--fg-main);
+    transform: scale(1.08);
 }
 
 .mobile-tab-dropdown-btn {

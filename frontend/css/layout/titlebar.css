@@ -4,17 +4,52 @@
     flex-direction: column;
     height: 100vh;
     width: 100vw;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at var(--pointer-x, 72%) var(--pointer-y, 18%), var(--glow-primary), transparent 24rem),
+        radial-gradient(circle at 12% 82%, var(--glow-secondary), transparent 26rem),
+        linear-gradient(135deg, color-mix(in srgb, var(--bg-main) 86%, #07111f 14%), var(--bg-main) 56%, color-mix(in srgb, var(--bg-main) 88%, #2b173c 12%));
+}
+
+.app-container::before,
+.app-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.app-container::before {
+    background:
+        linear-gradient(115deg, transparent 0 38%, color-mix(in srgb, var(--accent) 12%, transparent) 42%, transparent 48% 100%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.028) 0 1px, transparent 1px 76px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 76px);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.86), transparent 88%);
+    animation: ambient-drift 22s ease-in-out infinite alternate;
+}
+
+.app-container::after {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.16) 0.7px, transparent 0.7px);
+    background-size: 34px 34px;
+    opacity: 0.16;
+    animation: starfield-slide 34s linear infinite;
 }
 
 .titlebar {
     height: var(--titlebar-height);
-    background-color: var(--bg-titlebar);
+    background: linear-gradient(180deg, var(--surface-glass-strong), color-mix(in srgb, var(--bg-titlebar) 72%, transparent));
+    backdrop-filter: blur(18px) saturate(1.25);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 10px;
     flex-shrink: 0;
     user-select: none;
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
 }
 
 .titlebar-controls-mac {
@@ -27,16 +62,25 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.16);
+    transition: transform var(--motion-fast), filter var(--motion-fast);
 }
 
 .mac-btn.close { background-color: #ff5f56; }
 .mac-btn.minimize { background-color: #ffbd2e; }
 .mac-btn.maximize { background-color: #27c93f; }
 
+.mac-btn:hover {
+    filter: brightness(1.12);
+    transform: scale(1.08);
+}
+
 .titlebar-title {
     text-align: center;
     flex-grow: 1;
     font-size: 12px;
+    font-family: var(--font-code);
+    color: var(--fg-muted);
 }
 
 .titlebar-actions {
@@ -50,4 +94,22 @@
     color: var(--fg-main);
     font-size: 16px;
     padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast);
+}
+
+.sidebar-toggle-btn:hover {
+    background: var(--bg-hover);
+    color: var(--fg-active);
+    transform: translateY(-1px);
+}
+
+@keyframes ambient-drift {
+    from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+    to { transform: translate3d(1.5%, 1%, 0) scale(1.04); }
+}
+
+@keyframes starfield-slide {
+    from { background-position: 0 0; }
+    to { background-position: 68px 34px; }
 }
