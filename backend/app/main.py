@@ -91,6 +91,12 @@ def health() -> dict:
     return {"status": "ok"}
 
 
+@app.head("/health", tags=["health"])
+def health_head():
+    """Simple liveness probe — returns 200 OK if the app is running."""
+    return {"status": "ok"}
+
+
 # ── Admin identity endpoint ───────────────────────────────────────────────────
 @app.get("/api/admin/me", tags=["admin:auth"])
 def admin_me(admin=Depends(get_current_admin_user)):
