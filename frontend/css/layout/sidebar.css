@@ -8,11 +8,13 @@
 .sidebar {
     position: relative;
     width: var(--sidebar-width);
-    background-color: var(--bg-sidebar);
+    background: linear-gradient(180deg, var(--surface-glass), color-mix(in srgb, var(--bg-sidebar) 88%, transparent));
+    backdrop-filter: blur(22px) saturate(1.25);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-subtle);
+    box-shadow: 16px 0 45px rgba(0, 0, 0, 0.12);
 }
 
 .sidebar-header {
@@ -22,6 +24,8 @@
     letter-spacing: 0.5px;
     text-transform: uppercase;
     color: var(--fg-muted);
+    border-bottom: 1px solid var(--border-subtle);
+    background: linear-gradient(90deg, var(--accent-soft), transparent 72%);
 }
 
 .sidebar-content {
@@ -36,16 +40,22 @@
     cursor: pointer;
     user-select: none;
     color: var(--fg-muted);
+    min-height: 30px;
+    border-radius: var(--radius-sm);
+    margin: 2px 8px;
+    transition: background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast), box-shadow var(--motion-fast);
 }
 
 .tree-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
     color: var(--fg-main);
+    transform: translateX(3px);
 }
 
 .tree-item.active {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(90deg, var(--accent-soft), color-mix(in srgb, var(--accent) 8%, transparent));
     color: var(--fg-active);
+    box-shadow: inset 2px 0 0 var(--accent), 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .tree-item .chevron {
@@ -57,6 +67,7 @@
 .tree-item .icon {
     margin: 0 6px;
     font-size: 14px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
 }
 
 .tree-item .indent {

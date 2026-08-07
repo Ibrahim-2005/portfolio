@@ -1,11 +1,15 @@
 /* Terminal Component Layout */
 .terminal-panel {
     height: var(--terminal-height);
-    background-color: var(--bg-terminal);
-    border-top: 1px solid var(--border-color);
+    background:
+        linear-gradient(180deg, var(--surface-glass-strong), color-mix(in srgb, var(--bg-terminal) 88%, transparent)),
+        radial-gradient(circle at 12% 0%, var(--accent-soft), transparent 24rem);
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    box-shadow: 0 -22px 55px rgba(0, 0, 0, 0.22);
+    animation: terminal-rise var(--motion-med) both;
 }
 
 .terminal-panel.collapsed {
@@ -18,8 +22,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
-    background-color: var(--bg-panel-header);
-    border-bottom: 1px solid var(--border-color);
+    background: color-mix(in srgb, var(--bg-panel-header) 78%, transparent);
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .terminal-tabs {
@@ -32,6 +36,9 @@
     color: var(--fg-muted);
     cursor: pointer;
     text-transform: uppercase;
+    border-bottom: 1px solid transparent;
+    padding: 10px 0 8px;
+    transition: color var(--motion-fast), border-color var(--motion-fast);
 }
 
 .term-tab.active {
@@ -47,10 +54,15 @@
 .term-action-btn {
     color: var(--fg-muted);
     font-size: 14px;
+    border-radius: var(--radius-sm);
+    padding: 2px 7px;
+    transition: background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast);
 }
 
 .term-action-btn:hover {
     color: var(--fg-main);
+    background: var(--bg-hover);
+    transform: translateY(-1px);
 }
 
 .terminal-body {
@@ -58,6 +70,8 @@
     padding: 10px;
     overflow-y: auto;
     color: var(--terminal-fg);
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 100% 28px;
 }
 
 .terminal-input-line {
@@ -98,16 +112,23 @@
 }
 
 .suggestion-pill {
-    background-color: var(--bg-hover);
+    background: var(--bg-hover);
     color: var(--fg-main);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: 999px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    border: 1px solid var(--border-subtle);
+    transition: background var(--motion-fast), transform var(--motion-fast), color var(--motion-fast);
 }
 
 .suggestion-pill:hover {
-    background-color: var(--accent);
+    background: var(--accent);
     color: var(--bg-main);
+    transform: translateY(-1px);
+}
+
+@keyframes terminal-rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 

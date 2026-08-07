@@ -5,6 +5,7 @@ import { initPalette } from './components/command-palette.js';
 import { initShortcuts } from './features/keyboard-shortcuts.js';
 import { initCursorEngine } from './features/cursor-engine.js';
 import { initPetCompanions } from './features/pet-companion.js';
+import { initUiPolish } from './features/ui-polish.js';
 import { initTerminal } from './components/terminal.js';
 import { api } from './core/api.js?v=5';
 
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initShortcuts();
     initCursorEngine();
     initPetCompanions();
+    initUiPolish();
 
     // Initialize the router which wires up state to UI
     initRouter();

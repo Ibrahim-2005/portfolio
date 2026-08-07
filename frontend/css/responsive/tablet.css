@@ -20,7 +20,7 @@
         z-index: 5000;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
-        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+        box-shadow: 18px 0 46px rgba(0,0,0,0.34);
     }
 
     .sidebar.open {

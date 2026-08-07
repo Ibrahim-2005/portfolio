@@ -1,7 +1,7 @@
 /* Status Bar Layout */
 .statusbar {
     height: var(--statusbar-height);
-    background-color: var(--bg-statusbar);
+    background: linear-gradient(90deg, var(--bg-statusbar), color-mix(in srgb, var(--bg-statusbar) 72%, #8b5cf6 28%));
     color: #ffffff; /* Usually distinct regardless of theme */
     display: flex;
     justify-content: space-between;
@@ -10,6 +10,7 @@
     font-size: 12px;
     flex-shrink: 0;
     user-select: none;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.16);
 }
 
 .statusbar-left,
@@ -26,10 +27,12 @@
     height: 100%;
     cursor: pointer;
     color: inherit;
+    transition: background var(--motion-fast), transform var(--motion-fast);
 }
 
 .statusbar-item:hover {
     background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 .statusbar-item .icon {

@@ -1,6 +1,29 @@
 /* responsive/mobile.css */
 /* For screens < 600px */
 @media screen and (max-width: 599px) {
+    .content-pane {
+        padding: 14px;
+    }
+
+    .home-content {
+        min-height: auto;
+        padding: 22px;
+    }
+
+    .home-title {
+        font-size: clamp(2.6rem, 16vw, 4.4rem);
+    }
+
+    .home-ctas,
+    .home-stats {
+        gap: 10px;
+    }
+
+    .cta-button,
+    .stat-block {
+        width: 100%;
+    }
+
     /* Sidebar Drawer */
     .sidebar {
         width: 85% !important;
@@ -60,7 +83,7 @@
     .command-palette {
         width: 100% !important;
         max-width: none !important;
-        border-radius: 12px 12px 0 0 !important;
+        border-radius: 8px 8px 0 0 !important;
         bottom: 0;
         top: auto !important;
         transform: translateY(0) !important;
