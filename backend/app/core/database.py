@@ -16,6 +16,9 @@ engine = create_engine(
     pool_pre_ping=True,
     # Echo SQL to stdout only in debug scenarios; set via env override if needed
     echo=False,
+    connect_args={"check_same_thread": False}
+    if settings.DATABASE_URL.startswith("sqlite")
+    else {},
 )
 
 # ── Session factory ───────────────────────────────────────────────────────────
