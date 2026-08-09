@@ -1,5 +1,5 @@
 import { adminApi, setToken, getToken, clearToken } from './admin-api.js';
-import { loadDashboardData } from './admin-dashboard.js';
+import { loadDashboardData, initMobileMenu } from './admin-dashboard.js';
 import { initEditor } from './admin-editor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loginScreen.classList.remove('active');
         dashboardScreen.classList.add('active');
         
-        // Initialize dashboard data
+        // Initialize dashboard shell features
+        initMobileMenu();
         loadDashboardData();
         initEditor();
     }

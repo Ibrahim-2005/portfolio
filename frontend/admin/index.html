@@ -36,16 +36,38 @@
 
     <!-- DASHBOARD SCREEN -->
     <div id="dashboard-screen" class="screen">
-        <aside class="admin-sidebar">
-            <div class="admin-brand">
+        
+        <!-- Mobile Header (Visible only on mobile/tablet) -->
+        <header class="mobile-header">
+            <div class="admin-brand mobile-brand">
+                <h3>PortfolioOS</h3>
+            </div>
+            <button id="mobile-menu-toggle" class="btn-icon" aria-label="Toggle menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </header>
+
+        <!-- Sidebar overlay for mobile -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <aside class="admin-sidebar" id="admin-sidebar">
+            <div class="admin-brand desktop-brand">
                 <h3>PortfolioOS</h3>
                 <span>Admin Panel</span>
             </div>
             <nav class="admin-nav">
-                <button class="nav-btn active" data-tab="messages">Messages</button>
-                <button class="nav-btn" data-tab="guestbook">Guestbook</button>
+                <div class="nav-group-label">Content</div>
+                <button class="nav-btn active" data-tab="home">Home</button>
+                <button class="nav-btn" data-tab="about">About</button>
+                <button class="nav-btn" data-tab="projects">Projects</button>
+                <button class="nav-btn" data-tab="skills">Skills</button>
+                <button class="nav-btn" data-tab="resume">Resume</button>
+                <button class="nav-btn" data-tab="contact">Contact</button>
+                
+                <div class="nav-group-label">Management</div>
+                <button class="nav-btn" data-tab="messages">Messages</button>
                 <button class="nav-btn" data-tab="analytics">Analytics</button>
-                <button class="nav-btn" data-tab="editor">Content Editor</button>
+                <button class="nav-btn" data-tab="settings">Public Settings</button>
             </nav>
             <div class="admin-sidebar-footer">
                 <button id="logout-btn" class="btn btn-danger">Logout</button>
@@ -54,129 +76,96 @@
         </aside>
 
         <main class="admin-main">
-            <!-- Messages Tab -->
-            <section id="tab-messages" class="tab-pane active">
+            <!-- Content Tab: Home -->
+            <section id="tab-home" class="tab-pane active">
+                <header class="tab-header">
+                    <h2>Home Configuration</h2>
+                    <p>Manage the hero section and introduction.</p>
+                </header>
+                <div class="empty-state">Editor coming soon...</div>
+            </section>
+            
+            <!-- Content Tab: About -->
+            <section id="tab-about" class="tab-pane">
+                <header class="tab-header">
+                    <h2>About Configuration</h2>
+                    <p>Manage your biography and profile.</p>
+                </header>
+                <div class="empty-state">Editor coming soon...</div>
+            </section>
+
+            <!-- Content Tab: Projects -->
+            <section id="tab-projects" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Projects Configuration</h2>
+                    <p>Manage your portfolio projects and showcase.</p>
+                </header>
+                <div class="empty-state">Editor coming soon...</div>
+            </section>
+
+            <!-- Content Tab: Skills -->
+            <section id="tab-skills" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Skills Configuration</h2>
+                    <p>Manage your skill domains and proficiency levels.</p>
+                </header>
+                <div class="empty-state">Editor coming soon...</div>
+            </section>
+
+            <!-- Content Tab: Resume -->
+            <section id="tab-resume" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Resume Configuration</h2>
+                    <p>Manage your work experience and education.</p>
+                </header>
+                <div class="empty-state">Editor coming soon...</div>
+            </section>
+
+            <!-- Content Tab: Contact -->
+            <section id="tab-contact" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Contact Configuration</h2>
+                    <p>Manage your contact details and social links.</p>
+                </header>
+                <div class="empty-state">Editor coming soon...</div>
+            </section>
+
+            <!-- Management Tab: Messages -->
+            <section id="tab-messages" class="tab-pane">
                 <header class="tab-header">
                     <h2>Messages</h2>
-                    <p>Contact form submissions</p>
+                    <p>Contact form submissions from your public site.</p>
                 </header>
-                <div class="table-container">
-                    <table id="messages-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Message</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="messages-body">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
+                <div class="empty-state">Messages UI coming soon...</div>
             </section>
 
-            <!-- Guestbook Tab -->
-            <section id="tab-guestbook" class="tab-pane">
-                <header class="tab-header">
-                    <h2>Guestbook</h2>
-                    <p>Approve or reject public entries</p>
-                </header>
-                <div class="table-container">
-                    <table id="guestbook-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Message</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="guestbook-body">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Analytics Tab -->
+            <!-- Management Tab: Analytics -->
             <section id="tab-analytics" class="tab-pane">
                 <header class="tab-header">
                     <h2>Analytics</h2>
-                    <p>Site traffic and terminal usage</p>
+                    <p>Site traffic and terminal usage.</p>
                 </header>
-                <div class="charts-grid">
-                    <div class="chart-card">
-                        <h3>Page Views (Last 30 Days)</h3>
-                        <canvas id="page-views-chart"></canvas>
-                    </div>
-                    <div class="chart-card">
-                        <h3>Top Terminal Commands</h3>
-                        <canvas id="commands-chart"></canvas>
-                    </div>
-                </div>
+                <div class="empty-state">Analytics UI coming soon...</div>
             </section>
 
-            <!-- Content Editor Tab -->
-            <section id="tab-editor" class="tab-pane">
+            <!-- Management Tab: Public Settings -->
+            <section id="tab-settings" class="tab-pane">
                 <header class="tab-header">
-                    <h2>Content Editor</h2>
-                    <p>Manage sidebar sections, projects, and skills</p>
+                    <h2>Public Settings</h2>
+                    <p>Manage global site settings and features.</p>
                 </header>
-                
-                <div class="editor-layout">
-                    <!-- Resource List -->
-                    <div class="editor-sidebar">
-                        <div class="editor-controls">
-                            <select id="resource-type-select">
-                                <option value="sections">Sections</option>
-                                <option value="projects">Projects</option>
-                                <option value="skills">Skills</option>
-                            </select>
-                            <button id="btn-create-new" class="btn btn-primary btn-sm">+ New</button>
-                        </div>
-                        <ul id="resource-list" class="resource-list">
-                            <!-- Populated by JS -->
-                        </ul>
-                    </div>
-
-                    <!-- Editor Form -->
-                    <div class="editor-form-container">
-                        <div id="editor-empty-state" class="empty-state active">
-                            <p>Select an item to edit, or create a new one.</p>
-                        </div>
-                        
-                        <form id="resource-form" class="hidden">
-                            <input type="hidden" id="form-original-slug">
-                            <input type="hidden" id="form-resource-type">
-                            
-                            <div class="form-header">
-                                <h3 id="form-title">Edit Item</h3>
-                                <button type="button" id="btn-delete" class="btn btn-danger btn-sm hidden">Delete</button>
-                            </div>
-
-                            <!-- Dynamic fields container -->
-                            <div id="dynamic-fields"></div>
-                            
-                            <div id="form-error" class="error-message"></div>
-                            <div id="form-success" class="success-message"></div>
-                            
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <div class="empty-state">Public Settings UI coming soon...</div>
             </section>
+
+            <!-- Global UI Helpers -->
+            <div id="toast-container" class="toast-container"></div>
+            <div id="global-loader" class="global-loader hidden">
+                <div class="spinner"></div>
+            </div>
         </main>
     </div>
 
     <!-- Admin JS, isolated from public app -->
-    <!-- Use type="module" so we can use exports -->
     <script type="module" src="js/admin-api.js?v=2"></script>
     <script type="module" src="js/admin-auth.js?v=2"></script>
     <script type="module" src="js/admin-dashboard.js?v=2"></script>

@@ -1,205 +1,92 @@
-import { adminApi } from './admin-api.js';
+// admin-dashboard.js - Handles shell UI logic (Toasts, Loaders, Mobile Menu)
 
-let chartsInitialized = false;
-
-export async function loadDashboardData() {
-    loadMessages();
-    loadGuestbook();
-    loadAnalytics();
+export function loadDashboardData() {
+    // Placeholder for when analytics/messages are actually implemented
+    console.log('Dashboard shell loaded.');
 }
 
-// --- Messages ---
-async function loadMessages() {
-    try {
-        const messages = await adminApi.getMessages();
-        const tbody = document.getElementById('messages-body');
-        tbody.innerHTML = '';
+// Mobile Menu Drawer Logic
+export function initMobileMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
 
-        if (!messages || messages.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No messages found.</td></tr>';
-            return;
-        }
+    if (!toggleBtn || !sidebar || !overlay) return;
 
-        messages.forEach(msg => {
-            const tr = document.createElement('tr');
-            const date = new Date(msg.created_at).toLocaleString();
-            const statusClass = msg.is_read ? 'status-read' : 'status-unread';
-            const statusText = msg.is_read ? 'Read' : 'Unread';
-            
-            let actionHtml = '';
-            if (!msg.is_read) {
-                actionHtml = `<button class="btn btn-sm btn-primary btn-mark-read" data-id="${msg.id}">Mark Read</button>`;
-            }
-
-            tr.innerHTML = `
-                <td>${date}</td>
-                <td><strong>${msg.name}</strong></td>
-                <td><a href="mailto:${msg.email}">${msg.email}</a></td>
-                <td><div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${msg.message}">${msg.message}</div></td>
-                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                <td>${actionHtml}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-
-        // Add event listeners for buttons
-        document.querySelectorAll('.btn-mark-read').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const id = e.target.dataset.id;
-                try {
-                    await adminApi.markMessageRead(id);
-                    loadMessages(); // reload table
-                } catch (err) {
-                    alert('Error marking message as read: ' + err.message);
-                }
-            });
-        });
-
-    } catch (err) {
-        console.error('Failed to load messages:', err);
+    function openMenu() {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
     }
-}
 
-// --- Guestbook ---
-async function loadGuestbook() {
-    try {
-        const entries = await adminApi.getGuestbook();
-        const tbody = document.getElementById('guestbook-body');
-        tbody.innerHTML = '';
-
-        if (!entries || entries.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No guestbook entries found.</td></tr>';
-            return;
-        }
-
-        entries.forEach(entry => {
-            const tr = document.createElement('tr');
-            const date = new Date(entry.created_at).toLocaleString();
-            
-            let statusClass = 'status-pending';
-            if (entry.status === 'approved') statusClass = 'status-approved';
-            if (entry.status === 'rejected') statusClass = 'status-rejected';
-            
-            let actionHtml = '';
-            if (entry.status === 'pending') {
-                actionHtml = `
-                    <button class="btn btn-sm btn-primary btn-approve" data-id="${entry.id}">Approve</button>
-                    <button class="btn btn-sm btn-danger btn-reject" data-id="${entry.id}">Reject</button>
-                `;
-            } else {
-                actionHtml = `<span style="color: #6c757d; font-size: 0.8rem;">Reviewed</span>`;
-            }
-
-            tr.innerHTML = `
-                <td>${date}</td>
-                <td><strong>${entry.name}</strong></td>
-                <td><div style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${entry.message}">${entry.message}</div></td>
-                <td><span class="status-badge ${statusClass}">${entry.status}</span></td>
-                <td>${actionHtml}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-
-        // Add event listeners
-        document.querySelectorAll('.btn-approve').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const id = e.target.dataset.id;
-                try {
-                    await adminApi.approveGuestbook(id);
-                    loadGuestbook();
-                } catch (err) {
-                    alert('Error approving entry: ' + err.message);
-                }
-            });
-        });
-        
-        document.querySelectorAll('.btn-reject').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const id = e.target.dataset.id;
-                try {
-                    await adminApi.rejectGuestbook(id);
-                    loadGuestbook();
-                } catch (err) {
-                    alert('Error rejecting entry: ' + err.message);
-                }
-            });
-        });
-
-    } catch (err) {
-        console.error('Failed to load guestbook:', err);
+    function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
     }
-}
 
-// --- Analytics ---
-async function loadAnalytics() {
-    if (chartsInitialized) return; // Only init once to avoid canvas issues
+    toggleBtn.addEventListener('click', openMenu);
+    overlay.addEventListener('click', closeMenu);
 
-    try {
-        const summary = await adminApi.getAnalyticsSummary();
-        if (!summary) return;
-        
-        initPageViewsChart(summary.page_views_last_30_days);
-        initCommandsChart(summary.top_commands);
-        chartsInitialized = true;
-    } catch (err) {
-        console.error('Failed to load analytics:', err);
-    }
-}
-
-function initPageViewsChart(data) {
-    const ctx = document.getElementById('page-views-chart').getContext('2d');
-    
-    // Sort chronologically
-    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    const labels = sortedData.map(item => item.date);
-    const counts = sortedData.map(item => item.count);
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Page Views',
-                data: counts,
-                borderColor: '#0d6efd',
-                backgroundColor: 'rgba(13, 110, 253, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true, ticks: { stepSize: 1 } }
-            }
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            closeMenu();
         }
+    });
+
+    // Close when a nav button is clicked on mobile
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                closeMenu();
+            }
+        });
     });
 }
 
-function initCommandsChart(data) {
-    const ctx = document.getElementById('commands-chart').getContext('2d');
-    
-    const labels = data.map(item => item.command);
-    const counts = data.map(item => item.count);
+// Global UI Helpers
+export function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Uses',
-                data: counts,
-                backgroundColor: '#198754',
-                borderRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true, ticks: { stepSize: 1 } }
-            }
-        }
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    // Icon based on type
+    const icon = type === 'success' ? '✓' : '⚠';
+    
+    toast.innerHTML = `
+        <span style="display:flex; align-items:center; gap:0.5rem;">
+            <strong>${icon}</strong> ${message}
+        </span>
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
     });
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300); // Wait for transition
+    }, 3000);
 }
+
+export function setLoading(isLoading) {
+    const loader = document.getElementById('global-loader');
+    if (!loader) return;
+    
+    if (isLoading) {
+        loader.classList.remove('hidden');
+    } else {
+        loader.classList.add('hidden');
+    }
+}
+
+// Expose to window for easy access from other modules if needed
+window.showToast = showToast;
+window.setLoading = setLoading;
+
