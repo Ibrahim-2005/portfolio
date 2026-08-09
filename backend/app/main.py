@@ -23,6 +23,9 @@ from app.routers.public import projects as pub_projects
 from app.routers.public import sections as pub_sections
 from app.routers.public import skills as pub_skills
 from app.routers.public import pages as pub_pages
+from app.routers.public import education as pub_education
+from app.routers.public import skill_domains as pub_skill_domains
+from app.routers.public import contact_links as pub_contact_links
 
 # ── Auth router (public — login endpoint) ─────────────────────────────────────
 from app.routers.admin import auth as adm_auth
@@ -35,6 +38,9 @@ from app.routers.admin import projects as adm_projects
 from app.routers.admin import sections as adm_sections
 from app.routers.admin import skills as adm_skills
 from app.routers.admin import pages as adm_pages
+from app.routers.admin import education as adm_education
+from app.routers.admin import skill_domains as adm_skill_domains
+from app.routers.admin import contact_links as adm_contact_links
 
 # ── Wire the DB dependency into get_current_admin_user ────────────────────────
 _wire_db_dependency()
@@ -68,6 +74,9 @@ app.include_router(pub_contact.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_guestbook.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_analytics.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_pages.router, prefix=_PUBLIC_PREFIX)
+app.include_router(pub_education.router, prefix=_PUBLIC_PREFIX)
+app.include_router(pub_skill_domains.router, prefix=_PUBLIC_PREFIX)
+app.include_router(pub_contact_links.router, prefix=_PUBLIC_PREFIX)
 
 # Auth — /api/auth/login (public, no JWT required)
 app.include_router(adm_auth.router, prefix=_PUBLIC_PREFIX)
@@ -82,6 +91,9 @@ app.include_router(adm_messages.router, prefix=_ADMIN_PREFIX, dependencies=_admi
 app.include_router(adm_guestbook.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_analytics.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_pages.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
+app.include_router(adm_education.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
+app.include_router(adm_skill_domains.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
+app.include_router(adm_contact_links.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────

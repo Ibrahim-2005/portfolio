@@ -4,6 +4,7 @@ app/schemas/contact_link.py
 Pydantic schemas for Contact Link entities.
 """
 from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional
 
 
 class ContactLinkBase(BaseModel):

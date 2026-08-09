@@ -5,6 +5,7 @@ Represents an educational qualification.
 """
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
+from typing import Optional
 
 from app.core.database import Base
 

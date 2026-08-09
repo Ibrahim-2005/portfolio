@@ -4,6 +4,7 @@ app/schemas/skill_domain.py
 Pydantic schemas for Skill Domain entities.
 """
 from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional
 
 
 class SkillDomainBase(BaseModel):

@@ -3,7 +3,7 @@ app/models/skill_domain.py
 ──────────────────────────
 Represents a category of skills (e.g. Backend, Frontend).
 """
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
