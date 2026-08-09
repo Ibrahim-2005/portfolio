@@ -13,6 +13,16 @@ from app.schemas.skill import SkillCreate, SkillOut, SkillUpdate
 router = APIRouter(prefix="/skills", tags=["admin:skills"])
 
 
+@router.get(
+    "",
+    response_model=list[SkillOut],
+    summary="Get all skills (admin)",
+)
+def get_all_skills(db: Session = Depends(get_db)) -> list[SkillOut]:
+    rows = db.execute(select(Skill).order_by(Skill.sort_order)).scalars().all()
+    return [SkillOut.model_validate(row) for row in rows]
+
+
 @router.post(
     "",
     response_model=SkillOut,

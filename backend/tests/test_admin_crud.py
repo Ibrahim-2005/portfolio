@@ -9,6 +9,7 @@ from httpx import AsyncClient
 from app.models.analytics import AnalyticsEvent
 from app.models.guestbook import GuestbookEntry
 from app.models.message import Message
+from app.models.skill import Skill
 
 
 # ── SECTIONS ──────────────────────────────────────────────────────────────────
@@ -160,6 +161,41 @@ async def test_project_crud(client: AsyncClient, auth_headers: dict):
 # ── SKILLS ────────────────────────────────────────────────────────────────────
 
 @pytest.mark.asyncio
+async def test_skill_admin_get(client: AsyncClient, auth_headers: dict, db_session):
+    # 1. Create multiple skills to test ordering and retrieval
+    db_session.execute(
+        Skill.__table__.insert(),
+        [
+            {"category": "Backend", "name": "Python", "proficiency": 90, "sort_order": 2, "proficiency_legacy": "Expert"},
+            {"category": "Frontend", "name": "React", "proficiency": 85, "sort_order": 1, "proficiency_legacy": "Advanced"},
+        ],
+    )
+    db_session.commit()
+
+    # 2. GET all skills as admin
+    resp = await client.get("/api/admin/skills", headers=auth_headers)
+    assert resp.status_code == 200
+    data = resp.json()
+    assert len(data) >= 2
+    
+    # 3. Verify ordering (sort_order 1 before 2)
+    assert data[0]["name"] == "React"
+    assert data[1]["name"] == "Python"
+    
+    # 4. Verify shape contains all required fields (no legacy fields)
+    assert "id" in data[0]
+    assert "name" in data[0]
+    assert "proficiency" in data[0]
+    assert "icon" in data[0]
+    assert "domain_id" in data[0]
+    assert "sort_order" in data[0]
+    assert "category" in data[0]
+    
+    # Legacy fields should not be exposed by the schema
+    assert "proficiency_legacy" not in data[0]
+
+
+@pytest.mark.asyncio
 async def test_skill_crud(client: AsyncClient, auth_headers: dict):
     # 1. Create
     resp = await client.post(
@@ -280,6 +316,7 @@ async def test_unauthorized_access(client: AsyncClient):
         ("POST", "/api/admin/sections", {}),
         ("POST", "/api/admin/projects", {}),
         ("POST", "/api/admin/skills", {}),
+        ("GET", "/api/admin/skills", None),
         ("GET", "/api/admin/messages", None),
         ("GET", "/api/admin/guestbook", None),
         ("GET", "/api/admin/analytics/summary", None),
