@@ -50,12 +50,13 @@ def test_contact_link_schema():
         "id": 1,
         "platform": "GitHub",
         "url": "https://github.com",
-        "icon": "fa-github",
+        "icon": None,
         "enabled": True,
         "sort_order": 0
     }
     link = ContactLinkOut(**data)
     assert link.enabled is True
+    assert link.icon is None
 
     # Check default enabled in create
     create = ContactLinkCreate(platform="LinkedIn", url="https://link")
@@ -81,6 +82,7 @@ def test_project_schema():
     assert proj.tech_stack[1].name == "FastAPI"
     assert proj.tech_stack[1].icon is None
     assert proj.featured is True
+    assert not hasattr(proj, "tech_stack_legacy")
 
     # Reject untyped dicts or missing names
     with pytest.raises(ValidationError):
@@ -94,6 +96,7 @@ def test_skill_schema():
     data = {
         "id": 1,
         "name": "Python",
+        "category": "Backend",
         "domain_id": 2,
         "icon": "python-icon",
         "proficiency": 80,
@@ -102,6 +105,7 @@ def test_skill_schema():
     skill = SkillOut(**data)
     assert skill.domain_id == 2
     assert skill.proficiency == 80
+    assert skill.category == "Backend"
 
     # Test proficiency limits
     with pytest.raises(ValidationError):
@@ -126,3 +130,7 @@ def test_message_schema():
     data_phone = {**data, "phone": "+1234567890"}
     msg_phone = MessageCreate(**data_phone)
     assert msg_phone.phone == "+1234567890"
+
+    # Phone respects max length
+    with pytest.raises(ValidationError):
+        MessageCreate(**{**data, "phone": "1" * 51})

@@ -115,3 +115,27 @@ def test_public_settings_schema():
     schema = PublicSettingsOut(**data)
     assert not hasattr(schema, "theme")
     assert not hasattr(schema, "themes")
+
+def test_projects_config_schema():
+    """Verify ProjectsConfig schema valid payload."""
+    data = {"id": 1, "top_text": "Projects Top"}
+    schema = ProjectsConfigOut(**data)
+    assert schema.top_text == "Projects Top"
+
+def test_skills_config_schema():
+    """Verify SkillsConfig schema valid payload."""
+    data = {"id": 1, "top_text": "Skills Top"}
+    schema = SkillsConfigOut(**data)
+    assert schema.top_text == "Skills Top"
+
+def test_resume_config_schema():
+    """Verify ResumeConfig schema valid payload."""
+    data = {"id": 1, "top_text": "Resume Top", "file_path": "/file.pdf"}
+    schema = ResumeConfigOut(**data)
+    assert schema.file_path == "/file.pdf"
+
+def test_contact_config_schema():
+    """Verify ContactConfig schema valid payload."""
+    data = {"id": 1, "top_text": "Contact Top"}
+    schema = ContactConfigOut(**data)
+    assert schema.top_text == "Contact Top"
