@@ -124,7 +124,7 @@ async def test_project_crud(client: AsyncClient, auth_headers: dict):
         json={
             "title": "Portfolio",
             "description": "My OS portfolio",
-            "tech_stack": ["React", "FastAPI"],
+            "tech_stack": [{"name": "React", "icon": "react-icon"}, {"name": "FastAPI", "icon": "fastapi-icon"}],
             "highlights": ["Cool feature 1", "Cool feature 2"],
             "sort_order": 1,
         },
@@ -133,7 +133,7 @@ async def test_project_crud(client: AsyncClient, auth_headers: dict):
     assert resp.status_code == 201
     proj = resp.json()
     assert proj["title"] == "Portfolio"
-    assert proj["tech_stack"] == ["React", "FastAPI"]
+    assert proj["tech_stack"] == [{"name": "React", "icon": "react-icon"}, {"name": "FastAPI", "icon": "fastapi-icon"}]
     assert proj["highlights"] == ["Cool feature 1", "Cool feature 2"]
 
     # 2. Update
@@ -145,7 +145,7 @@ async def test_project_crud(client: AsyncClient, auth_headers: dict):
     assert resp.status_code == 200
     updated = resp.json()
     assert updated["title"] == "Portfolio OS"
-    assert updated["tech_stack"] == ["React", "FastAPI"] # unchanged
+    assert updated["tech_stack"] == [{"name": "React", "icon": "react-icon"}, {"name": "FastAPI", "icon": "fastapi-icon"}] # unchanged
     assert updated["highlights"] == ["Only one highlight"]
 
     # 3. Delete
@@ -164,7 +164,7 @@ async def test_skill_crud(client: AsyncClient, auth_headers: dict):
     # 1. Create
     resp = await client.post(
         "/api/admin/skills",
-        json={"category": "Backend", "name": "Python", "proficiency": "Expert", "sort_order": 1},
+        json={"category": "Backend", "name": "Python", "proficiency": 90, "sort_order": 1},
         headers=auth_headers,
     )
     assert resp.status_code == 201
@@ -174,11 +174,11 @@ async def test_skill_crud(client: AsyncClient, auth_headers: dict):
     # 2. Update
     resp = await client.put(
         f"/api/admin/skills/{skill['id']}",
-        json={"proficiency": "Advanced"},
+        json={"proficiency": 80},
         headers=auth_headers,
     )
     assert resp.status_code == 200
-    assert resp.json()["proficiency"] == "Advanced"
+    assert resp.json()["proficiency"] == 80
 
     # 3. Delete
     resp = await client.delete(f"/api/admin/skills/{skill['id']}", headers=auth_headers)

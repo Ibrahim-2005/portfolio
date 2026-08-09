@@ -20,6 +20,10 @@ from app.models.resume_config import ResumeConfig
 from app.models.contact_config import ContactConfig
 from app.models.public_settings import PublicSettings
 
+from app.models.education import Education
+from app.models.skill_domain import SkillDomain
+from app.models.contact_link import ContactLink
+
 __all__ = [
     "AdminUser",
     "AnalyticsEvent",
@@ -35,4 +39,7 @@ __all__ = [
     "ResumeConfig",
     "ContactConfig",
     "PublicSettings",
+    "Education",
+    "SkillDomain",
+    "ContactLink",
 ]

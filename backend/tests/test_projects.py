@@ -13,7 +13,7 @@ def _make_project(db, **kwargs) -> Project:
     defaults = dict(
         title="Project",
         description="A project",
-        tech_stack=["Python"],
+        tech_stack=[{"name": "Python", "icon": "python-icon"}],
         repo_url=None,
         live_url=None,
         highlights=None,
@@ -55,7 +55,7 @@ async def test_projects_shape(client: AsyncClient, db_session):
         db_session,
         title="Job Tracker",
         description="A job tracker",
-        tech_stack=["Flask", "PostgreSQL"],
+        tech_stack=[{"name": "Flask", "icon": "flask-icon"}, {"name": "PostgreSQL", "icon": "pg-icon"}],
         repo_url="https://github.com/example/job-tracker",
         live_url="https://example.com",
         highlights="Built with Flask\nPostgres backend",
@@ -66,7 +66,7 @@ async def test_projects_shape(client: AsyncClient, db_session):
     resp = await client.get("/api/projects")
     p = resp.json()[0]
     assert p["title"] == "Job Tracker"
-    assert p["tech_stack"] == ["Flask", "PostgreSQL"]
+    assert p["tech_stack"] == [{"name": "Flask", "icon": "flask-icon"}, {"name": "PostgreSQL", "icon": "pg-icon"}]
     assert p["repo_url"] == "https://github.com/example/job-tracker"
     assert p["live_url"] == "https://example.com"
     # highlights text is split into a list

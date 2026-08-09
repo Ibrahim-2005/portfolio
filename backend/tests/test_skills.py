@@ -13,7 +13,7 @@ def _make_skill(db, **kwargs) -> Skill:
     defaults = dict(
         category="Backend",
         name="Python",
-        proficiency="Advanced",
+        proficiency=80,
         sort_order=0,
     )
     defaults.update(kwargs)
@@ -60,10 +60,10 @@ async def test_skills_grouped(client: AsyncClient, db_session):
 
 @pytest.mark.asyncio
 async def test_skills_item_shape(client: AsyncClient, db_session):
-    """Skill items expose name and proficiency only (no id/sort_order)."""
-    _make_skill(db_session, name="SQLAlchemy", proficiency="Intermediate")
+    """Skill items expose name, icon, and proficiency only (no id/sort_order)."""
+    _make_skill(db_session, name="SQLAlchemy", proficiency=50)
     db_session.commit()
 
     resp = await client.get("/api/skills")
     item = resp.json()[0]["items"][0]
-    assert set(item.keys()) == {"name", "proficiency"}
+    assert set(item.keys()) == {"name", "proficiency", "icon"}

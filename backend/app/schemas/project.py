@@ -11,17 +11,23 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
+class ProjectTechStackItem(BaseModel):
+    name: str = Field(..., min_length=1)
+    icon: str = Field(..., min_length=1)
+
+
 class ProjectOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
     title: str
     description: str
-    tech_stack: list[str]
+    tech_stack: list[ProjectTechStackItem] = Field(default_factory=list)
     repo_url: str | None = None
     live_url: str | None = None
     highlights: list[str] = []
     sort_order: int
+    featured: bool
 
     @field_validator("highlights", mode="before")
     @classmethod
@@ -44,11 +50,12 @@ class ProjectCreate(BaseModel):
 
     title: str = Field(..., min_length=1, max_length=255)
     description: str = Field(..., min_length=1)
-    tech_stack: list[str] = []
+    tech_stack: list[ProjectTechStackItem] = Field(default_factory=list)
     repo_url: str | None = None
     live_url: str | None = None
     highlights: list[str] = []
     sort_order: int = 0
+    featured: bool = False
 
 
 # ── Admin input: update (partial) ─────────────────────────────────────────────
@@ -57,8 +64,9 @@ class ProjectUpdate(BaseModel):
 
     title: str | None = Field(default=None, min_length=1, max_length=255)
     description: str | None = Field(default=None, min_length=1)
-    tech_stack: list[str] | None = None
+    tech_stack: list[ProjectTechStackItem] | None = None
     repo_url: str | None = None
     live_url: str | None = None
     highlights: list[str] | None = None
     sort_order: int | None = None
+    featured: bool | None = None

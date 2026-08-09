@@ -19,7 +19,8 @@ class SkillItem(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     name: str
-    proficiency: str
+    proficiency: int = Field(..., ge=0, le=100)
+    icon: str | None = None
 
 
 class SkillGroup(BaseModel):
@@ -34,9 +35,11 @@ class SkillOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    category: str
+    category: str | None = None
+    domain_id: int | None = None
     name: str
-    proficiency: str
+    icon: str | None = None
+    proficiency: int = Field(..., ge=0, le=100)
     sort_order: int
 
 
@@ -44,9 +47,11 @@ class SkillOut(BaseModel):
 class SkillCreate(BaseModel):
     """Body of ``POST /api/admin/skills``."""
 
-    category: str = Field(..., min_length=1, max_length=100)
+    category: str | None = Field(default=None, min_length=1, max_length=100)
+    domain_id: int | None = None
     name: str = Field(..., min_length=1, max_length=100)
-    proficiency: str = Field(..., min_length=1, max_length=50)
+    icon: str | None = Field(default=None, max_length=255)
+    proficiency: int = Field(..., ge=0, le=100)
     sort_order: int = 0
 
 
@@ -55,6 +60,8 @@ class SkillUpdate(BaseModel):
     """Body of ``PUT /api/admin/skills/{id}``. All fields optional."""
 
     category: str | None = Field(default=None, min_length=1, max_length=100)
+    domain_id: int | None = None
     name: str | None = Field(default=None, min_length=1, max_length=100)
-    proficiency: str | None = Field(default=None, min_length=1, max_length=50)
+    icon: str | None = Field(default=None, max_length=255)
+    proficiency: int | None = Field(default=None, ge=0, le=100)
     sort_order: int | None = None
