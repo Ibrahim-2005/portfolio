@@ -110,5 +110,11 @@ export const adminApi = {
     getSkills: () => performRequest('/skills'),
     createSkill: (data) => performRequest('/admin/skills', { method: 'POST', body: JSON.stringify(data) }),
     updateSkill: (id, data) => performRequest(`/admin/skills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-    deleteSkill: (id) => performRequest(`/admin/skills/${id}`, { method: 'DELETE' })
+    deleteSkill: (id) => performRequest(`/admin/skills/${id}`, { method: 'DELETE' }),
+
+    // Singletons (Home, About)
+    getHomeConfig: () => performRequest('/pages/home'),
+    updateHomeConfig: (data) => performRequest('/admin/pages/home', { method: 'PUT', body: JSON.stringify(data) }),
+    getAboutConfig: () => performRequest('/pages/about'),
+    updateAboutConfig: (data) => performRequest('/admin/pages/about', { method: 'PUT', body: JSON.stringify(data) })
 };

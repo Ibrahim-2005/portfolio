@@ -1,6 +1,8 @@
 import { adminApi, setToken, getToken, clearToken } from './admin-api.js';
 import { loadDashboardData, initMobileMenu } from './admin-dashboard.js';
 import { initEditor } from './admin-editor.js';
+import { initHomeEditor } from './admin-home.js';
+import { initAboutEditor } from './admin-about.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginScreen = document.getElementById('login-screen');
@@ -82,5 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         loadDashboardData();
         initEditor();
+        initHomeEditor();
+        initAboutEditor();
     }
 });

@@ -82,7 +82,68 @@
                     <h2>Home Configuration</h2>
                     <p>Manage the hero section and introduction.</p>
                 </header>
-                <div class="empty-state">Editor coming soon...</div>
+                
+                <form id="form-home" class="editor-form">
+                    <div class="card">
+                        <h3>General Settings</h3>
+                        <div class="form-group">
+                            <label for="home-top-text">Top Text</label>
+                            <input type="text" id="home-top-text" placeholder="e.g. Hello, World!">
+                        </div>
+                        <div class="form-group">
+                            <label for="home-name">Name</label>
+                            <input type="text" id="home-name" placeholder="e.g. John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="home-tagline">Tagline</label>
+                            <input type="text" id="home-tagline" placeholder="e.g. Software Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label for="home-intro">Intro</label>
+                            <textarea id="home-intro" rows="4" placeholder="Short introduction..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3>Roles</h3>
+                            <button type="button" id="btn-add-role" class="btn btn-sm btn-secondary">+ Add Role</button>
+                        </div>
+                        <div id="home-roles-container" class="dynamic-list">
+                            <!-- Roles will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3>Social Links</h3>
+                            <button type="button" id="btn-add-social" class="btn btn-sm btn-secondary">+ Add Link</button>
+                        </div>
+                        <div id="home-socials-container" class="dynamic-list">
+                            <!-- Social links will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Action Button Labels</h3>
+                        <div class="form-group">
+                            <label for="home-action-projects">Projects Button Label</label>
+                            <input type="text" id="home-action-projects" placeholder="e.g. View Projects">
+                        </div>
+                        <div class="form-group">
+                            <label for="home-action-about">About Button Label</label>
+                            <input type="text" id="home-action-about" placeholder="e.g. More About Me">
+                        </div>
+                        <div class="form-group">
+                            <label for="home-action-contact">Contact Button Label</label>
+                            <input type="text" id="home-action-contact" placeholder="e.g. Get in Touch">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </section>
             
             <!-- Content Tab: About -->
@@ -91,7 +152,52 @@
                     <h2>About Configuration</h2>
                     <p>Manage your biography and profile.</p>
                 </header>
-                <div class="empty-state">Editor coming soon...</div>
+                
+                <form id="form-about" class="editor-form">
+                    <div class="card">
+                        <h3>General Settings</h3>
+                        <div class="form-group">
+                            <label for="about-top-text">Top Text</label>
+                            <input type="text" id="about-top-text" placeholder="e.g. About Me">
+                        </div>
+                        <div class="form-group">
+                            <label for="about-big-text">Big Text</label>
+                            <input type="text" id="about-big-text" placeholder="e.g. I build things for the web.">
+                        </div>
+                        <div class="form-group">
+                            <label for="about-tagline">Tagline</label>
+                            <input type="text" id="about-tagline" placeholder="e.g. Full-stack Developer">
+                        </div>
+                        <div class="form-group">
+                            <label for="about-about-me">About Me (Markdown)</label>
+                            <textarea id="about-about-me" rows="8" placeholder="Detailed bio..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3>Current Focus</h3>
+                            <button type="button" id="btn-add-focus" class="btn btn-sm btn-secondary">+ Add Focus</button>
+                        </div>
+                        <div id="about-focus-container" class="dynamic-list">
+                            <!-- Focus items dynamically inserted -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3>Currently Learning</h3>
+                            <button type="button" id="btn-add-learning" class="btn btn-sm btn-secondary">+ Add Learning</button>
+                        </div>
+                        <div id="about-learning-container" class="dynamic-list">
+                            <!-- Learning items dynamically inserted -->
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </section>
 
             <!-- Content Tab: Projects -->
@@ -167,6 +273,8 @@
 
     <!-- Admin JS, isolated from public app -->
     <script type="module" src="js/admin-api.js?v=2"></script>
+    <script type="module" src="js/admin-home.js?v=2"></script>
+    <script type="module" src="js/admin-about.js?v=2"></script>
     <script type="module" src="js/admin-auth.js?v=2"></script>
     <script type="module" src="js/admin-dashboard.js?v=2"></script>
     <script type="module" src="js/admin-editor.js?v=2"></script>
