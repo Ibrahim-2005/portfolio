@@ -206,7 +206,93 @@
                     <h2>Projects Configuration</h2>
                     <p>Manage your portfolio projects and showcase.</p>
                 </header>
-                <div class="empty-state">Editor coming soon...</div>
+                
+                <form id="form-projects-config" class="editor-form">
+                    <div class="card">
+                        <h3>Page Settings</h3>
+                        <div class="form-group">
+                            <label for="projects-top-text">Top Text</label>
+                            <input type="text" id="projects-top-text" placeholder="e.g. My Work">
+                        </div>
+                        <div class="form-group">
+                            <label for="projects-heading">Heading</label>
+                            <input type="text" id="projects-heading" placeholder="e.g. Featured Projects">
+                        </div>
+                        <div class="form-group">
+                            <label for="projects-tagline">Tagline</label>
+                            <input type="text" id="projects-tagline" placeholder="e.g. Some things I've built.">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="projects-list-view" class="card">
+                    <div class="card-header-flex">
+                        <h3>Projects List</h3>
+                        <button type="button" id="btn-add-project" class="btn btn-sm btn-secondary">+ Add Project</button>
+                    </div>
+                    <div id="projects-list-container" class="dynamic-list">
+                        <!-- Projects will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <form id="form-project-edit" class="editor-form hidden">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 id="project-edit-title">Edit Project</h3>
+                            <button type="button" id="btn-cancel-project" class="btn btn-sm btn-danger">Cancel</button>
+                        </div>
+                        <input type="hidden" id="project-id">
+                        <div class="form-group">
+                            <label for="project-title">Title</label>
+                            <input type="text" id="project-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-description">Description</label>
+                            <textarea id="project-description" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-repo-url">Repository URL (Optional)</label>
+                            <input type="text" id="project-repo-url">
+                        </div>
+                        <div class="form-group">
+                            <label for="project-live-url">Live URL (Optional)</label>
+                            <input type="text" id="project-live-url">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-sort-order">Sort Order</label>
+                            <input type="number" id="project-sort-order" value="0">
+                        </div>
+                        <div class="form-group checkbox-group" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="project-featured">
+                            <label for="project-featured" style="margin: 0;">Featured</label>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <div class="card-header-flex">
+                                <label>Tech Stack</label>
+                                <button type="button" id="btn-add-tech" class="btn btn-sm btn-secondary">+ Add Tech</button>
+                            </div>
+                            <div id="project-tech-container" class="dynamic-list"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="card-header-flex">
+                                <label>Highlights</label>
+                                <button type="button" id="btn-add-highlight" class="btn btn-sm btn-secondary">+ Add Highlight</button>
+                            </div>
+                            <div id="project-highlights-container" class="dynamic-list"></div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Project</button>
+                        </div>
+                    </div>
+                </form>
             </section>
 
             <!-- Content Tab: Skills -->
@@ -215,7 +301,105 @@
                     <h2>Skills Configuration</h2>
                     <p>Manage your skill domains and proficiency levels.</p>
                 </header>
-                <div class="empty-state">Editor coming soon...</div>
+                
+                <form id="form-skills-config" class="editor-form">
+                    <div class="card">
+                        <h3>Page Settings</h3>
+                        <div class="form-group">
+                            <label for="skills-top-text">Top Text</label>
+                            <input type="text" id="skills-top-text" placeholder="e.g. My Toolbox">
+                        </div>
+                        <div class="form-group">
+                            <label for="skills-heading">Heading</label>
+                            <input type="text" id="skills-heading" placeholder="e.g. Technical Skills">
+                        </div>
+                        <div class="form-group">
+                            <label for="skills-tagline">Tagline</label>
+                            <input type="text" id="skills-tagline" placeholder="e.g. Tools and technologies I use.">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="domains-list-view" class="card">
+                    <div class="card-header-flex">
+                        <h3>Skill Domains</h3>
+                        <button type="button" id="btn-add-domain" class="btn btn-sm btn-secondary">+ Add Domain</button>
+                    </div>
+                    <div id="domains-list-container" class="dynamic-list">
+                        <!-- Domains will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <form id="form-domain-edit" class="editor-form hidden">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 id="domain-edit-title">Edit Domain</h3>
+                            <button type="button" id="btn-cancel-domain" class="btn btn-sm btn-danger">Cancel</button>
+                        </div>
+                        <input type="hidden" id="domain-id">
+                        <div class="form-group">
+                            <label for="domain-name">Name</label>
+                            <input type="text" id="domain-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="domain-sort-order">Sort Order</label>
+                            <input type="number" id="domain-sort-order" value="0">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Domain</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="skills-list-view" class="card">
+                    <div class="card-header-flex">
+                        <h3>Skills List</h3>
+                        <button type="button" id="btn-add-skill" class="btn btn-sm btn-secondary">+ Add Skill</button>
+                    </div>
+                    <div id="skills-list-container" class="dynamic-list">
+                        <!-- Skills will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <form id="form-skill-edit" class="editor-form hidden">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 id="skill-edit-title">Edit Skill</h3>
+                            <button type="button" id="btn-cancel-skill" class="btn btn-sm btn-danger">Cancel</button>
+                        </div>
+                        <input type="hidden" id="skill-id">
+                        <div class="form-group">
+                            <label for="skill-name">Name</label>
+                            <input type="text" id="skill-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="skill-proficiency">Proficiency (0-100)</label>
+                            <input type="number" id="skill-proficiency" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="skill-icon">Icon (Optional)</label>
+                            <input type="text" id="skill-icon">
+                        </div>
+                        <div class="form-group">
+                            <label for="skill-domain">Domain</label>
+                            <select id="skill-domain">
+                                <option value="">None</option>
+                                <!-- Domains will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="skill-sort-order">Sort Order</label>
+                            <input type="number" id="skill-sort-order" value="0">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Skill</button>
+                        </div>
+                    </div>
+                </form>
             </section>
 
             <!-- Content Tab: Resume -->
@@ -275,6 +459,8 @@
     <script type="module" src="js/admin-api.js?v=2"></script>
     <script type="module" src="js/admin-home.js?v=2"></script>
     <script type="module" src="js/admin-about.js?v=2"></script>
+    <script type="module" src="js/admin-projects.js?v=2"></script>
+    <script type="module" src="js/admin-skills.js?v=2"></script>
     <script type="module" src="js/admin-auth.js?v=2"></script>
     <script type="module" src="js/admin-dashboard.js?v=2"></script>
     <script type="module" src="js/admin-editor.js?v=2"></script>

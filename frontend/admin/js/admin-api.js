@@ -108,13 +108,24 @@ export const adminApi = {
 
     // Content Editor (Skills)
     getSkills: () => performRequest('/skills'),
+    getAdminSkills: () => performRequest('/admin/skills'),
     createSkill: (data) => performRequest('/admin/skills', { method: 'POST', body: JSON.stringify(data) }),
     updateSkill: (id, data) => performRequest(`/admin/skills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     deleteSkill: (id) => performRequest(`/admin/skills/${id}`, { method: 'DELETE' }),
 
-    // Singletons (Home, About)
+    // Content Editor (Skill Domains)
+    getSkillDomains: () => performRequest('/admin/skill-domains'),
+    createSkillDomain: (data) => performRequest('/admin/skill-domains', { method: 'POST', body: JSON.stringify(data) }),
+    updateSkillDomain: (id, data) => performRequest(`/admin/skill-domains/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+    deleteSkillDomain: (id) => performRequest(`/admin/skill-domains/${id}`, { method: 'DELETE' }),
+
+    // Singletons (Home, About, Projects, Skills)
     getHomeConfig: () => performRequest('/pages/home'),
     updateHomeConfig: (data) => performRequest('/admin/pages/home', { method: 'PUT', body: JSON.stringify(data) }),
     getAboutConfig: () => performRequest('/pages/about'),
-    updateAboutConfig: (data) => performRequest('/admin/pages/about', { method: 'PUT', body: JSON.stringify(data) })
+    updateAboutConfig: (data) => performRequest('/admin/pages/about', { method: 'PUT', body: JSON.stringify(data) }),
+    getProjectsConfig: () => performRequest('/pages/projects'),
+    updateProjectsConfig: (data) => performRequest('/admin/pages/projects', { method: 'PUT', body: JSON.stringify(data) }),
+    getSkillsConfig: () => performRequest('/pages/skills'),
+    updateSkillsConfig: (data) => performRequest('/admin/pages/skills', { method: 'PUT', body: JSON.stringify(data) })
 };

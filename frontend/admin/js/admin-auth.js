@@ -3,6 +3,8 @@ import { loadDashboardData, initMobileMenu } from './admin-dashboard.js';
 import { initEditor } from './admin-editor.js';
 import { initHomeEditor } from './admin-home.js';
 import { initAboutEditor } from './admin-about.js';
+import { initProjectsEditor } from './admin-projects.js';
+import { initSkillsEditor } from './admin-skills.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginScreen = document.getElementById('login-screen');
@@ -86,5 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initEditor();
         initHomeEditor();
         initAboutEditor();
+        initProjectsEditor();
+        initSkillsEditor();
     }
 });
