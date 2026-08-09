@@ -415,9 +415,72 @@
             <section id="tab-contact" class="tab-pane">
                 <header class="tab-header">
                     <h2>Contact Configuration</h2>
-                    <p>Manage your contact details and social links.</p>
+                    <p>Manage your contact page settings and links.</p>
                 </header>
-                <div class="empty-state">Editor coming soon...</div>
+                
+                <form id="form-contact-config" class="editor-form">
+                    <div class="card">
+                        <h3>Page Settings</h3>
+                        <div class="form-group">
+                            <label for="contact-top-text">Top Text</label>
+                            <input type="text" id="contact-top-text" placeholder="e.g. Get In Touch">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-heading">Heading</label>
+                            <input type="text" id="contact-heading" placeholder="e.g. Let's Connect">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-tagline">Tagline</label>
+                            <input type="text" id="contact-tagline" placeholder="e.g. Feel free to reach out.">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="contact-links-list-view" class="card">
+                    <div class="card-header-flex">
+                        <h3>Contact Links</h3>
+                        <button type="button" id="btn-add-contact-link" class="btn btn-sm btn-secondary">+ Add Link</button>
+                    </div>
+                    <div id="contact-links-list-container" class="dynamic-list">
+                        <!-- Contact links will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <form id="form-contact-link-edit" class="editor-form hidden">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 id="contact-link-edit-title">Edit Contact Link</h3>
+                            <button type="button" id="btn-cancel-contact-link" class="btn btn-sm btn-danger">Cancel</button>
+                        </div>
+                        <input type="hidden" id="contact-link-id">
+                        <div class="form-group">
+                            <label for="contact-link-platform">Platform</label>
+                            <input type="text" id="contact-link-platform" placeholder="e.g. GitHub" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-link-url">URL</label>
+                            <input type="url" id="contact-link-url" placeholder="https://github.com/..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-link-icon">Icon (Optional)</label>
+                            <input type="text" id="contact-link-icon" placeholder="e.g. github">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-link-sort-order">Sort Order</label>
+                            <input type="number" id="contact-link-sort-order" value="0">
+                        </div>
+                        <div class="form-group checkbox-group" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="contact-link-enabled" checked>
+                            <label for="contact-link-enabled" style="margin: 0;">Enabled</label>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Link</button>
+                        </div>
+                    </div>
+                </form>
             </section>
 
             <!-- Management Tab: Messages -->
@@ -442,9 +505,25 @@
             <section id="tab-settings" class="tab-pane">
                 <header class="tab-header">
                     <h2>Public Settings</h2>
-                    <p>Manage global site settings and features.</p>
+                    <p>Manage global site settings and footer text.</p>
                 </header>
-                <div class="empty-state">Public Settings UI coming soon...</div>
+                
+                <form id="form-settings-config" class="editor-form">
+                    <div class="card">
+                        <h3>Footer Settings</h3>
+                        <div class="form-group">
+                            <label for="settings-author-text">Author Text</label>
+                            <input type="text" id="settings-author-text" placeholder="e.g. Built by John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-tech-stack-text">Tech Stack Text</label>
+                            <input type="text" id="settings-tech-stack-text" placeholder="e.g. with React & Tailwind">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
             </section>
 
             <!-- Global UI Helpers -->
@@ -461,6 +540,8 @@
     <script type="module" src="js/admin-about.js?v=2"></script>
     <script type="module" src="js/admin-projects.js?v=2"></script>
     <script type="module" src="js/admin-skills.js?v=2"></script>
+    <script type="module" src="js/admin-contact.js?v=2"></script>
+    <script type="module" src="js/admin-settings.js?v=2"></script>
     <script type="module" src="js/admin-auth.js?v=2"></script>
     <script type="module" src="js/admin-dashboard.js?v=2"></script>
     <script type="module" src="js/admin-editor.js?v=2"></script>

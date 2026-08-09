@@ -5,6 +5,8 @@ import { initHomeEditor } from './admin-home.js';
 import { initAboutEditor } from './admin-about.js';
 import { initProjectsEditor } from './admin-projects.js';
 import { initSkillsEditor } from './admin-skills.js';
+import { initContactEditor } from './admin-contact.js';
+import { initSettingsEditor } from './admin-settings.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginScreen = document.getElementById('login-screen');
@@ -86,9 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         loadDashboardData();
         initEditor();
-        initHomeEditor();
-        initAboutEditor();
-        initProjectsEditor();
-        initSkillsEditor();
+        await Promise.all([
+            initHomeEditor(),
+            initAboutEditor(),
+            initProjectsEditor(),
+            initSkillsEditor(),
+            initContactEditor(),
+            initSettingsEditor()
+        ]);
     }
 });
