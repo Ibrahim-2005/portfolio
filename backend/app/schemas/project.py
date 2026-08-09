@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 class ProjectTechStackItem(BaseModel):
     name: str = Field(..., min_length=1)
-    icon: str = Field(..., min_length=1)
+    icon: str | None = Field(default=None, min_length=1)
 
 
 class ProjectOut(BaseModel):

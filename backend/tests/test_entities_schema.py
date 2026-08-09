@@ -69,13 +69,17 @@ def test_project_schema():
         "title": "Project",
         "description": "Desc",
         "tech_stack": [
-            {"name": "Python", "icon": "python-icon"}
+            {"name": "Python", "icon": "python-icon"},
+            {"name": "FastAPI", "icon": None}
         ],
         "sort_order": 0,
         "featured": True
     }
     proj = ProjectOut(**data)
     assert proj.tech_stack[0].name == "Python"
+    assert proj.tech_stack[0].icon == "python-icon"
+    assert proj.tech_stack[1].name == "FastAPI"
+    assert proj.tech_stack[1].icon is None
     assert proj.featured is True
 
     # Reject untyped dicts or missing names
