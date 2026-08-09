@@ -16,7 +16,7 @@ export async function renderProjects() {
     
     projects.forEach(project => {
         const techStackHtml = project.tech_stack 
-            ? project.tech_stack.map(tech => `<span class="project-tag">${tech}</span>`).join('') 
+            ? project.tech_stack.map(tech => `<span class="project-tag">${tech.icon ? tech.icon + ' ' : ''}${tech.name}</span>`).join('') 
             : '';
             
         const highlightsHtml = project.highlights && project.highlights.length > 0

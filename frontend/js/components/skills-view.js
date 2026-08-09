@@ -19,8 +19,8 @@ export async function renderSkills() {
         html += '<div style="display: flex; flex-wrap: wrap; gap: 10px;">';
         
         group.items.forEach(item => {
-            // Reusing project-tag styling for pills, slightly larger font
-            html += `<span class="project-tag" style="font-size: 13px; padding: 4px 12px; cursor: default;" title="Proficiency: ${item.proficiency}">${item.name}</span>`;
+            const iconHtml = item.icon ? `<span style="margin-right: 5px;">${item.icon}</span>` : '';
+            html += `<span class="project-tag" style="font-size: 13px; padding: 4px 12px; cursor: default;" title="Proficiency: ${item.proficiency}">${iconHtml}${item.name}</span>`;
         });
         
         html += '</div>';

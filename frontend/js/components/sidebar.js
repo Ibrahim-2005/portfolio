@@ -12,11 +12,19 @@ export async function initSidebar() {
     const sidebarContent = document.querySelector('.sidebar-content');
     sidebarContent.innerHTML = '<div style="padding: 10px; color: var(--fg-muted);">Loading...</div>';
 
-    const sections = await api.getSections();
-    if (!sections) {
-        sidebarContent.innerHTML = '<div style="padding: 10px; color: #ff5f56;">Failed to load explorer. Make sure backend is running.</div>';
-        return;
-    }
+    const sections = [
+        { id: 1, title: 'Home', slug: 'home', type: 'page', sort_order: 1 },
+        { id: 2, title: 'About Me', slug: 'about', type: 'page', sort_order: 2 },
+        { id: 3, title: 'Projects', slug: 'projects', type: 'custom', sort_order: 3 },
+        { id: 4, title: 'Skills', slug: 'skills', type: 'custom', sort_order: 4 },
+        { id: 5, title: 'Education', slug: 'education', type: 'custom', sort_order: 5 },
+        { id: 6, title: 'README', slug: 'readme', type: 'page', sort_order: 6 },
+        { id: 7, title: 'Files', slug: 'files', type: 'folder', sort_order: 7, children: [
+            { id: 8, title: 'Resume', slug: 'resume', type: 'page', parent_id: 7, sort_order: 1 },
+            { id: 9, title: 'Certificates', slug: 'certificates', type: 'page', parent_id: 7, sort_order: 2 }
+        ]},
+        { id: 10, title: 'Contact', slug: 'contact', type: 'page', sort_order: 8 }
+    ];
 
     flatFileNodes = [];
     sidebarContent.innerHTML = '';

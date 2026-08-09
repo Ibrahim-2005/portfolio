@@ -26,11 +26,31 @@ async function fetchJSON(endpoint) {
     }
 }
 
+const apiCache = {};
+
+async function fetchCachedJSON(endpoint, cacheKey) {
+    if (apiCache[cacheKey]) {
+        return apiCache[cacheKey];
+    }
+    const data = await fetchJSON(endpoint);
+    if (data !== null) {
+        apiCache[cacheKey] = data;
+    }
+    return data;
+}
+
 export const api = {
-    getSections: () => fetchJSON('/sections'),
-    getSection: (slug) => fetchJSON(`/sections/${slug}`),
-    getProjects: () => fetchJSON('/projects'),
-    getSkills: () => fetchJSON('/skills'),
+    // Legacy (deprecated but kept)
+    getSections: () => fetchCachedJSON('/sections', 'sections'),
+    getSection: (slug) => fetchCachedJSON(`/sections/${slug}`, `section:${slug}`),
+    
+    // Structured Phase 3 Endpoints
+    getPageConfig: (slug) => fetchCachedJSON(`/pages/${slug}`, `page:${slug}`),
+    getProjects: () => fetchCachedJSON('/projects', 'projects'),
+    getSkills: () => fetchCachedJSON('/skills', 'skills'),
+    getEducation: () => fetchCachedJSON('/education', 'education'),
+    getContactLinks: () => fetchCachedJSON('/contact-links', 'contact-links'),
+    getPublicSettings: () => fetchCachedJSON('/pages/settings', 'settings'),
     
     // Analytics
     postAnalyticsEvent: async (eventType, value) => {
