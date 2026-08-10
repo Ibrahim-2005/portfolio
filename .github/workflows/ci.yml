@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Pytest
         env:
-          DATABASE_URL: postgresql://test:test@localhost/test
+          DATABASE_URL: postgresql://test:test@localhost:5432/test
           SECRET_KEY: test-secret-key
           ADMIN_EMAIL: admin@example.com
           ADMIN_PASSWORD: password123
