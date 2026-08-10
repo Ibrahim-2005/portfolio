@@ -66,6 +66,7 @@
                 
                 <div class="nav-group-label">Management</div>
                 <button class="nav-btn" data-tab="messages">Messages</button>
+                <button class="nav-btn" data-tab="guestbook">Guestbook</button>
                 <button class="nav-btn" data-tab="analytics">Analytics</button>
                 <button class="nav-btn" data-tab="settings">Public Settings</button>
             </nav>
@@ -489,7 +490,26 @@
                     <h2>Messages</h2>
                     <p>Contact form submissions from your public site.</p>
                 </header>
-                <div class="empty-state">Messages UI coming soon...</div>
+                <div id="messages-list-view" class="card">
+                    <h3>Inbox</h3>
+                    <div id="messages-list-container" class="dynamic-list">
+                        <!-- Messages dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Management Tab: Guestbook -->
+            <section id="tab-guestbook" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Guestbook Moderation</h2>
+                    <p>Approve or reject visitor signatures.</p>
+                </header>
+                <div id="guestbook-list-view" class="card">
+                    <h3>Entries</h3>
+                    <div id="guestbook-list-container" class="dynamic-list">
+                        <!-- Guestbook entries dynamically inserted here -->
+                    </div>
+                </div>
             </section>
 
             <!-- Management Tab: Analytics -->
@@ -498,7 +518,18 @@
                     <h2>Analytics</h2>
                     <p>Site traffic and terminal usage.</p>
                 </header>
-                <div class="empty-state">Analytics UI coming soon...</div>
+                <div id="analytics-view" class="card">
+                    <h3>Overview</h3>
+                    <div id="analytics-charts-container" style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                        <div class="chart-wrapper" style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="pageViewsChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper" style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="topCommandsChart"></canvas>
+                        </div>
+                    </div>
+                    <div id="analytics-empty-state" class="empty-state hidden">No analytics data available yet.</div>
+                </div>
             </section>
 
             <!-- Management Tab: Public Settings -->
@@ -542,6 +573,9 @@
     <script type="module" src="js/admin-skills.js?v=2"></script>
     <script type="module" src="js/admin-contact.js?v=2"></script>
     <script type="module" src="js/admin-settings.js?v=2"></script>
+    <script type="module" src="js/admin-messages.js?v=2"></script>
+    <script type="module" src="js/admin-guestbook.js?v=2"></script>
+    <script type="module" src="js/admin-analytics.js?v=2"></script>
     <script type="module" src="js/admin-auth.js?v=2"></script>
     <script type="module" src="js/admin-dashboard.js?v=2"></script>
     <script type="module" src="js/admin-editor.js?v=2"></script>

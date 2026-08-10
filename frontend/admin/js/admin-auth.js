@@ -7,6 +7,9 @@ import { initProjectsEditor } from './admin-projects.js';
 import { initSkillsEditor } from './admin-skills.js';
 import { initContactEditor } from './admin-contact.js';
 import { initSettingsEditor } from './admin-settings.js';
+import { initMessagesEditor } from './admin-messages.js';
+import { initGuestbookEditor } from './admin-guestbook.js';
+import { initAnalyticsEditor } from './admin-analytics.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginScreen = document.getElementById('login-screen');
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginScreen.classList.add('active');
     }
 
-    function showDashboard() {
+    async function showDashboard() {
         loginScreen.classList.remove('active');
         dashboardScreen.classList.add('active');
         
@@ -94,7 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
             initProjectsEditor(),
             initSkillsEditor(),
             initContactEditor(),
-            initSettingsEditor()
+            initSettingsEditor(),
+            initMessagesEditor(),
+            initGuestbookEditor(),
+            initAnalyticsEditor()
         ]);
     }
 });

@@ -88,8 +88,7 @@ export const adminApi = {
 
     // Guestbook
     getGuestbook: () => performRequest('/admin/guestbook'),
-    approveGuestbook: (id) => performRequest(`/admin/guestbook/${id}`, { method: 'PATCH', body: JSON.stringify({ status: 'approved' }) }),
-    rejectGuestbook: (id) => performRequest(`/admin/guestbook/${id}`, { method: 'PATCH', body: JSON.stringify({ status: 'rejected' }) }),
+    updateGuestbook: (id, data) => performRequest(`/admin/guestbook/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
 
     // Analytics
     getAnalyticsSummary: () => performRequest('/admin/analytics/summary'),
