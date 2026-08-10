@@ -9,7 +9,6 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from app.core.config import settings
 
-
 # ── Engine ────────────────────────────────────────────────────────────────────
 engine = create_engine(
     settings.DATABASE_URL,
@@ -17,6 +16,9 @@ engine = create_engine(
     pool_pre_ping=True,
     # Echo SQL to stdout only in debug scenarios; set via env override if needed
     echo=False,
+    connect_args={"check_same_thread": False}
+    if settings.DATABASE_URL.startswith("sqlite")
+    else {},
 )
 
 # ── Session factory ───────────────────────────────────────────────────────────
@@ -30,7 +32,6 @@ SessionLocal = sessionmaker(
 # ── Declarative base ─────────────────────────────────────────────────────────
 class Base(DeclarativeBase):
     """Shared declarative base.  Every model inherits from this."""
-    pass
 
 
 # ── FastAPI dependency ────────────────────────────────────────────────────────

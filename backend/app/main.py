@@ -5,15 +5,18 @@ FastAPI application entrypoint.
 Creates the app, registers CORS middleware, and includes all routers.
 No route logic lives here — just wiring.
 """
+import os
+
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from app.core.config import settings
 from app.core.limiter import limiter
 from app.core.security import _wire_db_dependency, get_current_admin_user
+
 
 # ── Public routers ────────────────────────────────────────────────────────────
 from app.routers.public import analytics as pub_analytics
@@ -26,12 +29,11 @@ from app.routers.public import pages as pub_pages
 from app.routers.public import education as pub_education
 from app.routers.public import skill_domains as pub_skill_domains
 from app.routers.public import contact_links as pub_contact_links
+# ── Admin routers (JWT-protected) ─────────────────────────────────────────────
+from app.routers.admin import analytics as adm_analytics
 
 # ── Auth router (public — login endpoint) ─────────────────────────────────────
 from app.routers.admin import auth as adm_auth
-
-# ── Admin routers (JWT-protected) ─────────────────────────────────────────────
-from app.routers.admin import analytics as adm_analytics
 from app.routers.admin import guestbook as adm_guestbook
 from app.routers.admin import messages as adm_messages
 from app.routers.admin import projects as adm_projects
@@ -41,6 +43,15 @@ from app.routers.admin import pages as adm_pages
 from app.routers.admin import education as adm_education
 from app.routers.admin import skill_domains as adm_skill_domains
 from app.routers.admin import contact_links as adm_contact_links
+
+# ── Public routers ────────────────────────────────────────────────────────────
+from app.routers.public import analytics as pub_analytics
+from app.routers.public import contact as pub_contact
+from app.routers.public import guestbook as pub_guestbook
+from app.routers.public import projects as pub_projects
+from app.routers.public import resume as pub_resume
+from app.routers.public import sections as pub_sections
+from app.routers.public import skills as pub_skills
 
 # ── Wire the DB dependency into get_current_admin_user ────────────────────────
 _wire_db_dependency()
@@ -73,10 +84,14 @@ app.include_router(pub_skills.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_contact.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_guestbook.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_analytics.router, prefix=_PUBLIC_PREFIX)
+
 app.include_router(pub_pages.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_education.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_skill_domains.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_contact_links.router, prefix=_PUBLIC_PREFIX)
+
+app.include_router(pub_resume.router, prefix=_PUBLIC_PREFIX)
+
 
 # Auth — /api/auth/login (public, no JWT required)
 app.include_router(adm_auth.router, prefix=_PUBLIC_PREFIX)
@@ -103,8 +118,20 @@ def health() -> dict:
     return {"status": "ok"}
 
 
+@app.head("/health", tags=["health"])
+def health_head():
+    """Simple liveness probe — returns 200 OK if the app is running."""
+    return {"status": "ok"}
+
+
 # ── Admin identity endpoint ───────────────────────────────────────────────────
 @app.get("/api/admin/me", tags=["admin:auth"])
 def admin_me(admin=Depends(get_current_admin_user)):
     """Return the current admin's email. Protected by JWT."""
     return {"email": admin.email}
+
+
+# ── Mount Frontend (StaticFiles) ──────────────────────────────────────────────
+# Mount the frontend directory. This MUST be the last route registered so API routes take precedence.
+frontend_path = os.path.join(os.path.dirname(__file__), "..", "..", "frontend")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")

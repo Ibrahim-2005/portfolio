@@ -3,7 +3,7 @@ routers/public/analytics.py
 ───────────────────────────
 POST /api/analytics/event → Record an analytics event.
 """
-from fastapi import APIRouter, Depends, BackgroundTasks, status, Response
+from fastapi import APIRouter, BackgroundTasks, Depends, Response, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db

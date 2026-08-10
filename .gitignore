@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 .env
+*.db
 
 # Node
 node_modules/
@@ -17,5 +18,10 @@ node_modules/
 *.pem
 credentials.json
 
+
 # Local database
 *.db
+
+# Cache
+.pytest_cache/
+.ruff_cache/

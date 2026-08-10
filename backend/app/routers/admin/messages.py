@@ -2,10 +2,10 @@
 routers/admin/messages.py  — ADMIN (JWT-protected)
 Routes implemented in Phase 2.
 """
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from typing import Optional
 
 from app.core.database import get_db
 from app.models.message import Message
@@ -20,7 +20,7 @@ router = APIRouter(prefix="/messages", tags=["admin:messages"])
     summary="List all messages",
 )
 def list_messages(
-    is_read: Optional[bool] = None, db: Session = Depends(get_db)
+    is_read: bool | None = None, db: Session = Depends(get_db)
 ) -> list[MessageAdminOut]:
     query = select(Message).order_by(Message.created_at.desc())
     if is_read is not None:

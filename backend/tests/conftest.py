@@ -23,9 +23,9 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.types import TypeDecorator
 
+import app.models as _models  # noqa: F401 — register all models on Base
 from app.core.database import Base, get_db
 from app.main import app as fastapi_app
-import app.models as _models  # noqa: F401 — register all models on Base
 
 # ── SQLite-compatible substitute for ARRAY(String) ───────────────────────────
 
@@ -136,7 +136,7 @@ async def client(db_session):
 @pytest.fixture
 def auth_headers(db_session):
     """Seed an admin user and return a valid Authorization header."""
-    from app.core.security import hash_password, create_access_token
+    from app.core.security import create_access_token, hash_password
     from app.models.admin_user import AdminUser
 
     email = "admin@example.com"

@@ -4,6 +4,7 @@ tests/test_analytics.py
 Tests for POST /api/analytics/event
 """
 import asyncio
+
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.orm import Session

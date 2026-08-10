@@ -3,13 +3,13 @@ tests/test_seed.py
 ──────────────────
 Tests for the database seed script to ensure it is idempotent.
 """
-import pytest
 from sqlalchemy.orm import Session
 
-from seed import seed_sections, seed_projects, seed_skills
-from app.models.section import Section
 from app.models.project import Project
+from app.models.section import Section
 from app.models.skill import Skill
+from seed import seed_projects, seed_sections, seed_skills
+
 
 def test_seed_idempotent(db_session: Session):
     # First run

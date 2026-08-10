@@ -1,5 +1,5 @@
-import { initRouter } from './core/router.js';
-import { initSidebar } from './components/sidebar.js';
+import { initRouter } from './core/router.js?v=5';
+import { initSidebar } from './components/sidebar.js?v=5';
 import { initTheme } from './features/theme-engine.js';
 import { initPalette } from './components/command-palette.js';
 import { initShortcuts } from './features/keyboard-shortcuts.js';
@@ -7,7 +7,7 @@ import { initCursorEngine } from './features/cursor-engine.js';
 import { initPetCompanions } from './features/pet-companion.js';
 import { initUiPolish } from './features/ui-polish.js';
 import { initTerminal } from './components/terminal.js';
-import { api } from './core/api.js';
+import { api } from './core/api.js?v=5';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System

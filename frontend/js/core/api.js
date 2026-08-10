@@ -1,5 +1,5 @@
 // core/api.js - Handles all API communication
-const API_BASE_URL = 'http://localhost:8000/api';
+export const API_BASE_URL = window.location.port === '5500' ? 'http://localhost:8000/api' : '/api';
 
 // Generate or retrieve session ID for analytics
 function getSessionId() {

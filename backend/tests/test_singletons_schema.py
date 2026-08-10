@@ -1,6 +1,7 @@
 """
 Tests for Phase 3 singleton configuration models and schemas.
 """
+
 import pytest
 from pydantic import ValidationError
 
@@ -25,22 +26,22 @@ def test_models_instantiation():
     """1. Each seven singleton model can be instantiated correctly."""
     home = HomeConfig(id=1, top_text="Hello")
     assert home.top_text == "Hello"
-    
+
     about = AboutConfig(id=1, top_text="About")
     assert about.top_text == "About"
-    
+
     projects = ProjectsConfig(id=1, top_text="Projects")
     assert projects.top_text == "Projects"
-    
+
     skills = SkillsConfig(id=1, top_text="Skills")
     assert skills.top_text == "Skills"
-    
+
     resume = ResumeConfig(id=1, top_text="Resume", file_path="/some/path.pdf")
     assert resume.file_path == "/some/path.pdf"
-    
+
     contact = ContactConfig(id=1, top_text="Contact")
     assert contact.top_text == "Contact"
-    
+
     settings = PublicSettings(id=1, tech_stack_text="React")
     assert settings.tech_stack_text == "React"
 
@@ -54,27 +55,25 @@ def test_home_config_schema():
         "action_projects_label": "View Projects",
         "action_about_label": "About Me",
         "action_contact_label": "Contact Me",
-        "roles": [
-            {"label": "Backend Dev", "icon": "fa-server"}
-        ],
+        "roles": [{"label": "Backend Dev", "icon": "fa-server"}],
         "social_links": [
             {
                 "platform": "GitHub",
                 "url": "https://github.com",
                 "icon": "fa-github",
                 "enabled": True,
-                "sort_order": 1
+                "sort_order": 1,
             }
-        ]
+        ],
     }
-    
+
     schema = HomeConfigOut(**data)
     assert schema.action_projects_label == "View Projects"
     assert not hasattr(schema, "actions")  # Ensure no generic actions field
-    
+
     # 9. Home social links validate platform/url/icon/enabled/sort_order.
     assert schema.social_links[0].platform == "GitHub"
-    
+
     # 4. Invalid nested structures are rejected.
     invalid_data = data.copy()
     invalid_data["social_links"] = [{"platform": "OnlyPlatform"}]
@@ -86,17 +85,13 @@ def test_about_config_schema():
     """8. About Focus/Learning structures validate emoji + text."""
     data = {
         "id": 1,
-        "current_focus": [
-            {"emoji": "🚀", "text": "Building things"}
-        ],
-        "currently_learning": [
-            {"emoji": "🧠", "text": "Rust"}
-        ]
+        "current_focus": [{"emoji": "🚀", "text": "Building things"}],
+        "currently_learning": [{"emoji": "🧠", "text": "Rust"}],
     }
-    
+
     schema = AboutConfigOut(**data)
     assert schema.current_focus[0].emoji == "🚀"
-    
+
     # Invalid missing text
     invalid_data = data.copy()
     invalid_data["current_focus"] = [{"emoji": "🚀"}]
@@ -106,15 +101,12 @@ def test_about_config_schema():
 
 def test_public_settings_schema():
     """7. Themes are not part of Public Settings."""
-    data = {
-        "id": 1,
-        "tech_stack_text": "Python",
-        "author_text": "Ibrahim"
-    }
-    
+    data = {"id": 1, "tech_stack_text": "Python", "author_text": "Ibrahim"}
+
     schema = PublicSettingsOut(**data)
     assert not hasattr(schema, "theme")
     assert not hasattr(schema, "themes")
+
 
 def test_projects_config_schema():
     """Verify ProjectsConfig schema valid payload."""
@@ -122,17 +114,20 @@ def test_projects_config_schema():
     schema = ProjectsConfigOut(**data)
     assert schema.top_text == "Projects Top"
 
+
 def test_skills_config_schema():
     """Verify SkillsConfig schema valid payload."""
     data = {"id": 1, "top_text": "Skills Top"}
     schema = SkillsConfigOut(**data)
     assert schema.top_text == "Skills Top"
 
+
 def test_resume_config_schema():
     """Verify ResumeConfig schema valid payload."""
     data = {"id": 1, "top_text": "Resume Top", "file_path": "/file.pdf"}
     schema = ResumeConfigOut(**data)
     assert schema.file_path == "/file.pdf"
+
 
 def test_contact_config_schema():
     """Verify ContactConfig schema valid payload."""

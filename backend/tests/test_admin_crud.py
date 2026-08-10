@@ -11,7 +11,6 @@ from app.models.guestbook import GuestbookEntry
 from app.models.message import Message
 from app.models.skill import Skill
 
-
 # ── SECTIONS ──────────────────────────────────────────────────────────────────
 
 @pytest.mark.asyncio

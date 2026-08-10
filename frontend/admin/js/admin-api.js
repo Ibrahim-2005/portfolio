@@ -1,5 +1,5 @@
 // admin-api.js - Handles authenticated API calls for the admin dashboard
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = window.location.port === '5500' ? 'http://localhost:8000/api' : '/api';
 
 /**
  * Gets the JWT token from sessionStorage.

@@ -5,8 +5,8 @@ Database seed script to populate initial portfolio data.
 Run this after creating tables (alembic upgrade head).
 """
 from app.core.database import SessionLocal
-from app.models.section import Section
 from app.models.project import Project
+from app.models.section import Section
 from app.models.skill import Skill
 from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
@@ -15,6 +15,7 @@ from app.models.skills_config import SkillsConfig
 from app.models.resume_config import ResumeConfig
 from app.models.contact_config import ContactConfig
 from app.models.public_settings import PublicSettings
+
 
 def seed_sections(db):
     if db.query(Section).first():

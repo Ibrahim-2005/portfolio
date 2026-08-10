@@ -7,11 +7,9 @@ Route-protection tests target ``GET /api/admin/me`` — a real, implemented
 endpoint — rather than stub routes that don't have handlers yet.
 """
 import pytest
-import pytest_asyncio
 
-from app.core.security import hash_password, create_access_token
+from app.core.security import create_access_token, hash_password
 from app.models.admin_user import AdminUser
-
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
