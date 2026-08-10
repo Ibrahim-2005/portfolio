@@ -1,12 +1,12 @@
 from typing import Any
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.services import page_service
-
-from app.schemas.readme_config import ReadmeConfigOut
 from app.schemas.certificates_config import CertificatesConfigOut
+from app.schemas.readme_config import ReadmeConfigOut
+from app.services import page_service
 
 router = APIRouter(prefix="/pages", tags=["public:pages"])
 

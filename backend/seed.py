@@ -5,18 +5,17 @@ Database seed script to populate initial portfolio data.
 Run this after creating tables (alembic upgrade head).
 """
 from app.core.database import SessionLocal
-from app.models.project import Project
-from app.models.skill import Skill
-from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
-from app.models.projects_config import ProjectsConfig
-from app.models.skills_config import SkillsConfig
-from app.models.resume_config import ResumeConfig
+from app.models.certificates_config import CertificatesConfig
 from app.models.contact_config import ContactConfig
+from app.models.home_config import HomeConfig
+from app.models.project import Project
+from app.models.projects_config import ProjectsConfig
 from app.models.public_settings import PublicSettings
 from app.models.readme_config import ReadmeConfig
-from app.models.certificates_config import CertificatesConfig
-
+from app.models.resume_config import ResumeConfig
+from app.models.skill import Skill
+from app.models.skills_config import SkillsConfig
 
 
 def seed_projects(db):

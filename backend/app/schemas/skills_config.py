@@ -14,7 +14,6 @@ class SkillsConfigBase(BaseModel):
 
 class SkillsConfigUpdate(SkillsConfigBase):
     """Body of ``PUT /api/admin/config/skills``."""
-    pass
 
 
 class SkillsConfigOut(SkillsConfigBase):

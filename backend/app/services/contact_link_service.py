@@ -1,17 +1,19 @@
 """
 app/services/contact_link_service.py
 """
-from typing import Sequence
-from sqlalchemy.orm import Session
+from collections.abc import Sequence
+
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.models.contact_link import ContactLink
 from app.schemas.contact_link import ContactLinkCreate, ContactLinkUpdate
 
+
 def get_all_public(db: Session) -> Sequence[ContactLink]:
     return db.scalars(
         select(ContactLink)
-        .where(ContactLink.enabled == True)
+        .where(ContactLink.enabled.is_(True))
         .order_by(ContactLink.sort_order.asc(), ContactLink.id.asc())
     ).all()
 

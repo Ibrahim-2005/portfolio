@@ -14,7 +14,6 @@ class ContactConfigBase(BaseModel):
 
 class ContactConfigUpdate(ContactConfigBase):
     """Body of ``PUT /api/admin/config/contact``."""
-    pass
 
 
 class ContactConfigOut(ContactConfigBase):

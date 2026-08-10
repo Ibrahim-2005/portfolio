@@ -5,7 +5,7 @@ GET /api/resume → Serves the resume PDF file
 """
 import os
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse, Response
 from sqlalchemy.orm import Session
 

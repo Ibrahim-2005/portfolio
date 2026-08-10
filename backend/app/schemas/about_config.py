@@ -27,7 +27,6 @@ class AboutConfigBase(BaseModel):
 
 class AboutConfigUpdate(AboutConfigBase):
     """Body of ``PUT /api/admin/config/about``."""
-    pass
 
 
 class AboutConfigOut(AboutConfigBase):

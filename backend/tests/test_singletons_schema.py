@@ -5,25 +5,26 @@ Tests for Phase 3 singleton configuration models and schemas.
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.home_config import HomeConfigOut, HomeConfigUpdate
-from app.schemas.about_config import AboutConfigOut, AboutConfigUpdate
-from app.schemas.projects_config import ProjectsConfigOut, ProjectsConfigUpdate
-from app.schemas.skills_config import SkillsConfigOut, SkillsConfigUpdate
-from app.schemas.resume_config import ResumeConfigOut, ResumeConfigUpdate
-from app.schemas.contact_config import ContactConfigOut, ContactConfigUpdate
-from app.schemas.public_settings import PublicSettingsOut, PublicSettingsUpdate
-from app.schemas.readme_config import ReadmeConfigOut, ReadmeConfigUpdate
-from app.schemas.certificates_config import CertificatesConfigOut, CertificatesConfigUpdate
-
-from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
-from app.models.projects_config import ProjectsConfig
-from app.models.skills_config import SkillsConfig
-from app.models.resume_config import ResumeConfig
+from app.models.certificates_config import CertificatesConfig
 from app.models.contact_config import ContactConfig
+from app.models.home_config import HomeConfig
+from app.models.projects_config import ProjectsConfig
 from app.models.public_settings import PublicSettings
 from app.models.readme_config import ReadmeConfig
-from app.models.certificates_config import CertificatesConfig
+from app.models.resume_config import ResumeConfig
+from app.models.skills_config import SkillsConfig
+from app.schemas.about_config import AboutConfigOut
+from app.schemas.certificates_config import (
+    CertificatesConfigOut,
+)
+from app.schemas.contact_config import ContactConfigOut
+from app.schemas.home_config import HomeConfigOut
+from app.schemas.projects_config import ProjectsConfigOut
+from app.schemas.public_settings import PublicSettingsOut
+from app.schemas.readme_config import ReadmeConfigOut
+from app.schemas.resume_config import ResumeConfigOut
+from app.schemas.skills_config import SkillsConfigOut
 
 
 def test_models_instantiation():

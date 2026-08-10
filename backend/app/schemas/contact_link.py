@@ -3,8 +3,8 @@ app/schemas/contact_link.py
 ───────────────────────────
 Pydantic schemas for Contact Link entities.
 """
+
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
 
 
 class ContactLinkBase(BaseModel):
@@ -17,7 +17,6 @@ class ContactLinkBase(BaseModel):
 
 class ContactLinkCreate(ContactLinkBase):
     """Body of ``POST /api/admin/contact-links``."""
-    pass
 
 
 class ContactLinkUpdate(BaseModel):

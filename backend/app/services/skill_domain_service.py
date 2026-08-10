@@ -1,13 +1,15 @@
 """
 app/services/skill_domain_service.py
 """
-from typing import Sequence
-from sqlalchemy.orm import Session
-from sqlalchemy import select
+from collections.abc import Sequence
 
-from app.models.skill_domain import SkillDomain
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
 from app.schemas.skill_domain import SkillDomainCreate, SkillDomainUpdate
+
 
 def get_all(db: Session) -> Sequence[SkillDomain]:
     return db.scalars(

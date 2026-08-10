@@ -1,13 +1,16 @@
 """
 app/routers/admin/skill_domains.py
 """
-from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.core.security import get_current_admin_user
-from app.schemas.skill_domain import SkillDomainOut, SkillDomainCreate, SkillDomainUpdate
+from app.schemas.skill_domain import (
+    SkillDomainCreate,
+    SkillDomainOut,
+    SkillDomainUpdate,
+)
 from app.services import skill_domain_service
 
 router = APIRouter(
@@ -15,7 +18,7 @@ router = APIRouter(
     tags=["Admin Skill Domains"],
 )
 
-@router.get("", response_model=List[SkillDomainOut])
+@router.get("", response_model=list[SkillDomainOut])
 def get_skill_domains(db: Session = Depends(get_db)):
     """Retrieve all skill domains."""
     return skill_domain_service.get_all(db)
@@ -47,4 +50,3 @@ def delete_skill_domain(domain_id: int, db: Session = Depends(get_db)):
         )
         
     skill_domain_service.delete(db, db_obj)
-    return None

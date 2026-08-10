@@ -1,12 +1,13 @@
+
 from pydantic import BaseModel
-from typing import Optional
+
 
 class CertificatesConfigOut(BaseModel):
     id: int
-    content: Optional[str] = None
+    content: str | None = None
 
     class Config:
         from_attributes = True
 
 class CertificatesConfigUpdate(BaseModel):
-    content: Optional[str] = None
+    content: str | None = None

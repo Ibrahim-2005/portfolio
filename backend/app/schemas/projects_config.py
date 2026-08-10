@@ -14,7 +14,6 @@ class ProjectsConfigBase(BaseModel):
 
 class ProjectsConfigUpdate(ProjectsConfigBase):
     """Body of ``PUT /api/admin/config/projects``."""
-    pass
 
 
 class ProjectsConfigOut(ProjectsConfigBase):

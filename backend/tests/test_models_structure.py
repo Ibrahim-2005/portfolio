@@ -1,16 +1,14 @@
 """
 Tests to verify the SQLAlchemy model structure for Phase 3 CMS data models.
 """
-import pytest
 from sqlalchemy import inspect
+
+from app.core.database import engine
+from app.models.message import Message
 from app.models.project import Project
 from app.models.skill import Skill
 from app.models.skill_domain import SkillDomain
-from app.models.message import Message
-from app.models.education import Education
-from app.models.contact_link import ContactLink
-from app.models.home_config import HomeConfig
-from app.core.database import engine
+
 
 def test_models_exist():
     """Verify the Phase 3 tables exist in the metadata."""

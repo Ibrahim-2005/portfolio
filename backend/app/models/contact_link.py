@@ -3,9 +3,9 @@ app/models/contact_link.py
 ──────────────────────────
 Represents a public contact link (e.g. Email, GitHub).
 """
+
 from sqlalchemy import Boolean, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
-from typing import Optional
 
 from app.core.database import Base
 

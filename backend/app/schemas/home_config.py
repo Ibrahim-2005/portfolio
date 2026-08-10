@@ -33,7 +33,6 @@ class HomeConfigBase(BaseModel):
 
 class HomeConfigUpdate(HomeConfigBase):
     """Body of ``PUT /api/admin/config/home``."""
-    pass
 
 
 class HomeConfigOut(HomeConfigBase):

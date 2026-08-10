@@ -1,13 +1,16 @@
 """
 app/routers/admin/contact_links.py
 """
-from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.core.security import get_current_admin_user
-from app.schemas.contact_link import ContactLinkOut, ContactLinkCreate, ContactLinkUpdate
+from app.schemas.contact_link import (
+    ContactLinkCreate,
+    ContactLinkOut,
+    ContactLinkUpdate,
+)
 from app.services import contact_link_service
 
 router = APIRouter(
@@ -15,7 +18,7 @@ router = APIRouter(
     tags=["Admin Contact Links"],
 )
 
-@router.get("", response_model=List[ContactLinkOut])
+@router.get("", response_model=list[ContactLinkOut])
 def get_contact_links(db: Session = Depends(get_db)):
     """Retrieve all contact links."""
     return contact_link_service.get_all_admin(db)
@@ -41,4 +44,3 @@ def delete_contact_link(link_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Contact link not found")
     
     contact_link_service.delete(db, db_obj)
-    return None

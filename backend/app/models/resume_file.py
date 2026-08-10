@@ -3,7 +3,7 @@ app/models/resume_file.py
 ─────────────────────────
 Stores the uploaded resume PDF binary to avoid ephemeral storage issues.
 """
-from sqlalchemy import Integer, String, LargeBinary
+from sqlalchemy import Integer, LargeBinary, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base

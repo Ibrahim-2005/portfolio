@@ -1,26 +1,27 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import select
 
-from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
-from app.models.projects_config import ProjectsConfig
-from app.models.skills_config import SkillsConfig
-from app.models.resume_config import ResumeConfig
-from app.models.contact_config import ContactConfig
-from app.models.public_settings import PublicSettings
-
-from app.schemas.home_config import HomeConfigOut, HomeConfigUpdate
-from app.schemas.about_config import AboutConfigOut, AboutConfigUpdate
-from app.schemas.projects_config import ProjectsConfigOut, ProjectsConfigUpdate
-from app.schemas.skills_config import SkillsConfigOut, SkillsConfigUpdate
-from app.schemas.resume_config import ResumeConfigOut, ResumeConfigUpdate
-from app.schemas.contact_config import ContactConfigOut, ContactConfigUpdate
-from app.schemas.public_settings import PublicSettingsOut, PublicSettingsUpdate
-from app.models.readme_config import ReadmeConfig
 from app.models.certificates_config import CertificatesConfig
+from app.models.contact_config import ContactConfig
+from app.models.home_config import HomeConfig
+from app.models.projects_config import ProjectsConfig
+from app.models.public_settings import PublicSettings
+from app.models.readme_config import ReadmeConfig
+from app.models.resume_config import ResumeConfig
+from app.models.skills_config import SkillsConfig
+from app.schemas.about_config import AboutConfigOut, AboutConfigUpdate
+from app.schemas.certificates_config import (
+    CertificatesConfigOut,
+    CertificatesConfigUpdate,
+)
+from app.schemas.contact_config import ContactConfigOut, ContactConfigUpdate
+from app.schemas.home_config import HomeConfigOut, HomeConfigUpdate
+from app.schemas.projects_config import ProjectsConfigOut, ProjectsConfigUpdate
+from app.schemas.public_settings import PublicSettingsOut, PublicSettingsUpdate
 from app.schemas.readme_config import ReadmeConfigOut, ReadmeConfigUpdate
-from app.schemas.certificates_config import CertificatesConfigOut, CertificatesConfigUpdate
+from app.schemas.resume_config import ResumeConfigOut, ResumeConfigUpdate
+from app.schemas.skills_config import SkillsConfigOut, SkillsConfigUpdate
 
 PAGE_MAPPING = {
     "home": {

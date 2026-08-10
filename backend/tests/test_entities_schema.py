@@ -4,12 +4,12 @@ Tests for Phase 3 entity models and schemas (Task 3.2).
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.education import EducationOut, EducationCreate
-from app.schemas.skill_domain import SkillDomainOut, SkillDomainCreate
-from app.schemas.contact_link import ContactLinkOut, ContactLinkCreate
-from app.schemas.project import ProjectOut, ProjectCreate
-from app.schemas.skill import SkillOut, SkillCreate
-from app.schemas.message import MessageCreate, MessageAdminOut
+from app.schemas.contact_link import ContactLinkCreate, ContactLinkOut
+from app.schemas.education import EducationOut
+from app.schemas.message import MessageCreate
+from app.schemas.project import ProjectOut
+from app.schemas.skill import SkillOut
+from app.schemas.skill_domain import SkillDomainOut
 
 
 def test_education_schema():
