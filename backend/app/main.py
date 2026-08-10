@@ -109,6 +109,8 @@ app.include_router(adm_pages.router, prefix=_ADMIN_PREFIX, dependencies=_admin_d
 app.include_router(adm_education.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_skill_domains.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_contact_links.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
+from app.routers.admin import resume as adm_resume
+app.include_router(adm_resume.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────

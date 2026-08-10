@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PortfolioOS Admin</title>
-    
+
     <!-- Admin-specific styles, completely isolated from public site -->
     <link rel="stylesheet" href="css/admin-layout.css">
     <link rel="stylesheet" href="css/admin-dashboard.css">
@@ -36,7 +36,7 @@
 
     <!-- DASHBOARD SCREEN -->
     <div id="dashboard-screen" class="screen">
-        
+
         <!-- Mobile Header (Visible only on mobile/tablet) -->
         <header class="mobile-header">
             <div class="admin-brand mobile-brand">
@@ -65,7 +65,7 @@
                 <button class="nav-btn" data-tab="certificates">Certificates</button>
                 <button class="nav-btn" data-tab="resume">Resume</button>
                 <button class="nav-btn" data-tab="contact">Contact</button>
-                
+
                 <div class="nav-group-label">Management</div>
                 <button class="nav-btn" data-tab="messages">Messages</button>
                 <button class="nav-btn" data-tab="guestbook">Guestbook</button>
@@ -85,7 +85,7 @@
                     <h2>Home Configuration</h2>
                     <p>Manage the hero section and introduction.</p>
                 </header>
-                
+
                 <form id="form-home" class="editor-form">
                     <div class="card">
                         <h3>General Settings</h3>
@@ -148,14 +148,14 @@
                     </div>
                 </form>
             </section>
-            
+
             <!-- Content Tab: About -->
             <section id="tab-about" class="tab-pane">
                 <header class="tab-header">
                     <h2>About Configuration</h2>
                     <p>Manage your biography and profile.</p>
                 </header>
-                
+
                 <form id="form-about" class="editor-form">
                     <div class="card">
                         <h3>General Settings</h3>
@@ -209,7 +209,7 @@
                     <h2>Projects Configuration</h2>
                     <p>Manage your portfolio projects and showcase.</p>
                 </header>
-                
+
                 <form id="form-projects-config" class="editor-form">
                     <div class="card">
                         <h3>Page Settings</h3>
@@ -256,7 +256,7 @@
                             <label for="project-description">Description</label>
                             <textarea id="project-description" rows="3" required></textarea>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="project-repo-url">Repository URL (Optional)</label>
                             <input type="text" id="project-repo-url">
@@ -265,7 +265,7 @@
                             <label for="project-live-url">Live URL (Optional)</label>
                             <input type="text" id="project-live-url">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="project-sort-order">Sort Order</label>
                             <input type="number" id="project-sort-order" value="0">
@@ -274,7 +274,7 @@
                             <input type="checkbox" id="project-featured">
                             <label for="project-featured" style="margin: 0;">Featured</label>
                         </div>
-                        
+
                         <div class="form-group" style="margin-top: 1rem;">
                             <div class="card-header-flex">
                                 <label>Tech Stack</label>
@@ -304,7 +304,7 @@
                     <h2>Skills Configuration</h2>
                     <p>Manage your skill domains and proficiency levels.</p>
                 </header>
-                
+
                 <form id="form-skills-config" class="editor-form">
                     <div class="card">
                         <h3>Page Settings</h3>
@@ -411,7 +411,41 @@
                     <h2>Resume Configuration</h2>
                     <p>Manage your work experience and education.</p>
                 </header>
-                <div class="empty-state">Editor coming soon...</div>
+
+                <form id="form-resume-config" class="editor-form">
+                    <div class="card">
+                        <h3>Page Settings</h3>
+                        <div class="form-group">
+                            <label for="resume-top-text">Top Text</label>
+                            <input type="text" id="resume-top-text" placeholder="e.g. My Experience">
+                        </div>
+                        <div class="form-group">
+                            <label for="resume-heading">Heading</label>
+                            <input type="text" id="resume-heading" placeholder="e.g. Work History">
+                        </div>
+                        <div class="form-group">
+                            <label for="resume-tagline">Tagline</label>
+                            <input type="text" id="resume-tagline" placeholder="e.g. My professional journey.">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form id="form-resume-upload" class="editor-form" style="margin-top: 1rem;">
+                    <div class="card">
+                        <h3>Upload Resume (PDF)</h3>
+                        <div class="form-group">
+                            <label for="resume-pdf-upload">Select PDF</label>
+                            <input type="file" id="resume-pdf-upload" accept="application/pdf" required>
+                            <small>Maximum size: 5MB. Must be a valid PDF.</small>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Upload PDF</button>
+                        </div>
+                    </div>
+                </form>
             </section>
 
             <!-- Content Tab: README -->
@@ -462,7 +496,7 @@
                     <h2>Contact Configuration</h2>
                     <p>Manage your contact page settings and links.</p>
                 </header>
-                
+
                 <form id="form-contact-config" class="editor-form">
                     <div class="card">
                         <h3>Page Settings</h3>
@@ -582,7 +616,7 @@
                     <h2>Public Settings</h2>
                     <p>Manage global site settings and footer text.</p>
                 </header>
-                
+
                 <form id="form-settings-config" class="editor-form">
                     <div class="card">
                         <h3>Footer Settings</h3>

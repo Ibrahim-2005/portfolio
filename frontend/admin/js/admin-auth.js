@@ -10,6 +10,7 @@ import { initSettingsEditor } from './admin-settings.js';
 import { initMessagesEditor } from './admin-messages.js';
 import { initGuestbookEditor } from './admin-guestbook.js';
 import { initAnalyticsEditor } from './admin-analytics.js';
+import { initResumeEditor } from './admin-resume.js';
 import { initReadmeEditor } from './admin-readme.js';
 import { initCertificatesEditor } from './admin-certificates.js';
 
@@ -141,11 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
             initAboutEditor(),
             initProjectsEditor(),
             initSkillsEditor(),
+            initReadmeEditor(),
+            initCertificatesEditor(),
             initContactEditor(),
             initSettingsEditor(),
             initMessagesEditor(),
             initGuestbookEditor(),
-            initAnalyticsEditor()
+            initAnalyticsEditor(),
+            initResumeEditor()
         ]);
     }
 });

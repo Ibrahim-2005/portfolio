@@ -90,30 +90,6 @@ export const adminApi = {
     getGuestbook: () => performRequest('/admin/guestbook'),
     updateGuestbook: (id, data) => performRequest(`/admin/guestbook/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
 
-    // Analytics
-    getAnalyticsSummary: () => performRequest('/admin/analytics/summary'),
-
-    // Content Editor (Sections)
-    getSections: () => performRequest('/sections'), // Public endpoint is fine for reading
-    createSection: (data) => performRequest('/admin/sections', { method: 'POST', body: JSON.stringify(data) }),
-    updateSection: (id, data) => performRequest(`/admin/sections/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-    deleteSection: (id) => performRequest(`/admin/sections/${id}`, { method: 'DELETE' }),
-
-    // Content Editor (Projects)
-    getProjects: () => performRequest('/projects'),
-    createProject: (data) => performRequest('/admin/projects', { method: 'POST', body: JSON.stringify(data) }),
-    updateProject: (id, data) => performRequest(`/admin/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-    deleteProject: (id) => performRequest(`/admin/projects/${id}`, { method: 'DELETE' }),
-
-    // Content Editor (Skills)
-    getSkills: () => performRequest('/skills'),
-    getAdminSkills: () => performRequest('/admin/skills'),
-    createSkill: (data) => performRequest('/admin/skills', { method: 'POST', body: JSON.stringify(data) }),
-    updateSkill: (id, data) => performRequest(`/admin/skills/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-    deleteSkill: (id) => performRequest(`/admin/skills/${id}`, { method: 'DELETE' }),
-
-    // Content Editor (Skill Domains)
-    getSkillDomains: () => performRequest('/admin/skill-domains'),
     createSkillDomain: (data) => performRequest('/admin/skill-domains', { method: 'POST', body: JSON.stringify(data) }),
     updateSkillDomain: (id, data) => performRequest(`/admin/skill-domains/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     deleteSkillDomain: (id) => performRequest(`/admin/skill-domains/${id}`, { method: 'DELETE' }),
