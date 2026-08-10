@@ -20,17 +20,11 @@ from app.models.resume_config import ResumeConfig
 from app.models.contact_config import ContactConfig
 from app.models.public_settings import PublicSettings
 
-from app.models.home_config import HomeConfig
-from app.models.about_config import AboutConfig
-from app.models.projects_config import ProjectsConfig
-from app.models.skills_config import SkillsConfig
-from app.models.resume_config import ResumeConfig
-from app.models.contact_config import ContactConfig
-from app.models.public_settings import PublicSettings
-
 from app.models.education import Education
 from app.models.skill_domain import SkillDomain
 from app.models.contact_link import ContactLink
+from app.models.readme_config import ReadmeConfig
+from app.models.certificates_config import CertificatesConfig
 
 __all__ = [
     "AdminUser",
@@ -50,4 +44,6 @@ __all__ = [
     "Education",
     "SkillDomain",
     "ContactLink",
+    "ReadmeConfig",
+    "CertificatesConfig",
 ]

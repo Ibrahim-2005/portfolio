@@ -128,13 +128,14 @@ export const adminApi = {
     getHomeConfig: () => performRequest('/pages/home'),
     updateHomeConfig: (data) => performRequest('/admin/pages/home', { method: 'PUT', body: JSON.stringify(data) }),
     getAboutConfig: () => performRequest('/pages/about'),
-    updateAboutConfig: (data) => performRequest('/admin/pages/about', { method: 'PUT', body: JSON.stringify(data) }),
-    getProjectsConfig: () => performRequest('/pages/projects'),
-    updateProjectsConfig: (data) => performRequest('/admin/pages/projects', { method: 'PUT', body: JSON.stringify(data) }),
-    getSkillsConfig: () => performRequest('/pages/skills'),
-    updateSkillsConfig: (data) => performRequest('/admin/pages/skills', { method: 'PUT', body: JSON.stringify(data) }),
-    getContactConfig: () => performRequest('/pages/contact'),
-    updateContactConfig: (data) => performRequest('/admin/pages/contact', { method: 'PUT', body: JSON.stringify(data) }),
+    // --- Certificates Config APIs ---
+    getCertificatesConfig: () => performRequest('/admin/pages/certificates'),
+    updateCertificatesConfig: (data) => performRequest('/admin/pages/certificates', {
+        method: 'PATCH',
+        body: JSON.stringify(data)
+    }),
+
+    // --- Public Settings APIs ---
     getPublicSettings: () => performRequest('/pages/settings'),
     updatePublicSettings: (data) => performRequest('/admin/pages/settings', { method: 'PUT', body: JSON.stringify(data) })
 };

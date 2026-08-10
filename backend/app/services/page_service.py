@@ -17,6 +17,10 @@ from app.schemas.skills_config import SkillsConfigOut, SkillsConfigUpdate
 from app.schemas.resume_config import ResumeConfigOut, ResumeConfigUpdate
 from app.schemas.contact_config import ContactConfigOut, ContactConfigUpdate
 from app.schemas.public_settings import PublicSettingsOut, PublicSettingsUpdate
+from app.models.readme_config import ReadmeConfig
+from app.models.certificates_config import CertificatesConfig
+from app.schemas.readme_config import ReadmeConfigOut, ReadmeConfigUpdate
+from app.schemas.certificates_config import CertificatesConfigOut, CertificatesConfigUpdate
 
 PAGE_MAPPING = {
     "home": {
@@ -53,6 +57,16 @@ PAGE_MAPPING = {
         "model": PublicSettings,
         "out_schema": PublicSettingsOut,
         "update_schema": PublicSettingsUpdate,
+    },
+    "readme": {
+        "model": ReadmeConfig,
+        "out_schema": ReadmeConfigOut,
+        "update_schema": ReadmeConfigUpdate,
+    },
+    "certificates": {
+        "model": CertificatesConfig,
+        "out_schema": CertificatesConfigOut,
+        "update_schema": CertificatesConfigUpdate,
     },
 }
 

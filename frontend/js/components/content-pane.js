@@ -133,6 +133,32 @@ export async function renderContent() {
         html = await renderEducation();
     } else if (activeTab.slug === 'contact') {
         html = await renderContact();
+    } else if (activeTab.slug === 'readme') {
+        const data = await api.request('/pages/readme');
+        if (!data) {
+            html = '<div style="color:red;padding:2rem;">Failed to load README.</div>';
+        } else if (data.content) {
+            if (window.marked) {
+                html = `<div style="padding:2rem;max-width:800px;">${window.marked.parse(data.content)}</div>`;
+            } else {
+                html = `<div style="padding:2rem;max-width:800px;"><pre>${data.content}</pre></div>`;
+            }
+        } else {
+            html = '<div style="padding:2rem;"><i>No README content available.</i></div>';
+        }
+    } else if (activeTab.slug === 'certificates') {
+        const data = await api.request('/pages/certificates');
+        if (!data) {
+            html = '<div style="color:red;padding:2rem;">Failed to load Certificates.</div>';
+        } else if (data.content) {
+            if (window.marked) {
+                html = `<div style="padding:2rem;max-width:800px;">${window.marked.parse(data.content)}</div>`;
+            } else {
+                html = `<div style="padding:2rem;max-width:800px;"><pre>${data.content}</pre></div>`;
+            }
+        } else {
+            html = '<div style="padding:2rem;"><i>No Certificates available.</i></div>';
+        }
     } else {
         // Fallback to legacy Markdown renderer if any other dynamic route is triggered
         const sectionData = await api.getSection(activeTab.slug);

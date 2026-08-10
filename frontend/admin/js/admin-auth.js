@@ -10,6 +10,8 @@ import { initSettingsEditor } from './admin-settings.js';
 import { initMessagesEditor } from './admin-messages.js';
 import { initGuestbookEditor } from './admin-guestbook.js';
 import { initAnalyticsEditor } from './admin-analytics.js';
+import { initReadmeEditor } from './admin-readme.js';
+import { initCertificatesEditor } from './admin-certificates.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginScreen = document.getElementById('login-screen');
@@ -36,7 +38,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     pane.classList.add('active');
                 }
             });
+
+            // Dispatch event for tab loading
+            document.dispatchEvent(new CustomEvent('tabChanged', { detail: { tabId: btn.dataset.tab } }));
         });
+    });
+
+    // Load appropriate tab data on switch
+    document.addEventListener('tabChanged', (e) => {
+        const tabId = e.detail.tabId;
+        switch(tabId) {
+            case 'home':
+                initHomeEditor();
+                break;
+            case 'about':
+                initAboutEditor();
+                break;
+            case 'projects':
+                initProjectsEditor();
+                break;
+            case 'skills':
+                initSkillsEditor();
+                break;
+            case 'contact':
+                initContactEditor();
+                break;
+            case 'readme':
+                initReadmeEditor();
+                break;
+            case 'certificates':
+                initCertificatesEditor();
+                break;
+            case 'settings':
+                initSettingsEditor();
+                break;
+            case 'messages':
+                initMessagesEditor();
+                break;
+            case 'guestbook':
+                initGuestbookEditor();
+                break;
+            case 'analytics':
+                initAnalyticsEditor();
+                break;
+        }
     });
 
     // Check auth state on load

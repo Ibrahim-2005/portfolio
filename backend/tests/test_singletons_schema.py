@@ -12,6 +12,8 @@ from app.schemas.skills_config import SkillsConfigOut, SkillsConfigUpdate
 from app.schemas.resume_config import ResumeConfigOut, ResumeConfigUpdate
 from app.schemas.contact_config import ContactConfigOut, ContactConfigUpdate
 from app.schemas.public_settings import PublicSettingsOut, PublicSettingsUpdate
+from app.schemas.readme_config import ReadmeConfigOut, ReadmeConfigUpdate
+from app.schemas.certificates_config import CertificatesConfigOut, CertificatesConfigUpdate
 
 from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
@@ -20,6 +22,8 @@ from app.models.skills_config import SkillsConfig
 from app.models.resume_config import ResumeConfig
 from app.models.contact_config import ContactConfig
 from app.models.public_settings import PublicSettings
+from app.models.readme_config import ReadmeConfig
+from app.models.certificates_config import CertificatesConfig
 
 
 def test_models_instantiation():
@@ -44,6 +48,12 @@ def test_models_instantiation():
 
     settings = PublicSettings(id=1, tech_stack_text="React")
     assert settings.tech_stack_text == "React"
+
+    readme = ReadmeConfig(id=1, content="Readme Content")
+    assert readme.content == "Readme Content"
+
+    certificates = CertificatesConfig(id=1, content="Certs Content")
+    assert certificates.content == "Certs Content"
 
 
 def test_home_config_schema():
@@ -134,3 +144,15 @@ def test_contact_config_schema():
     data = {"id": 1, "top_text": "Contact Top"}
     schema = ContactConfigOut(**data)
     assert schema.top_text == "Contact Top"
+
+def test_readme_config_schema():
+    """Verify ReadmeConfig schema valid payload."""
+    data = {"id": 1, "content": "Readme"}
+    schema = ReadmeConfigOut(**data)
+    assert schema.content == "Readme"
+
+def test_certificates_config_schema():
+    """Verify CertificatesConfig schema valid payload."""
+    data = {"id": 1, "content": "Certificates"}
+    schema = CertificatesConfigOut(**data)
+    assert schema.content == "Certificates"

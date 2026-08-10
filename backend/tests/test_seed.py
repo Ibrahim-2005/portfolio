@@ -45,12 +45,14 @@ from app.models.skills_config import SkillsConfig
 from app.models.resume_config import ResumeConfig
 from app.models.contact_config import ContactConfig
 from app.models.public_settings import PublicSettings
+from app.models.readme_config import ReadmeConfig
+from app.models.certificates_config import CertificatesConfig
 from seed import seed_singletons
 
 def test_seed_singletons_idempotent(db_session: Session):
     seed_singletons(db_session)
 
-    models = [HomeConfig, AboutConfig, ProjectsConfig, SkillsConfig, ResumeConfig, ContactConfig, PublicSettings]
+    models = [HomeConfig, AboutConfig, ProjectsConfig, SkillsConfig, ResumeConfig, ContactConfig, PublicSettings, ReadmeConfig, CertificatesConfig]
 
     for model in models:
         assert db_session.query(model).count() == 1

@@ -40,6 +40,22 @@ async def test_get_pages(client: AsyncClient, db_session: Session):
     assert resp.json()["tech_stack_text"] == "Tech"
 
 @pytest.mark.asyncio
+async def test_get_pages_explicit_endpoints(client: AsyncClient, db_session: Session):
+    from app.models.readme_config import ReadmeConfig
+    from app.models.certificates_config import CertificatesConfig
+    db_session.add(ReadmeConfig(id=1, content="Readme Content"))
+    db_session.add(CertificatesConfig(id=1, content="Certificates Content"))
+    db_session.commit()
+
+    resp = await client.get("/api/pages/readme")
+    assert resp.status_code == 200
+    assert resp.json()["content"] == "Readme Content"
+
+    resp = await client.get("/api/pages/certificates")
+    assert resp.status_code == 200
+    assert resp.json()["content"] == "Certificates Content"
+
+@pytest.mark.asyncio
 async def test_get_unsupported_slug(client: AsyncClient):
     """Unsupported slug returns 404."""
     resp = await client.get("/api/pages/unknown")

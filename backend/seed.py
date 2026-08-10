@@ -15,6 +15,8 @@ from app.models.skills_config import SkillsConfig
 from app.models.resume_config import ResumeConfig
 from app.models.contact_config import ContactConfig
 from app.models.public_settings import PublicSettings
+from app.models.readme_config import ReadmeConfig
+from app.models.certificates_config import CertificatesConfig
 
 
 def seed_sections(db):
@@ -250,6 +252,19 @@ def seed_singletons(db):
             id=1,
             author_text=None,
             tech_stack_text=None
+        ))
+
+    if not db.query(ReadmeConfig).filter(ReadmeConfig.id == 1).first():
+        readme_content = "> ## portfolio-os\n>\n> A developer portfolio that pretends to be VS Code — sidebar file tree, tabs, a working terminal, 13 switchable themes — backed by a real FastAPI + PostgreSQL API with a private CMS admin panel.\n>\n> **Why build it this way?** Because a portfolio *about* backend engineering should probably have some backend engineering in it. Every piece of content here — projects, skills, even this README — is a row in a database, editable through an admin panel, not hardcoded HTML.\n>\n> **Stack:** FastAPI · SQLAlchemy · PostgreSQL · vanilla JS · deployed on Render\n>\n> Check the sidebar. Try the terminal. Type `help`."
+        db.add(ReadmeConfig(
+            id=1,
+            content=readme_content
+        ))
+
+    if not db.query(CertificatesConfig).filter(CertificatesConfig.id == 1).first():
+        db.add(CertificatesConfig(
+            id=1,
+            content=None
         ))
 
     db.commit()

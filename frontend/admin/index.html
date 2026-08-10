@@ -61,6 +61,8 @@
                 <button class="nav-btn" data-tab="about">About</button>
                 <button class="nav-btn" data-tab="projects">Projects</button>
                 <button class="nav-btn" data-tab="skills">Skills</button>
+                <button class="nav-btn" data-tab="readme">README</button>
+                <button class="nav-btn" data-tab="certificates">Certificates</button>
                 <button class="nav-btn" data-tab="resume">Resume</button>
                 <button class="nav-btn" data-tab="contact">Contact</button>
                 
@@ -412,6 +414,48 @@
                 <div class="empty-state">Editor coming soon...</div>
             </section>
 
+            <!-- Content Tab: README -->
+            <section id="tab-readme" class="tab-pane">
+                <header class="tab-header">
+                    <h2>README Configuration</h2>
+                    <p>Manage your site's README content.</p>
+                </header>
+
+                <form id="form-readme-config" class="editor-form">
+                    <div class="card">
+                        <h3>Content Settings</h3>
+                        <div class="form-group">
+                            <label for="readme-content">Content (Markdown)</label>
+                            <textarea id="readme-content" rows="12" placeholder="README markdown content..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Content Tab: Certificates -->
+            <section id="tab-certificates" class="tab-pane">
+                <header class="tab-header">
+                    <h2>Certificates Configuration</h2>
+                    <p>Manage your certificates content.</p>
+                </header>
+
+                <form id="form-certificates-config" class="editor-form">
+                    <div class="card">
+                        <h3>Content Settings</h3>
+                        <div class="form-group">
+                            <label for="certificates-content">Content (Markdown)</label>
+                            <textarea id="certificates-content" rows="12" placeholder="Certificates markdown content..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
             <!-- Content Tab: Contact -->
             <section id="tab-contact" class="tab-pane">
                 <header class="tab-header">
@@ -571,6 +615,8 @@
     <script type="module" src="js/admin-about.js?v=2"></script>
     <script type="module" src="js/admin-projects.js?v=2"></script>
     <script type="module" src="js/admin-skills.js?v=2"></script>
+    <script type="module" src="js/admin-readme.js?v=2"></script>
+    <script type="module" src="js/admin-certificates.js?v=2"></script>
     <script type="module" src="js/admin-contact.js?v=2"></script>
     <script type="module" src="js/admin-settings.js?v=2"></script>
     <script type="module" src="js/admin-messages.js?v=2"></script>
