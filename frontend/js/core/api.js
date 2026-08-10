@@ -40,10 +40,6 @@ async function fetchCachedJSON(endpoint, cacheKey) {
 }
 
 export const api = {
-    // Legacy (deprecated but kept)
-    getSections: () => fetchCachedJSON('/sections', 'sections'),
-    getSection: (slug) => fetchCachedJSON(`/sections/${slug}`, `section:${slug}`),
-    
     // Structured Phase 3 Endpoints
     getPageConfig: (slug) => fetchCachedJSON(`/pages/${slug}`, `page:${slug}`),
     getProjects: () => fetchCachedJSON('/projects', 'projects'),

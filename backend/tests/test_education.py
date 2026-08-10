@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from app.models.education import Education
-from app.models.section import Section
 from app.models.project import Project
 from app.models.skill import Skill
 from app.models.home_config import HomeConfig
@@ -86,7 +85,6 @@ async def test_education_invalid_payload(client: AsyncClient, auth_headers: dict
 
 @pytest.mark.asyncio
 async def test_education_untouched_entities(client: AsyncClient, auth_headers: dict, db_session: Session):
-    db_session.add(Section(id=1, slug="s1", title="T", content="C"))
     db_session.add(Project(id=1, title="P1", description="D", tech_stack=[]))
     db_session.add(Skill(id=1, name="S1", proficiency=10))
     db_session.add(HomeConfig(id=1, top_text="Top"))
@@ -96,7 +94,6 @@ async def test_education_untouched_entities(client: AsyncClient, auth_headers: d
         "qualification": "BSc", "institution": "Univ", "start_year": 2020
     })
     
-    assert db_session.get(Section, 1) is not None
     assert db_session.get(Project, 1) is not None
     assert db_session.get(Skill, 1) is not None
     assert db_session.get(HomeConfig, 1) is not None

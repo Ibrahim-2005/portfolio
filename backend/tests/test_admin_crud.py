@@ -11,109 +11,6 @@ from app.models.guestbook import GuestbookEntry
 from app.models.message import Message
 from app.models.skill import Skill
 
-# ── SECTIONS ──────────────────────────────────────────────────────────────────
-
-@pytest.mark.asyncio
-async def test_section_crud(client: AsyncClient, auth_headers: dict):
-    # 1. Create a root folder
-    resp = await client.post(
-        "/api/admin/sections",
-        json={"slug": "about", "title": "About", "type": "folder", "sort_order": 1},
-        headers=auth_headers,
-    )
-    assert resp.status_code == 201
-    folder = resp.json()
-    assert folder["slug"] == "about"
-    assert folder["parent_id"] is None
-
-    # 2. Create a child page
-    resp = await client.post(
-        "/api/admin/sections",
-        json={
-            "slug": "bio",
-            "title": "Bio",
-            "type": "page",
-            "parent_id": folder["id"],
-            "content": "My biography",
-            "sort_order": 1,
-        },
-        headers=auth_headers,
-    )
-    assert resp.status_code == 201
-    page = resp.json()
-    assert page["parent_id"] == folder["id"]
-
-    # 3. Create failure: Duplicate slug
-    resp = await client.post(
-        "/api/admin/sections",
-        json={"slug": "bio", "title": "Duplicate", "sort_order": 2},
-        headers=auth_headers,
-    )
-    assert resp.status_code == 400
-
-    # 4. Create failure: Invalid parent_id
-    resp = await client.post(
-        "/api/admin/sections",
-        json={"slug": "invalid", "title": "Invalid", "parent_id": 999, "sort_order": 2},
-        headers=auth_headers,
-    )
-    assert resp.status_code == 404
-
-    # 5. Update failure: Duplicate slug (change bio to about)
-    resp = await client.put(
-        f"/api/admin/sections/{page['id']}",
-        json={"slug": "about"},
-        headers=auth_headers,
-    )
-    assert resp.status_code == 400
-
-    # 6. Update success
-    resp = await client.put(
-        f"/api/admin/sections/{page['id']}",
-        json={"title": "My Bio"},
-        headers=auth_headers,
-    )
-    assert resp.status_code == 200
-    assert resp.json()["title"] == "My Bio"
-    assert resp.json()["slug"] == "bio" # unchanged
-
-    # 7. Delete failure: Folder has children
-    resp = await client.delete(f"/api/admin/sections/{folder['id']}", headers=auth_headers)
-    assert resp.status_code == 409
-
-    # 8. Delete success: Child first, then folder
-    resp = await client.delete(f"/api/admin/sections/{page['id']}", headers=auth_headers)
-    assert resp.status_code == 204
-
-    resp = await client.delete(f"/api/admin/sections/{folder['id']}", headers=auth_headers)
-    assert resp.status_code == 204
-
-
-@pytest.mark.asyncio
-async def test_section_public_visibility(client: AsyncClient, auth_headers: dict):
-    # 1. Create a root folder via admin API
-    resp = await client.post(
-        "/api/admin/sections",
-        json={"slug": "public-test", "title": "Public Test", "type": "folder", "sort_order": 99},
-        headers=auth_headers,
-    )
-    assert resp.status_code == 201
-    folder = resp.json()
-
-    # 2. Verify it appears in the public GET /api/sections response
-    public_resp = await client.get("/api/sections")
-    assert public_resp.status_code == 200
-    sections = public_resp.json()
-    
-    # Check if a section with the slug "public-test" exists
-    found = next((s for s in sections if s["slug"] == "public-test"), None)
-    assert found is not None
-    assert found["title"] == "Public Test"
-
-    # 3. Clean up
-    await client.delete(f"/api/admin/sections/{folder['id']}", headers=auth_headers)
-
-
 # ── PROJECTS ──────────────────────────────────────────────────────────────────
 
 @pytest.mark.asyncio
@@ -312,7 +209,6 @@ async def test_analytics_summary(client: AsyncClient, auth_headers: dict, db_ses
 @pytest.mark.asyncio
 async def test_unauthorized_access(client: AsyncClient):
     endpoints = [
-        ("POST", "/api/admin/sections", {}),
         ("POST", "/api/admin/projects", {}),
         ("POST", "/api/admin/skills", {}),
         ("GET", "/api/admin/skills", None),

@@ -160,19 +160,7 @@ export async function renderContent() {
             html = '<div style="padding:2rem;"><i>No Certificates available.</i></div>';
         }
     } else {
-        // Fallback to legacy Markdown renderer if any other dynamic route is triggered
-        const sectionData = await api.getSection(activeTab.slug);
-        if (!sectionData) {
-            html = '<div style="color:red;padding:2rem;">Failed to load content.</div>';
-        } else if (sectionData.content) {
-            if (window.marked) {
-                html = `<div style="padding:2rem;max-width:800px;">${window.marked.parse(sectionData.content)}</div>`;
-            } else {
-                html = `<div style="padding:2rem;max-width:800px;"><pre>${sectionData.content}</pre></div>`;
-            }
-        } else {
-            html = '<div style="padding:2rem;"><i>No content available.</i></div>';
-        }
+        html = '<div style="color:red;padding:2rem;">Failed to load content. Unknown page.</div>';
     }
 
     contentCache[activeTab.id] = html;

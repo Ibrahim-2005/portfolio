@@ -6,7 +6,6 @@ Run this after creating tables (alembic upgrade head).
 """
 from app.core.database import SessionLocal
 from app.models.project import Project
-from app.models.section import Section
 from app.models.skill import Skill
 from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
@@ -19,63 +18,6 @@ from app.models.readme_config import ReadmeConfig
 from app.models.certificates_config import CertificatesConfig
 
 
-def seed_sections(db):
-    if db.query(Section).first():
-        print("Sections already exist. Skipping sections seed.")
-        return
-
-    print("Seeding sections...")
-    
-    # 1. Home
-    home = Section(title="Home", slug="home", type="page", sort_order=1)
-    db.add(home)
-
-    # 2. About Me Folder
-    about_me = Section(title="About Me", slug="about-me", type="folder", sort_order=2)
-    db.add(about_me)
-    db.flush() # To get about_me.id
-
-    # Children of About Me
-    bio_content = "> I'm Mohamed Ibrahim Y, a backend developer and final-year Computer Science Engineering student based in Chennai, India. I build and ship real, working software — REST APIs with JWT auth and rate limiting, CI/CD pipelines that actually run, and full-stack Flask applications that go from local machine to a live URL on Render or Railway.\n>\n> Outside of coursework, I split my time between software development, teaching, and freelance client work — which means I've had to get good at shipping things that work under real constraints, not just in a tutorial. This portfolio itself is one of those: it's not a static template, it's a FastAPI + PostgreSQL service with its own admin panel, because I'd rather build the thing than fake it."
-    bio = Section(title="Bio", slug="bio", type="page", parent_id=about_me.id, content=bio_content, sort_order=1)
-    
-    edu_content = "> **B.E. Computer Science Engineering**\n> Dhaanish Ahmed College of Engineering — 2022–2026\n> CGPA: 8.01 / 10"
-    edu = Section(title="Education", slug="education", type="page", parent_id=about_me.id, content=edu_content, sort_order=2)
-    db.add_all([bio, edu])
-
-    # 3. Projects
-    projects = Section(title="Projects", slug="projects", type="page", sort_order=3)
-    db.add(projects)
-
-    # 4. Skills
-    skills = Section(title="Skills", slug="skills", type="page", sort_order=4)
-    db.add(skills)
-
-    # 5. README
-    readme_content = "> ## portfolio-os\n>\n> A developer portfolio that pretends to be VS Code — sidebar file tree, tabs, a working terminal, 13 switchable themes — backed by a real FastAPI + PostgreSQL API with a private CMS admin panel.\n>\n> **Why build it this way?** Because a portfolio *about* backend engineering should probably have some backend engineering in it. Every piece of content here — projects, skills, even this README — is a row in a database, editable through an admin panel, not hardcoded HTML.\n>\n> **Stack:** FastAPI · SQLAlchemy · PostgreSQL · vanilla JS · deployed on Render\n>\n> Check the sidebar. Try the terminal. Type `help`."
-    readme = Section(title="README", slug="readme", type="page", content=readme_content, sort_order=5)
-    db.add(readme)
-
-    # 6. Files Folder
-    files_folder = Section(title="Files", slug="files", type="folder", sort_order=6)
-    db.add(files_folder)
-    db.flush()
-
-    # Children of Files
-    resume = Section(title="Resume (PDF + inline)", slug="resume", type="page", parent_id=files_folder.id, sort_order=1)
-    certs = Section(title="Certificates", slug="certificates", type="page", parent_id=files_folder.id, sort_order=2)
-    db.add_all([resume, certs])
-
-    # 7. Contact
-    contact_content = "> Fill in with your real email, GitHub, LinkedIn, and any other social links before seeding — kept blank here intentionally since these weren't specified."
-    contact = Section(title="Contact", slug="contact", type="page", content=contact_content, sort_order=7)
-    db.add(contact)
-
-    # Add Admin section (hidden)
-    admin = Section(title="Admin", slug="admin", type="page", is_visible=False, sort_order=8)
-    db.add(admin)
-
-    db.commit()
 
 def seed_projects(db):
     if db.query(Project).first():
@@ -272,7 +214,6 @@ def seed_singletons(db):
 def main():
     db = SessionLocal()
     try:
-        seed_sections(db)
         seed_projects(db)
         seed_skills(db)
         seed_singletons(db)

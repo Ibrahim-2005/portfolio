@@ -11,7 +11,6 @@ def test_data_migration(db_session):
     db_session.execute(text("DELETE FROM skill_domains"))
     db_session.execute(text("DELETE FROM projects"))
     db_session.execute(text("DELETE FROM messages"))
-    db_session.execute(text("DELETE FROM sections"))
     
     # SQLite test DB is created from current models which lack legacy columns, so we add them for the migration test
     try:
@@ -43,10 +42,6 @@ def test_data_migration(db_session):
         text("INSERT INTO messages (name, email, message, created_at, is_read, phone) VALUES ('John', 'j@m.com', 'Msg', CURRENT_TIMESTAMP, false, '+1234')")
     )
     
-    # 4. Insert Sections
-    db_session.execute(
-        text("INSERT INTO sections (slug, title, type, sort_order, content, is_visible) VALUES ('home', 'Home', 'page', 1, 'Markdown Content', true)")
-    )
     db_session.commit()
     
     # --- Execute Migration ---
@@ -92,12 +87,8 @@ def test_data_migration(db_session):
     assert s_frontend.proficiency_legacy == "Expert"
     assert s_frontend.proficiency == 95 # Expert -> 95
     
-    # --- Verify Messages and Sections unchanged ---
     msg = db_session.execute(text("SELECT phone FROM messages WHERE name = 'John'")).fetchone()
     assert msg.phone == "+1234"
-    
-    sec = db_session.execute(text("SELECT content FROM sections WHERE slug = 'home'")).fetchone()
-    assert sec.content == 'Markdown Content'
     
     # --- Verify Idempotency ---
     results2 = migrate_phase3_data(db_session)
@@ -116,7 +107,6 @@ def test_migration_unknown_proficiency(db_session):
     db_session.execute(text("DELETE FROM skill_domains"))
     db_session.execute(text("DELETE FROM projects"))
     db_session.execute(text("DELETE FROM messages"))
-    db_session.execute(text("DELETE FROM sections"))
     try:
         db_session.execute(text("ALTER TABLE skills ADD COLUMN proficiency_legacy VARCHAR"))
     except:

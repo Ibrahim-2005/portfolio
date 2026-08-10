@@ -6,7 +6,6 @@ from sqlalchemy import select
 from app.models.home_config import HomeConfig
 from app.models.projects_config import ProjectsConfig
 from app.models.public_settings import PublicSettings
-from app.models.section import Section
 from app.models.project import Project
 from app.models.skill import Skill
 
@@ -111,8 +110,7 @@ async def test_put_updates_only_id_1(client: AsyncClient, auth_headers: dict, db
 @pytest.mark.asyncio
 async def test_existing_data_untouched(client: AsyncClient, auth_headers: dict, db_session: Session):
     """Verify existing sections/project/skill data is untouched."""
-    # Seed sections, projects, skills
-    db_session.add(Section(id=1, slug="test", title="Test", content="Content", sort_order=1))
+    # Seed projects, skills
     db_session.add(Project(id=1, title="TestProj", description="Desc", tech_stack=[], sort_order=1))
     db_session.add(Skill(id=1, name="TestSkill", proficiency=50, sort_order=1))
     db_session.commit()
@@ -120,7 +118,5 @@ async def test_existing_data_untouched(client: AsyncClient, auth_headers: dict, 
     # Hit singleton API
     await client.put("/api/admin/pages/home", headers=auth_headers, json={"top_text": "Home"})
     
-    # Check data untouched
-    assert db_session.get(Section, 1).title == "Test"
     assert db_session.get(Project, 1).title == "TestProj"
     assert db_session.get(Skill, 1).name == "TestSkill"

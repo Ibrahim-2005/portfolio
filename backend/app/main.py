@@ -23,7 +23,6 @@ from app.routers.public import analytics as pub_analytics
 from app.routers.public import contact as pub_contact
 from app.routers.public import guestbook as pub_guestbook
 from app.routers.public import projects as pub_projects
-from app.routers.public import sections as pub_sections
 from app.routers.public import skills as pub_skills
 from app.routers.public import pages as pub_pages
 from app.routers.public import education as pub_education
@@ -37,7 +36,6 @@ from app.routers.admin import auth as adm_auth
 from app.routers.admin import guestbook as adm_guestbook
 from app.routers.admin import messages as adm_messages
 from app.routers.admin import projects as adm_projects
-from app.routers.admin import sections as adm_sections
 from app.routers.admin import skills as adm_skills
 from app.routers.admin import pages as adm_pages
 from app.routers.admin import education as adm_education
@@ -50,7 +48,6 @@ from app.routers.public import contact as pub_contact
 from app.routers.public import guestbook as pub_guestbook
 from app.routers.public import projects as pub_projects
 from app.routers.public import resume as pub_resume
-from app.routers.public import sections as pub_sections
 from app.routers.public import skills as pub_skills
 
 # ── Wire the DB dependency into get_current_admin_user ────────────────────────
@@ -78,7 +75,6 @@ app.add_middleware(
 # ── Route registration ────────────────────────────────────────────────────────
 # Public (unauthenticated) — /api/...
 _PUBLIC_PREFIX = "/api"
-app.include_router(pub_sections.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_projects.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_skills.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_contact.router, prefix=_PUBLIC_PREFIX)
@@ -99,7 +95,6 @@ app.include_router(adm_auth.router, prefix=_PUBLIC_PREFIX)
 # Admin (JWT-protected) — /api/admin/...
 _ADMIN_PREFIX = "/api/admin"
 _admin_deps = [Depends(get_current_admin_user)]
-app.include_router(adm_sections.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_projects.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_skills.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_messages.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
