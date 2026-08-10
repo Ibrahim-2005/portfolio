@@ -1,12 +1,14 @@
 """
 app/services/education_service.py
 """
-from typing import Sequence
-from sqlalchemy.orm import Session
+from collections.abc import Sequence
+
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.models.education import Education
 from app.schemas.education import EducationCreate, EducationUpdate
+
 
 def get_all(db: Session) -> Sequence[Education]:
     return db.scalars(

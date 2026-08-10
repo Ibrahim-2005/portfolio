@@ -13,7 +13,6 @@ class PublicSettingsBase(BaseModel):
 
 class PublicSettingsUpdate(PublicSettingsBase):
     """Body of ``PUT /api/admin/config/settings``."""
-    pass
 
 
 class PublicSettingsOut(PublicSettingsBase):

@@ -3,13 +3,15 @@ app/models/skill_domain.py
 ──────────────────────────
 Represents a category of skills (e.g. Backend, Frontend).
 """
-from typing import List, Optional
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
 
+if TYPE_CHECKING:
+    from app.models.skill import Skill
 
 class SkillDomain(Base):
     __tablename__ = "skill_domains"
@@ -19,7 +21,7 @@ class SkillDomain(Base):
     sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     # Relationship to Skills
-    skills: Mapped[List["Skill"]] = relationship(
+    skills: Mapped[list["Skill"]] = relationship(
         "Skill",
         back_populates="domain",
         cascade="all, delete-orphan"

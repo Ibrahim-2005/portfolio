@@ -3,8 +3,8 @@ app/schemas/education.py
 ────────────────────────
 Pydantic schemas for Education entities.
 """
+
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
 
 
 class EducationBase(BaseModel):
@@ -19,7 +19,6 @@ class EducationBase(BaseModel):
 
 class EducationCreate(EducationBase):
     """Body of ``POST /api/admin/education``."""
-    pass
 
 
 class EducationUpdate(BaseModel):

@@ -5,6 +5,7 @@ Skills grouped by category (e.g. "Backend", "Frontend", "Tools"),
 ordered within each category by sort_order.
 """
 from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

@@ -5,11 +5,11 @@ Revises: d00cdc66c994
 Create Date: 2026-08-10 20:57:24.529381
 
 """
-from typing import Sequence, Union
+from collections.abc import Sequence
+
+import sqlalchemy as sa
 
 from alembic import op
-import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 """Add resume_file model
@@ -19,17 +19,13 @@ Revises: d00cdc66c994
 Create Date: 2026-08-10 20:57:24.529381
 
 """
-from typing import Sequence, Union
 
-from alembic import op
-import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision: str = '08717921e0e1'
-down_revision: Union[str, None] = 'd00cdc66c994'
-branch_labels: Union[str, Sequence[str], None] = None
-depends_on: Union[str, Sequence[str], None] = None
+down_revision: str | None = 'd00cdc66c994'
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:

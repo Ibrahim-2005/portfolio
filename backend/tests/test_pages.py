@@ -1,13 +1,14 @@
 import pytest
 from httpx import AsyncClient
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.models.home_config import HomeConfig
+from app.models.project import Project
 from app.models.projects_config import ProjectsConfig
 from app.models.public_settings import PublicSettings
-from app.models.project import Project
 from app.models.skill import Skill
+
 
 @pytest.mark.asyncio
 async def test_get_pages(client: AsyncClient, db_session: Session):
@@ -40,8 +41,8 @@ async def test_get_pages(client: AsyncClient, db_session: Session):
 
 @pytest.mark.asyncio
 async def test_get_pages_explicit_endpoints(client: AsyncClient, db_session: Session):
-    from app.models.readme_config import ReadmeConfig
     from app.models.certificates_config import CertificatesConfig
+    from app.models.readme_config import ReadmeConfig
     db_session.add(ReadmeConfig(id=1, content="Readme Content"))
     db_session.add(CertificatesConfig(id=1, content="Certificates Content"))
     db_session.commit()

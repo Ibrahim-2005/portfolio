@@ -5,8 +5,8 @@ Singleton configuration for the Home page.
 """
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.types import JSON
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.types import JSON
 
 from app.core.database import Base
 

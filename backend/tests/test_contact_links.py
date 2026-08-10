@@ -1,7 +1,6 @@
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
-from sqlalchemy import select
 
 from app.models.contact_link import ContactLink
 

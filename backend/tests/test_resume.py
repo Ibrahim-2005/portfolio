@@ -4,14 +4,14 @@ tests/test_resume.py
 Tests for the public and admin resume endpoints.
 """
 from unittest.mock import patch
-import os
 
 import pytest
 from httpx import AsyncClient
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.models.resume_file import ResumeFile
+
 
 @pytest.mark.asyncio
 async def test_get_resume_fallback_success(client: AsyncClient):
@@ -19,9 +19,8 @@ async def test_get_resume_fallback_success(client: AsyncClient):
     Test that GET /api/resume falls back to the static legacy resume when DB is empty.
     """
     with patch("os.path.exists", return_value=True), \
-         patch("app.routers.public.resume.FileResponse", return_value={"status": "mocked"}):
-        resp = await client.get("/api/resume")
-        pass
+        patch("app.routers.public.resume.FileResponse", return_value={"status": "mocked"}):
+        await client.get("/api/resume")
 
 @pytest.mark.asyncio
 async def test_get_resume_missing(client: AsyncClient):

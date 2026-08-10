@@ -35,16 +35,17 @@ def test_seed_idempotent(db_session: Session):
     assert count_projects_1 == count_projects_2
     assert count_skills_1 == count_skills_2
 
-from app.models.home_config import HomeConfig
 from app.models.about_config import AboutConfig
-from app.models.projects_config import ProjectsConfig
-from app.models.skills_config import SkillsConfig
-from app.models.resume_config import ResumeConfig
+from app.models.certificates_config import CertificatesConfig
 from app.models.contact_config import ContactConfig
+from app.models.home_config import HomeConfig
+from app.models.projects_config import ProjectsConfig
 from app.models.public_settings import PublicSettings
 from app.models.readme_config import ReadmeConfig
-from app.models.certificates_config import CertificatesConfig
+from app.models.resume_config import ResumeConfig
+from app.models.skills_config import SkillsConfig
 from seed import seed_singletons
+
 
 def test_seed_singletons_idempotent(db_session: Session):
     seed_singletons(db_session)

@@ -3,7 +3,7 @@ routers/admin/resume.py
 ───────────────────────
 Admin endpoints for managing the resume binary upload.
 """
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db

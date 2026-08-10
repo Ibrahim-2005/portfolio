@@ -1,7 +1,7 @@
 """
 app/routers/public/education.py
 """
-from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -11,7 +11,7 @@ from app.services import education_service
 
 router = APIRouter(prefix="/education", tags=["Education"])
 
-@router.get("", response_model=List[EducationOut])
+@router.get("", response_model=list[EducationOut])
 def get_education(db: Session = Depends(get_db)):
     """Retrieve all education records ordered by sort_order ascending."""
     return education_service.get_all(db)

@@ -1,12 +1,11 @@
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
-from sqlalchemy import select
 
 from app.models.education import Education
+from app.models.home_config import HomeConfig
 from app.models.project import Project
 from app.models.skill import Skill
-from app.models.home_config import HomeConfig
 
 
 @pytest.mark.asyncio

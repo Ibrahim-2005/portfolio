@@ -1,10 +1,9 @@
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
-from sqlalchemy import select
 
-from app.models.skill_domain import SkillDomain
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
 
 
 @pytest.mark.asyncio

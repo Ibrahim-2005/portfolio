@@ -1,12 +1,15 @@
 from typing import Any
-from fastapi import APIRouter, Depends, Body, Request
+
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.services import page_service
-
+from app.schemas.certificates_config import (
+    CertificatesConfigOut,
+    CertificatesConfigUpdate,
+)
 from app.schemas.readme_config import ReadmeConfigOut, ReadmeConfigUpdate
-from app.schemas.certificates_config import CertificatesConfigOut, CertificatesConfigUpdate
+from app.services import page_service
 
 router = APIRouter(prefix="/pages", tags=["admin:pages"])
 
@@ -36,8 +39,8 @@ async def update_page(slug: str, request: Request, db: Session = Depends(get_db)
     # We dynamically parse the body into the correct Pydantic schema based on the slug
     update_schema_class = page_service.get_update_schema(slug)
     
-    from pydantic import ValidationError
     from fastapi import HTTPException
+    from pydantic import ValidationError
     
     # Extract JSON body directly
     json_data = await request.json()

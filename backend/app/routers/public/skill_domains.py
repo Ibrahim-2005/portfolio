@@ -1,7 +1,7 @@
 """
 app/routers/public/skill_domains.py
 """
-from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -11,7 +11,7 @@ from app.services import skill_domain_service
 
 router = APIRouter(prefix="/skill-domains", tags=["Skill Domains"])
 
-@router.get("", response_model=List[SkillDomainOut])
+@router.get("", response_model=list[SkillDomainOut])
 def get_skill_domains(db: Session = Depends(get_db)):
     """Retrieve all skill domains ordered by sort_order ascending."""
     return skill_domain_service.get_all(db)

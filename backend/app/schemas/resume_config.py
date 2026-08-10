@@ -14,7 +14,6 @@ class ResumeConfigBase(BaseModel):
 
 class ResumeConfigUpdate(ResumeConfigBase):
     """Body of ``PUT /api/admin/config/resume``. File path is not updated here."""
-    pass
 
 
 class ResumeConfigOut(ResumeConfigBase):
