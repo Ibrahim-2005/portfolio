@@ -8,6 +8,13 @@ from app.core.database import SessionLocal
 from app.models.section import Section
 from app.models.project import Project
 from app.models.skill import Skill
+from app.models.home_config import HomeConfig
+from app.models.about_config import AboutConfig
+from app.models.projects_config import ProjectsConfig
+from app.models.skills_config import SkillsConfig
+from app.models.resume_config import ResumeConfig
+from app.models.contact_config import ContactConfig
+from app.models.public_settings import PublicSettings
 
 def seed_sections(db):
     if db.query(Section).first():
@@ -179,12 +186,80 @@ def seed_skills(db):
 
     db.commit()
 
+def seed_singletons(db):
+    print("Seeding singletons...")
+
+    if not db.query(HomeConfig).filter(HomeConfig.id == 1).first():
+        db.add(HomeConfig(
+            id=1,
+            top_text="// main.py",
+            name="Mohamed Ibrahim Y",
+            tagline="Building real, working software 🚀",
+            intro="I build and ship real software — REST APIs, CI/CD pipelines, and full-stack apps that go from my machine to a live URL.",
+            roles=[],
+            social_links=[]
+        ))
+
+    if not db.query(AboutConfig).filter(AboutConfig.id == 1).first():
+        db.add(AboutConfig(
+            id=1,
+            top_text="// about me",
+            big_text="About Me",
+            tagline="Backend Developer & Student",
+            about_me="> I'm Mohamed Ibrahim Y, a backend developer and final-year Computer Science Engineering student based in Chennai, India. I build and ship real, working software — REST APIs with JWT auth and rate limiting, CI/CD pipelines that actually run, and full-stack Flask applications that go from local machine to a live URL on Render or Railway.\n>\n> Outside of coursework, I split my time between software development, teaching, and freelance client work — which means I've had to get good at shipping things that work under real constraints, not just in a tutorial. This portfolio itself is one of those: it's not a static template, it's a FastAPI + PostgreSQL service with its own admin panel, because I'd rather build the thing than fake it.",
+            current_focus=[],
+            currently_learning=[]
+        ))
+
+    if not db.query(ProjectsConfig).filter(ProjectsConfig.id == 1).first():
+        db.add(ProjectsConfig(
+            id=1,
+            top_text="// projects",
+            heading="Projects",
+            tagline=None
+        ))
+
+    if not db.query(SkillsConfig).filter(SkillsConfig.id == 1).first():
+        db.add(SkillsConfig(
+            id=1,
+            top_text="// skills",
+            heading="Skills",
+            tagline=None
+        ))
+
+    if not db.query(ResumeConfig).filter(ResumeConfig.id == 1).first():
+        db.add(ResumeConfig(
+            id=1,
+            top_text="// resume",
+            heading="Resume",
+            tagline=None,
+            file_path=None
+        ))
+
+    if not db.query(ContactConfig).filter(ContactConfig.id == 1).first():
+        db.add(ContactConfig(
+            id=1,
+            top_text="// contact",
+            heading="Get in Touch",
+            tagline=None
+        ))
+
+    if not db.query(PublicSettings).filter(PublicSettings.id == 1).first():
+        db.add(PublicSettings(
+            id=1,
+            author_text=None,
+            tech_stack_text=None
+        ))
+
+    db.commit()
+
 def main():
     db = SessionLocal()
     try:
         seed_sections(db)
         seed_projects(db)
         seed_skills(db)
+        seed_singletons(db)
         print("Database seeded successfully!")
     except Exception as e:
         print(f"Error seeding database: {e}")
