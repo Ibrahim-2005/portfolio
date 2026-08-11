@@ -1,0 +1,147 @@
+/* css/components/about.css */
+
+.about-page-container {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 2rem;
+  color: var(--fg-default);
+}
+
+.about-page-comment {
+  color: var(--fg-muted);
+  margin-bottom: 1rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.about-page-heading {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--fg-active);
+}
+
+.about-page-tagline {
+  font-size: 1.2rem;
+  color: var(--fg-muted);
+  margin-bottom: 2rem;
+  font-weight: normal;
+}
+
+/* Base Card Style */
+.about-card {
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-hover);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Intro Card */
+.about-intro-card {
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.about-intro-card p {
+  margin-bottom: 1rem;
+}
+
+.about-intro-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Headings */
+.about-section-heading {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Focus Section (Two Columns) */
+.about-focus-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .about-focus-card {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.about-focus-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-focus-column li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.about-focus-column li:last-child {
+  margin-bottom: 0;
+}
+
+.about-focus-column .emoji {
+  margin-right: 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* Education Cards */
+.about-education-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 600px) {
+  .about-education-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.about-education-title {
+  font-weight: 600;
+  color: var(--fg-active);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.about-education-degree {
+  color: var(--fg-default);
+  font-size: 0.95rem;
+}
+
+.about-education-dates {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  font-family: "JetBrains Mono", monospace;
+  white-space: nowrap;
+}
+
+/* Always Building Section */
+.about-closing-heading {
+  margin-top: 3rem;
+}
+
+.about-closing-section {
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.about-closing-section p {
+  margin-bottom: 1rem;
+}
+
+.about-closing-section p:last-child {
+  margin-bottom: 0;
+}

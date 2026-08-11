@@ -171,6 +171,12 @@ export const adminApi = {
     }),
   // Analytics
   getAnalyticsSummary: () => performRequest("/admin/analytics/summary"),
+
+  // Education
+  getEducationAdmin: () => performRequest("/admin/education"),
+  createEducation: (data) => performRequest("/admin/education", { method: "POST", body: JSON.stringify(data) }),
+  updateEducation: (id, data) => performRequest(`/admin/education/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+  deleteEducation: (id) => performRequest(`/admin/education/${id}`, { method: "DELETE" }),
   // Contact Config
   getContactConfig: () => performRequest("/pages/contact"),
 

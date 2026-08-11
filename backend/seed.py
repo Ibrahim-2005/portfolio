@@ -145,16 +145,34 @@ def seed_singletons(db):
             social_links=[]
         ))
 
-    if not db.query(AboutConfig).filter(AboutConfig.id == 1).first():
+    about_cfg = db.query(AboutConfig).filter(AboutConfig.id == 1).first()
+    if not about_cfg:
         db.add(AboutConfig(
             id=1,
-            top_text="// about me",
+            top_text="// who I am · what I build · where I'm headed",
             big_text="About Me",
-            tagline="Backend Developer & Student",
-            about_me="> I'm Mohamed Ibrahim Y, a backend developer and final-year Computer Science Engineering student based in Chennai, India. I build and ship real, working software — REST APIs with JWT auth and rate limiting, CI/CD pipelines that actually run, and full-stack Flask applications that go from local machine to a live URL on Render or Railway.\n>\n> Outside of coursework, I split my time between software development, teaching, and freelance client work — which means I've had to get good at shipping things that work under real constraints, not just in a tutorial. This portfolio itself is one of those: it's not a static template, it's a FastAPI + PostgreSQL service with its own admin panel, because I'd rather build the thing than fake it.",
-            current_focus=[],
-            currently_learning=[]
+            tagline="Backend Developer & Software Engineer",
+            about_me="Hi, I'm Mohamed Ibrahim Y — a software engineer focused on backend development and building practical software.\n\nI enjoy turning ideas into working systems, from REST APIs and database design to authentication, testing, and deployment.",
+            current_focus=[{"emoji": "⚙️", "text": "Building reliable backend systems"}, {"emoji": "🚀", "text": "Turning ideas into production software"}, {"emoji": "🧩", "text": "Exploring system design & API architecture"}],
+            currently_learning=[{"emoji": "🐍", "text": "Python, FastAPI & Flask"}, {"emoji": "🗄️", "text": "PostgreSQL & SQLAlchemy"}, {"emoji": "🔧", "text": "APIs, testing & CI/CD"}],
+            closing_title="ALWAYS BUILDING",
+            closing_text="I learn best by building — taking an idea, turning it into a working system, debugging what breaks, and shipping it.\n\nCurrently focused on becoming a stronger software engineer with a deep focus on backend development."
         ))
+    else:
+        # Non-destructive upgrade for existing config
+        if not about_cfg.closing_title:
+            about_cfg.closing_title = "ALWAYS BUILDING"
+
+        if not about_cfg.closing_text:
+            about_cfg.closing_text = "I learn best by building — taking an idea, turning it into a working system, debugging what breaks, and shipping it.\n\nCurrently focused on becoming a stronger software engineer with a deep focus on backend development."
+
+        # If the user hasn't customized the old text (or if it's empty), upgrade it
+        if not about_cfg.about_me or about_cfg.about_me.startswith("> I'm Mohamed Ibrahim Y"):
+            about_cfg.top_text = "// who I am · what I build · where I'm headed"
+            about_cfg.tagline = "Backend Developer & Software Engineer"
+            about_cfg.about_me = "Hi, I'm Mohamed Ibrahim Y — a software engineer focused on backend development and building practical software.\n\nI enjoy turning ideas into working systems, from REST APIs and database design to authentication, testing, and deployment."
+            about_cfg.current_focus = [{"emoji": "⚙️", "text": "Building reliable backend systems"}, {"emoji": "🚀", "text": "Turning ideas into production software"}, {"emoji": "🧩", "text": "Exploring system design & API architecture"}]
+            about_cfg.currently_learning = [{"emoji": "🐍", "text": "Python, FastAPI & Flask"}, {"emoji": "🗄️", "text": "PostgreSQL & SQLAlchemy"}, {"emoji": "🔧", "text": "APIs, testing & CI/CD"}]
 
     if not db.query(ProjectsConfig).filter(ProjectsConfig.id == 1).first():
         db.add(ProjectsConfig(

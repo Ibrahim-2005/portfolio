@@ -23,5 +23,8 @@ class AboutConfig(Base):
     current_focus: Mapped[list[dict]] = mapped_column(JSON().with_variant(JSONB, "postgresql"), nullable=False, default=list)
     currently_learning: Mapped[list[dict]] = mapped_column(JSON().with_variant(JSONB, "postgresql"), nullable=False, default=list)
 
+    closing_title: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    closing_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+
     def __repr__(self) -> str:
         return f"<AboutConfig id={self.id}>"

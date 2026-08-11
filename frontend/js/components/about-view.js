@@ -1,46 +1,85 @@
 import { api } from '../core/api.js';
 
 export async function renderAbout() {
-    const config = await api.getPageConfig('about');
+    const [config, education] = await Promise.all([
+        api.getPageConfig('about'),
+        api.getEducation()
+    ]);
     
     if (!config) {
         return '<div style="color:red;padding:2rem;">Failed to load About configuration.</div>';
     }
 
-    const aboutMeHtml = config.about_me 
-        ? (window.marked ? window.marked.parse(config.about_me) : `<pre>${config.about_me}</pre>`)
-        : '';
+    const parseMd = (text) => {
+        if (!text) return '';
+        // If it starts with a blockquote from old markdown, optionally strip it or let marked handle it
+        return window.marked ? window.marked.parse(text) : `<p>${text.replace(/\n/g, '<br>')}</p>`;
+    };
 
-    const currentFocusHtml = config.current_focus && config.current_focus.length > 0
-        ? `<div class="about-section">
-            <h3 style="color: var(--fg-active); margin-bottom: 10px;">Currently Focusing On</h3>
-            <ul style="list-style-type: none; padding-left: 0;">
-                ${config.current_focus.map(f => `<li style="margin-bottom: 8px;"><span style="margin-right: 10px;">${f.emoji}</span> ${f.text}</li>`).join('')}
-            </ul>
-           </div>`
-        : '';
+    const aboutMeHtml = parseMd(config.about_me);
+    const closingHtml = parseMd(config.closing_text);
 
-    const currentlyLearningHtml = config.currently_learning && config.currently_learning.length > 0
-        ? `<div class="about-section" style="margin-top: 1.5rem;">
-            <h3 style="color: var(--fg-active); margin-bottom: 10px;">Currently Learning</h3>
-            <ul style="list-style-type: none; padding-left: 0;">
-                ${config.currently_learning.map(f => `<li style="margin-bottom: 8px;"><span style="margin-right: 10px;">${f.emoji}</span> ${f.text}</li>`).join('')}
-            </ul>
-           </div>`
-        : '';
+    let focusLeftHtml = '';
+    if (config.current_focus && config.current_focus.length > 0) {
+        focusLeftHtml = `<ul>${config.current_focus.map(f => `<li><span class="emoji">${f.emoji}</span> <span>${f.text}</span></li>`).join('')}</ul>`;
+    }
+
+    let focusRightHtml = '';
+    if (config.currently_learning && config.currently_learning.length > 0) {
+        focusRightHtml = `<ul>${config.currently_learning.map(f => `<li><span class="emoji">${f.emoji}</span> <span>${f.text}</span></li>`).join('')}</ul>`;
+    }
+
+    let focusSection = '';
+    if (focusLeftHtml || focusRightHtml) {
+        focusSection = `
+            <h3 class="about-section-heading">CURRENT FOCUS</h3>
+            <div class="about-card about-focus-card">
+                <div class="about-focus-column">${focusLeftHtml}</div>
+                <div class="about-focus-column">${focusRightHtml}</div>
+            </div>
+        `;
+    }
+
+    let educationHtml = '';
+    if (education && education.length > 0) {
+        educationHtml = `
+            <h3 class="about-section-heading">EDUCATION</h3>
+            ${education.map(ed => `
+                <div class="about-card about-education-card">
+                    <div>
+                        <div class="about-education-title">${ed.institution}</div>
+                        <div class="about-education-degree">${ed.qualification || ed.degree}</div>
+                        ${ed.description ? `<div style="margin-top: 1rem; color: var(--fg-default);">${parseMd(ed.description)}</div>` : ''}
+                    </div>
+                    <div class="about-education-dates">${ed.start_year || ''} – ${ed.end_year || 'Present'}</div>
+                </div>
+            `).join('')}
+        `;
+    }
+
+    let closingSection = '';
+    if (config.closing_title || closingHtml) {
+        closingSection = `
+            <h3 class="about-section-heading about-closing-heading">${config.closing_title || 'ALWAYS BUILDING'}</h3>
+            <div class="about-closing-section">
+                ${closingHtml}
+            </div>
+        `;
+    }
 
     return `
-<div class="about-content" style="padding: 2rem; max-width: 800px; color: var(--fg-default);">
-    <div class="home-comment" style="color: var(--fg-muted); margin-bottom: 1rem;">${config.top_text || '// about me'}</div>
-    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--fg-active);">${config.big_text || 'About Me'}</h1>
-    <h2 style="font-size: 1.2rem; color: var(--fg-muted); margin-bottom: 2rem; font-weight: normal;">${config.tagline || ''}</h2>
+<div class="about-page-container">
+    <div class="about-page-comment">${config.top_text || '// about me'}</div>
+    <h1 class="about-page-heading">${config.big_text || 'About Me'}</h1>
+    <h2 class="about-page-tagline">${config.tagline || ''}</h2>
     
-    <div class="about-me-markdown" style="line-height: 1.6; margin-bottom: 2.5rem;">
+    <div class="about-card about-intro-card">
         ${aboutMeHtml}
     </div>
     
-    ${currentFocusHtml}
-    ${currentlyLearningHtml}
+    ${focusSection}
+    ${educationHtml}
+    ${closingSection}
 </div>
     `;
 }

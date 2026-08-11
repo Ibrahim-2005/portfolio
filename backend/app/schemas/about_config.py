@@ -23,6 +23,8 @@ class AboutConfigBase(BaseModel):
     about_me: str | None = None
     current_focus: list[AboutFocusItem] = Field(default_factory=list)
     currently_learning: list[AboutLearningItem] = Field(default_factory=list)
+    closing_title: str | None = None
+    closing_text: str | None = None
 
 
 class AboutConfigUpdate(AboutConfigBase):
