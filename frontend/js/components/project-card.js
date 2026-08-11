@@ -2,17 +2,31 @@
 import { api } from '../core/api.js';
 
 export async function renderProjects() {
-    const projects = await api.getProjects();
+    const [projects, config] = await Promise.all([
+        api.getProjects(),
+        api.getPageConfig('projects')
+    ]);
     
     if (!projects) {
         return '<div style="color:red;">Failed to load projects.</div>';
     }
 
-    if (projects.length === 0) {
-        return '<i>No projects found.</i>';
+    let html = '<div class="projects-container">';
+
+    if (config) {
+        html += `
+            <div class="projects-header">
+                ${config.top_text ? `<div class="projects-top-text">${config.top_text}</div>` : ''}
+                ${config.heading ? `<h1 class="projects-heading">${config.heading}</h1>` : ''}
+                ${config.tagline ? `<h2 class="projects-tagline">${config.tagline}</h2>` : ''}
+            </div>
+        `;
     }
 
-    let html = '<div class="projects-grid">';
+    if (projects.length === 0) {
+        html += '<i>No projects found.</i>';
+    } else {
+        html += '<div class="projects-grid">';
     
     projects.forEach(project => {
         const techStackHtml = project.tech_stack 
@@ -40,6 +54,9 @@ export async function renderProjects() {
             </div>
         `;
     });
+
+        html += '</div>';
+    }
 
     html += '</div>';
     return html;

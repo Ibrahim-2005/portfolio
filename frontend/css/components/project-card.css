@@ -1,3 +1,36 @@
+/* Projects Header Styles */
+.projects-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.projects-header {
+    margin-bottom: 2rem;
+}
+
+.projects-top-text {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.projects-heading {
+    font-family: var(--font-display);
+    color: var(--fg-default);
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+}
+
+.projects-tagline {
+    font-family: var(--font-main);
+    color: var(--fg-muted);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0;
+}
+
 /* Project Card Styles */
 .projects-grid {
     display: grid;
@@ -68,8 +101,8 @@
 .project-tag {
     font-size: 11px;
     background: var(--accent-soft);
-    padding: 4px 8px;
-    border-radius: 999px;
+    padding: 5px 9px;
+    border-radius: 3px;
     color: var(--accent-strong);
     border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
 }
