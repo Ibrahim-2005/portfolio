@@ -49,4 +49,7 @@
         justify-content: center;
         margin-right: -10px; /* offset the massive target box visually */
     }
+    .home-title {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+}
 }

@@ -7,11 +7,13 @@
 
     .home-content {
         min-height: auto;
-        padding: 22px;
+        padding: 28px 24px;
     }
 
     .home-title {
-        font-size: clamp(2.6rem, 16vw, 4.4rem);
+        font-size: clamp(2.8rem, 14vw, 4rem);
+        line-height: 0.9;
+        letter-spacing: -0.03em;
     }
 
     .home-ctas,

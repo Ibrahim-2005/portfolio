@@ -74,8 +74,8 @@ export async function renderContent() {
 
 
     // Special case for Home tab (static)
-    if (activeTab.slug === 'home' || activeTab.title.toLowerCase() === 'home') {
-        pane.innerHTML = HOME_STATIC_HTML;
+    if (activeTab.slug === "home" || activeTab.title.toLowerCase() === "home") {
+        pane.innerHTML = await renderHome();
         return;
     }
 
