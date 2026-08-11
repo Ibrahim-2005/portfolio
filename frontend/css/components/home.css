@@ -3,7 +3,9 @@
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 2.4vw, 1.6rem);
-  max-width: 980px;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
   min-height: 100%;
   justify-content: center;
   position: relative;
@@ -132,7 +134,7 @@
   font-size: clamp(1rem, 1.5vw, 1.18rem);
   line-height: 1.75;
   color: var(--fg-main);
-  max-width: 720px;
+  max-width: none;
   position: relative;
   z-index: 1;
 }
