@@ -1,5 +1,5 @@
 import { adminApi } from './admin-api.js';
-import { showToast } from './admin-editor.js';
+import { showToast } from './admin-dashboard.js';
 
 let sidebarItems = [];
 let currentEditingId = null;
