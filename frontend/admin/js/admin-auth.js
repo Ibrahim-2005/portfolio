@@ -13,6 +13,7 @@ import { initAnalyticsEditor } from './admin-analytics.js';
 import { initResumeEditor } from './admin-resume.js';
 import { initReadmeEditor } from './admin-readme.js';
 import { initCertificatesEditor } from './admin-certificates.js';
+import { initSidebarEditor } from './admin-sidebar.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginScreen = document.getElementById('login-screen');
@@ -85,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'analytics':
                 initAnalyticsEditor();
                 break;
+            case 'sidebar':
+                initSidebarEditor();
+                break;
         }
     });
 
@@ -152,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
             initMessagesEditor(),
             initGuestbookEditor(),
             initAnalyticsEditor(),
-            initResumeEditor()
+            initResumeEditor(),
+            initSidebarEditor()
         ]);
     }
 });

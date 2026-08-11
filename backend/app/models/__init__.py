@@ -20,6 +20,7 @@ from app.models.public_settings import PublicSettings
 from app.models.readme_config import ReadmeConfig
 from app.models.resume_config import ResumeConfig
 from app.models.resume_file import ResumeFile
+from app.models.sidebar_item import SidebarItem
 from app.models.skill import Skill
 from app.models.skill_domain import SkillDomain
 from app.models.skills_config import SkillsConfig
@@ -41,6 +42,7 @@ __all__ = [
     "ReadmeConfig",
     "ResumeConfig",
     "ResumeFile",
+    "SidebarItem",
     "Skill",
     "SkillDomain",
     "SkillsConfig",

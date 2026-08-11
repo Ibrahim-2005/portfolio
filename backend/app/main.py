@@ -82,6 +82,8 @@ app.include_router(pub_skill_domains.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_contact_links.router, prefix=_PUBLIC_PREFIX)
 
 app.include_router(pub_resume.router, prefix=_PUBLIC_PREFIX)
+from app.routers.public import sidebar as pub_sidebar
+app.include_router(pub_sidebar.router, prefix=_PUBLIC_PREFIX)
 
 
 # Auth — /api/auth/login (public, no JWT required)
@@ -100,8 +102,10 @@ app.include_router(adm_education.router, prefix=_ADMIN_PREFIX, dependencies=_adm
 app.include_router(adm_skill_domains.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_contact_links.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 from app.routers.admin import resume as adm_resume
+from app.routers.admin import sidebar as adm_sidebar
 
 app.include_router(adm_resume.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
+app.include_router(adm_sidebar.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────

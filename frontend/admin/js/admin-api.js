@@ -115,7 +115,7 @@ export const adminApi = {
   deleteSkillDomain: (id) =>
     performRequest(`/admin/skill-domains/${id}`, { method: "DELETE" }),
 
-  // Content Editor (Contact Links)
+  // Content Editor
   getContactLinks: () => performRequest("/admin/contact-links"),
   createContactLink: (data) =>
     performRequest("/admin/contact-links", {
@@ -124,11 +124,37 @@ export const adminApi = {
     }),
   updateContactLink: (id, data) =>
     performRequest(`/admin/contact-links/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(data),
     }),
   deleteContactLink: (id) =>
     performRequest(`/admin/contact-links/${id}`, { method: "DELETE" }),
+
+  // Sidebar
+  getSidebarItems: () => performRequest("/admin/sidebar"),
+  updateSidebarItem: (id, data) =>
+    performRequest(`/admin/sidebar/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    }),
+  uploadSidebarIcon: async (id, file) => {
+    const token = getToken();
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await fetch(`${API_BASE_URL}/admin/sidebar/${id}/icon`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    });
+    if (response.status === 401) {
+      clearToken();
+      window.location.reload();
+      throw new Error("Unauthorized");
+    }
+    return response.json();
+  },
+  deleteSidebarIcon: (id) =>
+    performRequest(`/admin/sidebar/${id}/icon`, { method: "DELETE" }),
 
   // Singletons (Home, About, Projects, Skills, Contact, Settings)
   getHomeConfig: () => performRequest("/pages/home"),

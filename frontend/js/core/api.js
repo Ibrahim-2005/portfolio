@@ -41,6 +41,7 @@ async function fetchCachedJSON(endpoint, cacheKey) {
 
 export const api = {
     // Structured Phase 3 Endpoints
+    getSidebar: () => fetchCachedJSON('/sidebar', 'sidebar'),
     getPageConfig: (slug) => fetchCachedJSON(`/pages/${slug}`, `page:${slug}`),
     getProjects: () => fetchCachedJSON('/projects', 'projects'),
     getSkills: () => fetchCachedJSON('/skills', 'skills'),

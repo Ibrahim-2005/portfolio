@@ -5,6 +5,7 @@ Database seed script to populate initial portfolio data.
 Run this after creating tables (alembic upgrade head).
 """
 from app.core.database import SessionLocal
+from sqlalchemy import select
 from app.models.about_config import AboutConfig
 from app.models.certificates_config import CertificatesConfig
 from app.models.contact_config import ContactConfig
@@ -210,12 +211,40 @@ def seed_singletons(db):
 
     db.commit()
 
+def seed_sidebar(db):
+    from app.models.sidebar_item import SidebarItem
+    print("Seeding Sidebar Items...")
+    default_items = [
+        {"slug": "home", "label": "Home", "sort_order": 1, "is_visible": True, "extension": None},
+        {"slug": "about", "label": "About Me", "sort_order": 2, "is_visible": True, "extension": ".md"},
+        {"slug": "projects", "label": "Projects", "sort_order": 3, "is_visible": True, "extension": None},
+        {"slug": "skills", "label": "Skills", "sort_order": 4, "is_visible": True, "extension": ".md"},
+        {"slug": "contact", "label": "Contact", "sort_order": 5, "is_visible": True, "extension": ".md"},
+        {"slug": "readme", "label": "README", "sort_order": 6, "is_visible": True, "extension": ".md"},
+        {"slug": "resume", "label": "Resume", "sort_order": 7, "is_visible": True, "extension": ".pdf"}
+    ]
+
+    for item_data in default_items:
+        existing = db.execute(select(SidebarItem).where(SidebarItem.slug == item_data["slug"])).scalar_one_or_none()
+        if not existing:
+            new_item = SidebarItem(**item_data)
+            db.add(new_item)
+
+    # Remove the deprecated 'certificates' sidebar item if it exists
+    deprecated = db.execute(select(SidebarItem).where(SidebarItem.slug == "certificates")).scalar_one_or_none()
+    if deprecated:
+        db.delete(deprecated)
+
+    db.commit()
+    print("Sidebar Items seeded successfully.")
+
 def main():
     db = SessionLocal()
     try:
         seed_projects(db)
         seed_skills(db)
         seed_singletons(db)
+        seed_sidebar(db)
         print("Database seeded successfully!")
     except Exception as e:
         print(f"Error seeding database: {e}")

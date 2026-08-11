@@ -12,19 +12,18 @@ export async function initSidebar() {
     const sidebarContent = document.querySelector('.sidebar-content');
     sidebarContent.innerHTML = '<div style="padding: 10px; color: var(--fg-muted);">Loading...</div>';
 
-    const sections = [
-        { id: 1, title: 'Home', slug: 'home', type: 'page', sort_order: 1 },
-        { id: 2, title: 'About Me', slug: 'about', type: 'page', sort_order: 2 },
-        { id: 3, title: 'Projects', slug: 'projects', type: 'custom', sort_order: 3 },
-        { id: 4, title: 'Skills', slug: 'skills', type: 'custom', sort_order: 4 },
-        { id: 5, title: 'Education', slug: 'education', type: 'custom', sort_order: 5 },
-        { id: 6, title: 'README', slug: 'readme', type: 'page', sort_order: 6 },
-        { id: 7, title: 'Files', slug: 'files', type: 'folder', sort_order: 7, children: [
-            { id: 8, title: 'Resume', slug: 'resume', type: 'page', parent_id: 7, sort_order: 1 },
-            { id: 9, title: 'Certificates', slug: 'certificates', type: 'page', parent_id: 7, sort_order: 2 }
-        ]},
-        { id: 10, title: 'Contact', slug: 'contact', type: 'page', sort_order: 8 }
-    ];
+    const items = await api.getSidebar() || [];
+
+    // Map backend items to frontend format expected by state.openTab and renderTree
+    const sections = items.map(item => ({
+        id: item.id,
+        title: item.label,
+        slug: item.slug,
+        type: 'page', // Treat all as pages for unified rendering
+        sort_order: item.sort_order,
+        extension: item.extension || '',
+        has_icon: item.has_icon
+    }));
 
     flatFileNodes = [];
     sidebarContent.innerHTML = '';
@@ -68,39 +67,37 @@ function renderTree(nodes, container, depth) {
         indent.style.width = `${depth * 12}px`;
         item.appendChild(indent);
 
-        // Chevron for folders
-        if (node.type === 'folder') {
-            const chevron = document.createElement('span');
-            chevron.className = 'chevron';
-            chevron.textContent = '▼'; // Default expanded
-            item.appendChild(chevron);
-            item.classList.add('expanded');
-        } else {
-            // Spacer for files aligning with folders
-            const spacer = document.createElement('span');
-            spacer.className = 'chevron';
-            item.appendChild(spacer);
-        }
+        // Spacer for files aligning with folders (since we no longer have folders)
+        const spacer = document.createElement('span');
+        spacer.className = 'chevron';
+        item.appendChild(spacer);
 
         // Icon
         const icon = document.createElement('span');
         icon.className = 'icon';
-        if (node.type === 'folder') {
-            icon.textContent = '📁';
-        } else if (node.slug === 'projects') {
-            icon.textContent = '📦';
-        } else if (node.slug.includes('contact')) {
-            icon.textContent = '✉';
-        } else if (node.slug === 'home' || node.title.toLowerCase() === 'home') {
-            icon.textContent = '🏠';
+        if (node.has_icon) {
+            const img = document.createElement('img');
+            img.src = `/api/sidebar/${node.id}/icon`;
+            img.style.width = '14px';
+            img.style.height = '14px';
+            img.style.marginRight = '4px';
+            img.style.verticalAlign = 'middle';
+            icon.appendChild(img);
         } else {
-            icon.textContent = '📄';
+            if (node.slug === 'projects') {
+                icon.textContent = '📦';
+            } else if (node.slug.includes('contact')) {
+                icon.textContent = '✉';
+            } else if (node.slug === 'home' || node.title.toLowerCase() === 'home') {
+                icon.textContent = '🏠';
+            } else {
+                icon.textContent = '📄';
+            }
         }
         item.appendChild(icon);
 
         // Title
-        const extension = (node.type === 'page' && !node.title.includes('.') && node.slug !== 'projects' && !node.title.toLowerCase().includes('home')) ? '.md' : '';
-        const title = document.createTextNode(` ${node.title}${extension}`);
+        const title = document.createTextNode(` ${node.title}${node.extension}`);
         item.appendChild(title);
 
         // Click handler
