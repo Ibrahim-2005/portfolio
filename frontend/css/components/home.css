@@ -80,8 +80,8 @@
 }
 
 .content-pane .home-tagline {
-  font-size: clamp(1.35rem, 3vw, 2.35rem);
-  font-weight: 600;
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  font-weight: 100;
   margin: 0;
   color: var(--fg-main);
   text-wrap: balance;
@@ -92,34 +92,40 @@
 .home-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  position: relative;
-  z-index: 1;
+  gap: 0.6rem;
+  margin: 0.5rem 0 0.75rem;
 }
 
 .badge {
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: linear-gradient(
-    135deg,
-    var(--accent-soft),
-    rgba(255, 255, 255, 0.045)
-  );
-  color: var(--accent-strong);
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(14px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  border-radius: 6px;
+  background: color-mix(#000000 40%, transparent);
+  color: #d8dee9;
+  font-size: 16px;
+  font-weight: 400;
+  box-shadow: none;
+  backdrop-filter: none;
   transition:
-    transform var(--motion-fast),
     border-color var(--motion-fast),
     background var(--motion-fast);
 }
 
+.badge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 .badge:hover {
-  transform: translateY(-2px);
   border-color: var(--accent-strong);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .home-intro {
