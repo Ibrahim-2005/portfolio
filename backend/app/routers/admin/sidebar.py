@@ -1,4 +1,3 @@
-from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
@@ -12,7 +11,7 @@ router = APIRouter(prefix="/sidebar", tags=["admin:sidebar"])
 MAX_ICON_SIZE = 2 * 1024 * 1024  # 2 MB limit for sidebar icons
 ALLOWED_ICON_TYPES = ["image/png", "image/jpeg", "image/webp"]
 
-@router.get("", response_model=List[SidebarItemOut])
+@router.get("", response_model=list[SidebarItemOut])
 def get_admin_sidebar_items(db: Session = Depends(get_db)):
     """
     Returns all sidebar items for admin management, ordered by sort_order.

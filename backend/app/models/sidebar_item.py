@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from sqlalchemy import Boolean, DateTime, Integer, LargeBinary, String, func
 from sqlalchemy.orm import Mapped, mapped_column
@@ -13,9 +12,9 @@ class SidebarItem(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     slug: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
     label: Mapped[str] = mapped_column(String, nullable=False)
-    extension: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    icon_data: Mapped[Optional[bytes]] = mapped_column(LargeBinary, nullable=True)
-    icon_mime: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    extension: Mapped[str | None] = mapped_column(String, nullable=True)
+    icon_data: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
+    icon_mime: Mapped[str | None] = mapped_column(String, nullable=True)
     sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     is_visible: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     

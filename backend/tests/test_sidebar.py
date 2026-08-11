@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models.sidebar_item import SidebarItem
 
+
 def _seed_sidebar(db: Session):
     items = [
         {"slug": "home", "label": "Home", "sort_order": 1, "is_visible": True, "extension": None},

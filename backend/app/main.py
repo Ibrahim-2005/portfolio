@@ -83,6 +83,7 @@ app.include_router(pub_contact_links.router, prefix=_PUBLIC_PREFIX)
 
 app.include_router(pub_resume.router, prefix=_PUBLIC_PREFIX)
 from app.routers.public import sidebar as pub_sidebar
+
 app.include_router(pub_sidebar.router, prefix=_PUBLIC_PREFIX)
 
 

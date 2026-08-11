@@ -1,4 +1,3 @@
-from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
@@ -9,7 +8,7 @@ from app.schemas.sidebar import SidebarItemOut
 
 router = APIRouter(prefix="/sidebar", tags=["public:sidebar"])
 
-@router.get("", response_model=List[SidebarItemOut])
+@router.get("", response_model=list[SidebarItemOut])
 def get_sidebar_items(db: Session = Depends(get_db)):
     """
     Returns all visible sidebar items, ordered by sort_order.

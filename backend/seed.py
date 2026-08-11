@@ -4,8 +4,9 @@ seed.py
 Database seed script to populate initial portfolio data.
 Run this after creating tables (alembic upgrade head).
 """
-from app.core.database import SessionLocal
 from sqlalchemy import select
+
+from app.core.database import SessionLocal
 from app.models.about_config import AboutConfig
 from app.models.certificates_config import CertificatesConfig
 from app.models.contact_config import ContactConfig
