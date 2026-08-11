@@ -15,7 +15,7 @@ def get_sidebar_items(db: Session = Depends(get_db)):
     """
     items = (
         db.query(SidebarItem)
-        .filter(SidebarItem.is_visible == True)
+        .filter(SidebarItem.is_visible)
         .order_by(SidebarItem.sort_order.asc())
         .all()
     )
