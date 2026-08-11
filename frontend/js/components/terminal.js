@@ -70,7 +70,7 @@ export function initTerminal() {
 
     const clearTerminal = () => {
         termOutput.innerHTML = '';
-        printLine('PortfolioOS v0.1.0 — type \'help\' to get started');
+        printLine('Portfolio v0.1.0 — type \'help\' to get started');
     };
 
     // Command parser
