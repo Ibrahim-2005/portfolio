@@ -1,5 +1,5 @@
 import { adminApi } from './admin-api.js';
-import { showToast, showLoading, hideLoading } from './admin-dashboard.js';
+import { showToast, setLoading } from "./admin-dashboard.js";
 
 let isInitialized = false;
 
@@ -14,7 +14,7 @@ async function loadMessages() {
     const container = document.getElementById('messages-list-container');
     
     try {
-        showLoading();
+        setLoading(true);
         const messages = await adminApi.getMessages();
         
         container.innerHTML = '';
@@ -73,7 +73,7 @@ async function loadMessages() {
         showToast(error.message || 'Failed to load messages', 'error');
         container.innerHTML = '<div class="empty-state error-message">Failed to load messages.</div>';
     } finally {
-        hideLoading();
+        setLoading(false);
     }
 }
 

@@ -70,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'certificates':
                 initCertificatesEditor();
                 break;
+            case 'resume':
+                initResumeEditor();
+                break;
             case 'settings':
                 initSettingsEditor();
                 break;
