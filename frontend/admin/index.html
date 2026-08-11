@@ -180,7 +180,7 @@
 
                     <div class="card">
                         <div class="card-header-flex">
-                            <h3>Current Focus</h3>
+                            <h3>Focus (Left Column)</h3>
                             <button type="button" id="btn-add-focus" class="btn btn-sm btn-secondary">+ Add Focus</button>
                         </div>
                         <div id="about-focus-container" class="dynamic-list">
@@ -190,7 +190,7 @@
 
                     <div class="card">
                         <div class="card-header-flex">
-                            <h3>Currently Learning</h3>
+                            <h3>Focus (Right Column)</h3>
                             <button type="button" id="btn-add-learning" class="btn btn-sm btn-secondary">+ Add Learning</button>
                         </div>
                         <div id="about-learning-container" class="dynamic-list">
@@ -198,8 +198,71 @@
                         </div>
                     </div>
 
+                    <div class="card">
+                        <h3>Closing Section</h3>
+                        <div class="form-group">
+                            <label for="about-closing-title">Closing Title</label>
+                            <input type="text" id="about-closing-title" placeholder="e.g. ALWAYS BUILDING">
+                        </div>
+                        <div class="form-group">
+                            <label for="about-closing-text">Closing Text (Markdown)</label>
+                            <textarea id="about-closing-text" rows="4" placeholder="Closing remarks..."></textarea>
+                        </div>
+                    </div>
+
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+
+                <div id="education-list-view" class="card">
+                    <div class="card-header-flex">
+                        <h3>Education</h3>
+                        <button type="button" id="btn-add-education" class="btn btn-sm btn-secondary">+ Add Education</button>
+                    </div>
+                    <div id="education-list-container" class="dynamic-list">
+                        <!-- Education entries will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <form id="form-education-edit" class="editor-form hidden">
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h3 id="education-edit-title">Edit Education</h3>
+                            <button type="button" id="btn-cancel-education" class="btn btn-sm btn-danger">Cancel</button>
+                        </div>
+                        <input type="hidden" id="education-id">
+                        <div class="form-group">
+                            <label for="education-institution">Institution</label>
+                            <input type="text" id="education-institution" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="education-qualification">Degree / Qualification</label>
+                            <input type="text" id="education-qualification" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="education-start">Start Year</label>
+                            <input type="number" id="education-start" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="education-end">End Year (Optional)</label>
+                            <input type="number" id="education-end">
+                        </div>
+                        <div class="form-group">
+                            <label for="education-grade">Grade (Optional)</label>
+                            <input type="text" id="education-grade">
+                        </div>
+                        <div class="form-group">
+                            <label for="education-description">Description (Markdown, Optional)</label>
+                            <textarea id="education-description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="education-sort">Sort Order</label>
+                            <input type="number" id="education-sort" value="0" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Education</button>
+                        </div>
                     </div>
                 </form>
             </section>
