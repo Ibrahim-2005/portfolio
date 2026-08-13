@@ -4,7 +4,7 @@
   width: 100%;
   max-width: none;
   box-sizing: border-box;
-  padding: 2rem;
+  padding: 0.1rem clamp(0.75rem, 1.25vw, 1.25rem) 0.1rem;
   color: var(--fg-default);
 }
 
@@ -29,21 +29,123 @@
 
 /* Base Card Style */
 .about-card {
+  position: relative;
   border: 1px solid var(--border-default);
-  background-color: var(--bg-hover);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-hover) 94%, var(--accent) 6%),
+    var(--bg-hover)
+  );
+  border-radius: var(--radius-sm);
+  padding: clamp(1.4rem, 2vw, 1.8rem);
   margin-bottom: 2.5rem;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  overflow: hidden;
+  transition:
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    transform var(--motion-fast);
+}
+
+.about-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 100% 0%,
+    color-mix(in srgb, var(--accent) 10%, transparent),
+    transparent 30%
+  );
+  pointer-events: none;
+}
+
+.about-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border-default));
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.18),
+    0 0 24px color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
 /* Intro Card */
 .about-intro-card {
-  line-height: 1.6;
-  font-size: 1.05rem;
+  position: relative;
+  overflow: hidden;
+  padding: 1.6rem 2rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border-default));
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-hover) 92%, var(--accent) 8%),
+    color-mix(in srgb, var(--bg-main) 96%, transparent)
+  );
+  border-top-color: color-mix(
+    in srgb,
+    var(--accent) 45%,
+    var(--border-default)
+  );
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  font-family: var(--font-code);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--fg-muted);
 }
 
+/* Subtle editor-style grid */
+.about-intro-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+
+  background-size: 32px 32px;
+
+  mask-image: linear-gradient(135deg, black, transparent 75%);
+
+  pointer-events: none;
+}
+
+/* Accent glow */
+.about-intro-card::after {
+  content: "";
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  top: -120px;
+  right: -80px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 18%, transparent),
+    transparent 70%
+  );
+
+  pointer-events: none;
+}
+
+/* Keep text above decorative layers */
 .about-intro-card p {
-  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+
+  margin: 0;
+  color: var(--fg-muted);
+}
+
+/* Highlighted keywords */
+.about-intro-card .highlight {
+  color: var(--accent-strong);
+  font-weight: 600;
 }
 
 .about-intro-card p:last-child {
@@ -52,11 +154,12 @@
 
 /* Section Headings */
 .about-section-heading {
-  color: var(--fg-muted);
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  margin-bottom: 1rem;
-  font-weight: 600;
+  color: var(--fg-active);
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Focus Section (Two Columns) */
@@ -94,11 +197,132 @@
   font-size: 0.8rem;
 }
 
-/* Education Cards */
-.about-education-card {
+/* Education Timeline */
+.about-education-timeline {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 2rem;
+  padding-left: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-education-item {
+  position: relative;
+}
+
+/* Timeline node */
+.about-education-node {
+  position: absolute;
+  left: -3rem;
+  top: 1.35rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--bg-hover);
+  border: 2px solid var(--accent);
+  box-shadow:
+    0 0 0 4px var(--bg-main),
+    0 0 12px color-mix(in srgb, var(--accent) 28%, transparent);
+  z-index: 3;
+}
+
+/* Small center point */
+.about-education-node::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* Connector */
+.about-education-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(-3rem + 0.4rem);
+  top: calc(1.35rem + 0.8rem);
+  bottom: -2rem;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--accent) 75%, transparent),
+    color-mix(in srgb, var(--accent) 22%, transparent)
+  );
+  z-index: 1;
+}
+
+.about-education-card {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  margin-bottom: 0;
+  min-height: 120px;
+  justify-content: center;
+
+  padding: 1.5rem 1.75rem;
+
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border-default));
+
+  border-top-color: color-mix(
+    in srgb,
+    var(--accent) 45%,
+    var(--border-default)
+  );
+
+  border-radius: var(--radius-sm);
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-hover) 96%, var(--accent) 4%),
+    color-mix(in srgb, var(--bg-main) 98%, transparent)
+  );
+
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.about-education-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+
+  background-size: 32px 32px;
+
+  mask-image: linear-gradient(135deg, black, transparent 75%);
+
+  pointer-events: none;
+}
+
+.about-education-card::after {
+  content: "";
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  top: -120px;
+  right: -80px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 70%
+  );
+
+  pointer-events: none;
 }
 
 @media (min-width: 600px) {
@@ -106,40 +330,142 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 2rem;
   }
 }
 
+.about-education-content {
+  min-width: 0;
+}
+
 .about-education-title {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fg-active);
-  font-size: 1.1rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
 }
 
 .about-education-degree {
   color: var(--fg-default);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.about-education-description {
+  margin-top: 1rem;
+  color: var(--fg-muted);
+  line-height: 1.55;
   font-size: 0.95rem;
 }
 
-.about-education-dates {
-  color: var(--fg-muted);
-  font-size: 0.9rem;
-  font-family: "JetBrains Mono", monospace;
-  white-space: nowrap;
+.about-education-description p {
+  margin: 0;
 }
 
-/* Always Building Section */
-.about-closing-heading {
-  margin-top: 3rem;
+.about-education-dates {
+  color: var(--accent-strong);
+  font-size: 0.88rem;
+  font-family: "JetBrains Mono", monospace;
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+.about-education-content,
+.about-education-dates {
+  position: relative;
+  z-index: 1;
+}
+
+/* Closing Section */
+.about-closing-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 1.75rem 2rem;
+  margin-bottom: 0.5rem;
+
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border-default));
+
+  border-top-color: color-mix(
+    in srgb,
+    var(--accent) 45%,
+    var(--border-default)
+  );
+
+  border-radius: var(--radius-sm);
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-hover) 92%, var(--accent) 8%),
+    color-mix(in srgb, var(--bg-main) 96%, transparent)
+  );
+
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.about-closing-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+
+  background-size: 32px 32px;
+
+  mask-image: linear-gradient(135deg, black, transparent 75%);
+
+  pointer-events: none;
+}
+
+.about-closing-card::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -90px;
+  top: -90px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 12%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
 }
 
 .about-closing-section {
-  line-height: 1.6;
-  font-size: 1.05rem;
+  position: relative;
+  z-index: 1;
+
+  line-height: 1.7;
+  font-family: var(--font-code);
+  font-size: 0.95rem;
+}
+
+.about-closing-section h3 {
+  margin: 0 0 0.4rem;
+  color: var(--fg-active);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.about-closing-section h3:not(:first-child) {
+  padding-top: 1rem;
+
+  border-top: 1px solid
+    color-mix(in srgb, var(--border-default) 70%, transparent);
 }
 
 .about-closing-section p {
-  margin-bottom: 1rem;
+  font-family: var(--font-ui);
+  color: var(--fg-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
 }
 
 .about-closing-section p:last-child {
