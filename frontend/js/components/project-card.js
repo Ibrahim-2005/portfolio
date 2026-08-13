@@ -14,12 +14,24 @@ export async function renderProjects() {
 
     if (config) {
         html += `
-      <div class="projects-header">
-        ${config.top_text ? `<div class="projects-top-text">${config.top_text}</div>` : ''}
-        ${config.heading ? `<h1 class="projects-heading">${config.heading}</h1>` : ''}
-        ${config.tagline ? `<h2 class="projects-tagline">${config.tagline}</h2>` : ''}
-      </div>
-    `;
+            <div class="projects-header">
+                ${
+                    config.top_text
+                        ? `<div class="projects-top-text">${escapeHtml(config.top_text)}</div>`
+                        : ''
+                }
+                ${
+                    config.heading
+                        ? `<h1 class="projects-heading">${escapeHtml(config.heading)}</h1>`
+                        : ''
+                }
+                ${
+                    config.tagline
+                        ? `<p class="projects-tagline">${escapeHtml(config.tagline)}</p>`
+                        : ''
+                }
+            </div>
+        `;
     }
 
     if (projects.length === 0) {
@@ -33,10 +45,12 @@ export async function renderProjects() {
             const techStackHtml = project.tech_stack
                 ? project.tech_stack
                       .map(
-                          (tech) =>
-                              `<span class="project-tag">${
-                                  tech.icon ? `${tech.icon} ` : ''
-                              }${tech.name}</span>`,
+                          (tech) => `
+                            <span class="project-tag">
+                                ${tech.icon ? escapeHtml(tech.icon) + ' ' : ''}
+                                ${escapeHtml(tech.name)}
+                            </span>
+                        `,
                       )
                       .join('')
                 : '';
@@ -44,69 +58,99 @@ export async function renderProjects() {
             const highlightsHtml =
                 project.highlights && project.highlights.length > 0
                     ? `
-            <ul class="project-highlights">
-              ${project.highlights.map((highlight) => `<li>${highlight}</li>`).join('')}
-            </ul>
-          `
+                        <ul class="project-highlights">
+                            ${project.highlights
+                                .map(
+                                    (highlight) => `
+                                        <li>${escapeHtml(highlight)}</li>
+                                    `,
+                                )
+                                .join('')}
+                        </ul>
+                    `
                     : '';
 
             const linksHtml =
                 project.repo_url || project.live_url
                     ? `
-            <div class="project-links">
-                ${
-                    project.live_url
-                        ? `
-                    <a
-                      href="${project.live_url}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link primary"
-                    >
-                      Live Demo ↗
-                    </a>
-                  `
-                        : ''
-                }
-              ${
-                  project.repo_url
-                      ? `
-                    <a
-                      href="${project.repo_url}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link"
-                    >
-                      GitHub ↗
-                    </a>
-                  `
-                      : ''
-              }
+                        <div class="project-links">
+                            ${
+                                project.live_url
+                                    ? `
+                                        <a
+                                            href="${escapeHtml(project.live_url)}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="project-link primary"
+                                        >
+                                            Live Demo ↗
+                                        </a>
+                                    `
+                                    : ''
+                            }
 
-
-            </div>
-          `
+                            ${
+                                project.repo_url
+                                    ? `
+                                        <a
+                                            href="${escapeHtml(project.repo_url)}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="project-link"
+                                        >
+                                            GitHub ↗
+                                        </a>
+                                    `
+                                    : ''
+                            }
+                        </div>
+                    `
                     : '';
 
             html += `
-        <article class="project-card">
-          <div class="project-card-header">
-            <h3 class="project-title">
-              ${escapeHtml(project.title)}
-              ${project.subtitle ? `<span class="project-subtitle">${escapeHtml(project.subtitle)}</span>` : ''}
-            </h3>
-            <span class="project-number">${projectNumber}</span>
-          </div>
+                <article class="project-card">
 
-          <p class="project-desc">${project.description}</p>
+                    <div class="project-card-header">
+                        <div>
+                            <h3 class="project-title">
+                                ${escapeHtml(project.title)}
+                                ${
+                                    project.subtitle
+                                        ? `
+                                            <span class="project-subtitle">
+                                                ${escapeHtml(project.subtitle)}
+                                            </span>
+                                        `
+                                        : ''
+                                }
+                            </h3>
+                        </div>
 
-          ${techStackHtml ? `<div class="project-tech-stack">${techStackHtml}</div>` : ''}
+                        <span class="project-number">
+                            ${projectNumber}
+                        </span>
+                    </div>
 
-          ${highlightsHtml}
+                    <p class="project-desc">
+                        ${escapeHtml(project.description)}
+                    </p>
 
-          ${linksHtml}
-        </article>
-      `;
+                    ${
+                        techStackHtml
+                            ? `
+                                <div class="project-tech-stack">
+                                    ${techStackHtml}
+                                </div>
+                            `
+                            : ''
+                    }
+
+                    ${highlightsHtml}
+
+                    ${linksHtml}
+
+                </article>
+            `;
         });
 
         html += '</div>';
@@ -119,10 +163,11 @@ export async function renderProjects() {
 
 function escapeHtml(unsafe) {
     if (!unsafe) return '';
-    return (unsafe + '')
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
+
+    return String(unsafe)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
