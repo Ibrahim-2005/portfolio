@@ -10,6 +10,7 @@ class ContactConfigBase(BaseModel):
     top_text: str | None = None
     heading: str | None = None
     tagline: str | None = None
+    form_footer_text: str | None = None
 
 
 class ContactConfigUpdate(ContactConfigBase):

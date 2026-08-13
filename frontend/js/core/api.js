@@ -49,6 +49,25 @@ export const api = {
     getContactLinks: () => fetchCachedJSON('/contact-links', 'contact-links'),
     getPublicSettings: () => fetchCachedJSON('/pages/settings', 'settings'),
     
+    // Contact Submission
+    submitContactMessage: async (payload) => {
+        const url = `${API_BASE_URL}/contact`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+            let errMsg = 'Failed to submit message';
+            try {
+                const errData = await response.json();
+                errMsg = errData.detail || errMsg;
+            } catch (e) {}
+            throw new Error(errMsg);
+        }
+        return await response.json();
+    },
+
     // Analytics
     postAnalyticsEvent: async (eventType, value) => {
         const payload = {

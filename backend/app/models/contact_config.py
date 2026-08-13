@@ -16,6 +16,7 @@ class ContactConfig(Base):
     top_text: Mapped[str | None] = mapped_column(String(255), nullable=True)
     heading: Mapped[str | None] = mapped_column(String(255), nullable=True)
     tagline: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    form_footer_text: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     def __repr__(self) -> str:
         return f"<ContactConfig id={self.id}>"

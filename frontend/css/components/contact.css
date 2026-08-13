@@ -1,0 +1,287 @@
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem; /* slightly larger side padding to look balanced */
+    max-width: 1200px; /* give it a bit more breathing room */
+}
+
+/* Contact Header */
+.contact-header {
+    margin-bottom: 3rem;
+}
+
+.contact-top-text {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-heading {
+    font-family: var(--font-display);
+    color: var(--fg-default);
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+}
+
+.contact-tagline {
+    font-family: var(--font-main);
+    color: var(--fg-muted);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Contact Layout */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+@media (max-width: 768px) {
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+
+.contact-column-title {
+    font-family: var(--font-mono);
+    color: var(--fg-active);
+    font-size: 1.1rem;
+    margin: 0 0 1.5rem 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Contact Cards Grid */
+.contact-cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: color-mix(in srgb, var(--bg-titlebar) 86%, transparent);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md, 8px);
+    text-decoration: none;
+    transition: transform var(--motion-med, 0.2s), border-color var(--motion-med, 0.2s), box-shadow var(--motion-med, 0.2s);
+}
+
+.contact-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-card-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--bg-sidebar) 50%, transparent);
+    border-radius: var(--radius-sm, 4px);
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+img.contact-card-icon,
+.contact-card-icon.svg-wrapper svg {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.contact-card-icon.text-icon {
+    font-size: 1.5rem;
+}
+
+.contact-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow: hidden;
+}
+
+.contact-card-platform {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--fg-active);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.external-icon {
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+}
+
+.contact-card-url {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Terminal CTA */
+.contact-terminal-cta {
+    background: color-mix(in srgb, var(--bg-titlebar) 86%, transparent);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md, 8px);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.terminal-cta-comment {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+}
+
+.terminal-cta-command {
+    font-family: var(--font-mono);
+    color: var(--fg-active);
+    font-size: 1.25rem;
+}
+
+.terminal-cta-command .prompt {
+    color: var(--accent);
+    margin-right: 0.5rem;
+}
+
+.terminal-cta-desc {
+    color: var(--fg-main);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.terminal-cta-btn {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--fg-default);
+    font-family: var(--font-mono);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background var(--motion-fast, 0.1s), border-color var(--motion-fast, 0.1s), color var(--motion-fast, 0.1s);
+}
+
+.terminal-cta-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Contact Form */
+.contact-form-section {
+    background: color-mix(in srgb, var(--bg-titlebar) 86%, transparent);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md, 8px);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.contact-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-form-label {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+}
+
+.contact-form-label .required {
+    color: var(--accent);
+}
+
+.contact-form-input,
+.contact-form-textarea {
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    color: var(--fg-default);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-sm, 4px);
+    transition: border-color var(--motion-fast, 0.1s);
+}
+
+.contact-form-input:focus,
+.contact-form-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.contact-form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-form-submit {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background var(--motion-fast, 0.1s), color var(--motion-fast, 0.1s);
+    margin-top: 0.5rem;
+}
+
+.contact-form-submit:hover:not(:disabled) {
+    background: var(--accent);
+    color: #fff;
+}
+
+.contact-form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.contact-form-footer {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+}
+
+.contact-form-feedback {
+    margin-top: 1rem;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+}
+.contact-form-feedback.success { color: #28a745; }
+.contact-form-feedback.error { color: #dc3545; }
