@@ -7,8 +7,6 @@ import logging
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
-logger = logging.getLogger(__name__)
-
 from app.core.database import get_db
 from app.models.contact_link import ContactLink
 from app.schemas.contact_link import (
@@ -18,6 +16,8 @@ from app.schemas.contact_link import (
 )
 from app.services import contact_link_service
 from app.services.cloudinary_service import cloudinary_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix="/contact-links",

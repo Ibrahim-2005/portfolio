@@ -3,12 +3,12 @@ import logging
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
-logger = logging.getLogger(__name__)
-
 from app.core.database import get_db
 from app.models.sidebar_item import SidebarItem
 from app.schemas.sidebar import SidebarItemOut, SidebarItemUpdate
 from app.services.cloudinary_service import cloudinary_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/sidebar", tags=["admin:sidebar"])
 
