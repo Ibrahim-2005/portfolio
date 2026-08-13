@@ -30,9 +30,9 @@ class Settings(BaseSettings):
     RESUME_FILE_PATH: str = "../frontend/assets/resume/Mohamed_ IbrahimY_ Resume.pdf"
 
     # ── Cloudinary ────────────────────────────────────────────────────────────
-    CLOUDINARY_CLOUD_NAME: str
-    CLOUDINARY_API_KEY: str
-    CLOUDINARY_API_SECRET: str
+    CLOUDINARY_CLOUD_NAME: str | None = None
+    CLOUDINARY_API_KEY: str | None = None
+    CLOUDINARY_API_SECRET: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",
