@@ -10,6 +10,7 @@ This grouping is done in the service layer and represented here with
 SkillItem + SkillGroup.
 """
 from __future__ import annotations
+
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field

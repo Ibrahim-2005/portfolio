@@ -9,6 +9,7 @@ from httpx import AsyncClient
 from app.models.skill import Skill
 from app.models.skill_domain import SkillDomain
 
+
 def _make_domain(db, **kwargs) -> SkillDomain:
     defaults = dict(
         name="Backend",
