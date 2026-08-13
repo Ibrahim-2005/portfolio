@@ -33,3 +33,6 @@ slowapi==0.1.10
 
 # Linting
 ruff==0.4.5
+
+# Media / Storage
+cloudinary==1.45.0

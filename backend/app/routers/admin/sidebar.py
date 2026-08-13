@@ -1,10 +1,14 @@
+import logging
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
+logger = logging.getLogger(__name__)
+
 from app.core.database import get_db
 from app.models.sidebar_item import SidebarItem
 from app.schemas.sidebar import SidebarItemOut, SidebarItemUpdate
+from app.services.cloudinary_service import cloudinary_service
 
 router = APIRouter(prefix="/sidebar", tags=["admin:sidebar"])
 
@@ -18,7 +22,7 @@ def get_admin_sidebar_items(db: Session = Depends(get_db)):
     """
     items = db.query(SidebarItem).order_by(SidebarItem.sort_order.asc()).all()
     for item in items:
-        item.has_icon = item.icon_data is not None
+        item.has_icon = item.icon_data is not None or item.icon_url is not None
     return items
 
 @router.patch("/{item_id}", response_model=SidebarItemOut)
@@ -36,7 +40,7 @@ def update_sidebar_item(item_id: int, data: SidebarItemUpdate, db: Session = Dep
 
     db.commit()
     db.refresh(item)
-    item.has_icon = item.icon_data is not None
+    item.has_icon = item.icon_data is not None or item.icon_url is not None
     return item
 
 @router.post("/{item_id}/icon", response_model=SidebarItemOut)
@@ -62,11 +66,24 @@ async def upload_sidebar_icon(
     if not item:
         raise HTTPException(status_code=404, detail="Sidebar item not found")
 
-    item.icon_data = file_bytes
-    item.icon_mime = file.content_type
-    
+    old_public_id = item.icon_public_id
+
+    # 1. Upload new image first
+    secure_url, public_id = cloudinary_service.upload_image(file_bytes, "portfolio/sidebar/")
+
+    # 2. Update database
+    item.icon_url = secure_url
+    item.icon_public_id = public_id
+
     db.commit()
     db.refresh(item)
+
+    # 3. Only AFTER successful database update, delete the old Cloudinary asset
+    if old_public_id:
+        try:
+            cloudinary_service.delete_image(old_public_id)
+        except Exception as exc:
+            logger.warning("Failed to delete old Cloudinary image: %s", exc)
     item.has_icon = True
     return item
 
@@ -78,6 +95,16 @@ def remove_sidebar_icon(item_id: int, db: Session = Depends(get_db)):
     item = db.query(SidebarItem).filter(SidebarItem.id == item_id).first()
     if not item:
         raise HTTPException(status_code=404, detail="Sidebar item not found")
+
+    public_id = item.icon_public_id
+
+    # Delete from Cloudinary
+    if public_id:
+        cloudinary_service.delete_image(public_id)
+
+    # Update DB
+    item.icon_url = None
+    item.icon_public_id = None
 
     item.icon_data = None
     item.icon_mime = None

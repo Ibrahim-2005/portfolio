@@ -9,7 +9,8 @@ class SidebarItemOut(BaseModel):
     extension: str | None
     sort_order: int
     is_visible: bool
-    has_icon: bool # We will compute this in the router based on icon_data
+    has_icon: bool # We will compute this in the router based on icon_data or icon_url
+    icon_url: str | None = None
     
     class Config:
         from_attributes = True

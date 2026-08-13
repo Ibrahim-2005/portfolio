@@ -22,7 +22,7 @@ def get_sidebar_items(db: Session = Depends(get_db)):
     
     # We map icon_data presence to has_icon boolean
     for item in items:
-        item.has_icon = item.icon_data is not None
+        item.has_icon = item.icon_data is not None or item.icon_url is not None
         
     return items
 

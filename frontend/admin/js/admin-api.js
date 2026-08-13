@@ -124,11 +124,33 @@ export const adminApi = {
     }),
   updateContactLink: (id, data) =>
     performRequest(`/admin/contact-links/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       body: JSON.stringify(data),
     }),
   deleteContactLink: (id) =>
     performRequest(`/admin/contact-links/${id}`, { method: "DELETE" }),
+  uploadContactLinkIcon: async (id, file) => {
+    const token = getToken();
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await fetch(`${API_BASE_URL}/admin/contact-links/${id}/icon`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    });
+    if (response.status === 401) {
+      clearToken();
+      window.location.reload();
+      throw new Error("Unauthorized");
+    }
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || "Upload failed");
+    }
+    return response.json();
+  },
+  deleteContactLinkIcon: (id) =>
+    performRequest(`/admin/contact-links/${id}/icon`, { method: "DELETE" }),
 
   // Sidebar
   getSidebarItems: () => performRequest("/admin/sidebar"),
@@ -146,11 +168,18 @@ export const adminApi = {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       body: formData,
     });
+
     if (response.status === 401) {
       clearToken();
       window.location.reload();
       throw new Error("Unauthorized");
     }
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.detail || "Upload failed");
+    }
+
     return response.json();
   },
   deleteSidebarIcon: (id) =>

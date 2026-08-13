@@ -69,7 +69,10 @@ function openSidebarEdit(id) {
     const iconPreview = document.getElementById('sidebar-icon-preview');
     const iconImg = document.getElementById('sidebar-icon-img');
     
-    if (item.has_icon) {
+    if (item.icon_url) {
+        iconImg.src = item.icon_url;
+        iconPreview.style.display = 'block';
+    } else if (item.has_icon) {
         // Cache bust the image
         iconImg.src = `/api/sidebar/${item.id}/icon?t=${Date.now()}`;
         iconPreview.style.display = 'block';

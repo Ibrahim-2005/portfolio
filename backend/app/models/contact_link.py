@@ -4,7 +4,7 @@ app/models/contact_link.py
 Represents a public contact link (e.g. Email, GitHub).
 """
 
-from sqlalchemy import Boolean, Integer, String
+from sqlalchemy import Boolean, Integer, LargeBinary, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
@@ -17,6 +17,10 @@ class ContactLink(Base):
     platform: Mapped[str] = mapped_column(String(255), nullable=False)
     url: Mapped[str] = mapped_column(String(512), nullable=False)
     icon: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    icon_data: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
+    icon_mime: Mapped[str | None] = mapped_column(String, nullable=True)
+    icon_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    icon_public_id: Mapped[str | None] = mapped_column(String, nullable=True)
     enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 

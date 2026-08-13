@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     # ── Assets ────────────────────────────────────────────────────────────────
     RESUME_FILE_PATH: str = "../frontend/assets/resume/Mohamed_ IbrahimY_ Resume.pdf"
 
+    # ── Cloudinary ────────────────────────────────────────────────────────────
+    CLOUDINARY_CLOUD_NAME: str
+    CLOUDINARY_API_KEY: str
+    CLOUDINARY_API_SECRET: str
+
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",
         env_file_encoding="utf-8",

@@ -15,6 +15,8 @@ class SidebarItem(Base):
     extension: Mapped[str | None] = mapped_column(String, nullable=True)
     icon_data: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
     icon_mime: Mapped[str | None] = mapped_column(String, nullable=True)
+    icon_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    icon_public_id: Mapped[str | None] = mapped_column(String, nullable=True)
     sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     is_visible: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     

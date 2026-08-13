@@ -22,7 +22,8 @@ export async function initSidebar() {
         type: 'page', // Treat all as pages for unified rendering
         sort_order: item.sort_order,
         extension: item.extension || '',
-        has_icon: item.has_icon
+        has_icon: item.has_icon,
+        icon_url: item.icon_url
     }));
 
     flatFileNodes = [];
@@ -75,7 +76,15 @@ function renderTree(nodes, container, depth) {
         // Icon
         const icon = document.createElement('span');
         icon.className = 'icon';
-        if (node.has_icon) {
+        if (node.icon_url) {
+            const img = document.createElement('img');
+            img.src = node.icon_url;
+            img.style.width = '14px';
+            img.style.height = '14px';
+            img.style.marginRight = '4px';
+            img.style.verticalAlign = 'middle';
+            icon.appendChild(img);
+        } else if (node.has_icon) {
             const img = document.createElement('img');
             img.src = `/api/sidebar/${node.id}/icon`;
             img.style.width = '14px';

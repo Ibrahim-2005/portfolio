@@ -32,3 +32,5 @@ class ContactLinkOut(ContactLinkBase):
     """Response schema."""
     model_config = ConfigDict(from_attributes=True)
     id: int
+    has_uploaded_icon: bool = False
+    icon_url: str | None = None

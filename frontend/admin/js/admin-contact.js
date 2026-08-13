@@ -34,6 +34,48 @@ export async function initContactEditor() {
         e.preventDefault();
         await saveContactLink();
     });
+
+    document.getElementById('btn-upload-contact-logo').addEventListener('click', async () => {
+        const fileInput = document.getElementById('contact-link-logo-input');
+        if (!fileInput.files.length) return alert('Please select a file first.');
+        const id = document.getElementById('contact-link-id').value;
+        if (!id) return alert('Please save the link first before uploading a logo.');
+
+        if (window.setLoading) window.setLoading(true);
+        try {
+            const result = await adminApi.uploadContactLinkIcon(id, fileInput.files[0]);
+            if (window.showToast) window.showToast('Logo uploaded successfully.');
+            const link = contactLinks.find(l => l.id == id);
+            if (link) link.has_uploaded_icon = true;
+            fileInput.value = '';
+            updateUploadPreview(id, true, result.icon_url);
+            await loadContactLinks();
+        } catch (err) {
+            if (window.showToast) window.showToast('Failed to upload logo: ' + err.message, 'error');
+        } finally {
+            if (window.setLoading) window.setLoading(false);
+        }
+    });
+
+    document.getElementById('btn-remove-contact-logo').addEventListener('click', async () => {
+        const id = document.getElementById('contact-link-id').value;
+        if (!id) return;
+
+        if (!confirm('Are you sure you want to remove the uploaded logo?')) return;
+        if (window.setLoading) window.setLoading(true);
+        try {
+            await adminApi.deleteContactLinkIcon(id);
+            if (window.showToast) window.showToast('Logo removed successfully.');
+            const link = contactLinks.find(l => l.id == id);
+            if (link) link.has_uploaded_icon = false;
+            updateUploadPreview(id, false, null);
+            await loadContactLinks();
+        } catch (err) {
+            if (window.showToast) window.showToast('Failed to remove logo: ' + err.message, 'error');
+        } finally {
+            if (window.setLoading) window.setLoading(false);
+        }
+    });
 }
 
 async function loadContactConfig() {
@@ -42,6 +84,7 @@ async function loadContactConfig() {
         document.getElementById('contact-top-text').value = config.top_text || '';
         document.getElementById('contact-heading').value = config.heading || '';
         document.getElementById('contact-tagline').value = config.tagline || '';
+        document.getElementById('contact-form-footer-text').value = config.form_footer_text || '';
     } catch (err) {
         console.error('Failed to load contact config:', err);
     }
@@ -54,7 +97,8 @@ async function saveContactConfig() {
         const payload = {
             top_text: document.getElementById('contact-top-text').value.trim() || null,
             heading: document.getElementById('contact-heading').value.trim() || null,
-            tagline: document.getElementById('contact-tagline').value.trim() || null
+            tagline: document.getElementById('contact-tagline').value.trim() || null,
+            form_footer_text: document.getElementById('contact-form-footer-text').value.trim() || null
         };
         
         await adminApi.updateContactConfig(payload);
@@ -134,6 +178,8 @@ function openLinkEditor(link) {
         document.getElementById('contact-link-icon').value = link.icon || '';
         document.getElementById('contact-link-sort-order').value = link.sort_order || 0;
         document.getElementById('contact-link-enabled').checked = link.enabled;
+        document.getElementById('contact-link-upload-section').style.display = 'block';
+        updateUploadPreview(link.id, link.has_uploaded_icon, link.icon_url);
     } else {
         title.textContent = 'Add Contact Link';
         document.getElementById('contact-link-id').value = '';
@@ -142,6 +188,28 @@ function openLinkEditor(link) {
         document.getElementById('contact-link-icon').value = '';
         document.getElementById('contact-link-sort-order').value = 0;
         document.getElementById('contact-link-enabled').checked = true;
+        document.getElementById('contact-link-upload-section').style.display = 'block';
+        updateUploadPreview(null, false, null);
+    }
+}
+
+function updateUploadPreview(id, hasIcon, iconUrl) {
+    const previewContainer = document.getElementById('contact-link-logo-preview-container');
+    const previewImg = document.getElementById('contact-link-logo-preview');
+    const removeBtn = document.getElementById('btn-remove-contact-logo');
+
+    if (iconUrl) {
+        previewImg.src = iconUrl;
+        previewContainer.style.display = 'block';
+        removeBtn.style.display = 'inline-block';
+    } else if (hasIcon) {
+        previewImg.src = `/api/contact-links/${id}/icon?t=${Date.now()}`;
+        previewContainer.style.display = 'block';
+        removeBtn.style.display = 'inline-block';
+    } else {
+        previewImg.src = '';
+        previewContainer.style.display = 'none';
+        removeBtn.style.display = 'none';
     }
 }
 
@@ -168,8 +236,15 @@ async function saveContactLink() {
             await adminApi.updateContactLink(id, payload);
             if (window.showToast) window.showToast('Link updated successfully.');
         } else {
-            await adminApi.createContactLink(payload);
+            const created = await adminApi.createContactLink(payload);
             if (window.showToast) window.showToast('Link created successfully.');
+            // Allow them to upload a logo now
+            const fileInput = document.getElementById('contact-link-logo-input');
+            if (fileInput.files.length) {
+                await adminApi.uploadContactLinkIcon(created.id, fileInput.files[0]);
+                if (window.showToast) window.showToast('Logo uploaded automatically.');
+                fileInput.value = '';
+            }
         }
 
         closeLinkEditor();

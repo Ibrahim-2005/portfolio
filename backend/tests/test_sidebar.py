@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
@@ -72,7 +74,9 @@ async def test_admin_update_sidebar_item(client: AsyncClient, auth_headers: dict
     assert "about" not in slugs
 
 @pytest.mark.asyncio
-async def test_admin_upload_and_remove_icon(client: AsyncClient, auth_headers: dict, db_session: Session):
+@patch("app.routers.admin.sidebar.cloudinary_service.upload_image", return_value=("http://res.cloudinary.com/fake/image.png", "fake_public_id"))
+@patch("app.routers.admin.sidebar.cloudinary_service.delete_image", return_value=None)
+async def test_admin_upload_and_remove_icon(mock_delete, mock_upload, client: AsyncClient, auth_headers: dict, db_session: Session):
     _seed_sidebar(db_session)
     item = db_session.query(SidebarItem).filter(SidebarItem.slug == "contact").first()
     
@@ -81,11 +85,11 @@ async def test_admin_upload_and_remove_icon(client: AsyncClient, auth_headers: d
     response = await client.post(f"/api/admin/sidebar/{item.id}/icon", headers=auth_headers, files=files)
     assert response.status_code == 200
     assert response.json()["has_icon"] is True
+    assert response.json()["icon_url"] == "http://res.cloudinary.com/fake/image.png"
 
+    # Testing binary endpoint should return 404 for new uploads since we use Cloudinary
     icon_res = await client.get(f"/api/sidebar/{item.id}/icon")
-    assert icon_res.status_code == 200
-    assert icon_res.headers["content-type"] == "image/png"
-    assert icon_res.content == b"fake_png_data_123"
+    assert icon_res.status_code == 404
 
     del_res = await client.delete(f"/api/admin/sidebar/{item.id}/icon", headers=auth_headers)
     assert del_res.status_code == 200
