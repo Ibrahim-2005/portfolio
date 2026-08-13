@@ -1,5 +1,19 @@
 /* Admin Content Editor */
 
+/* Admin Editor Styles - Used for all management screens */
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.card-header-flex h3 {
+    margin: 0;
+}
+
 .editor-layout {
     display: grid;
     grid-template-columns: 300px 1fr;

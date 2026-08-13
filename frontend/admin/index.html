@@ -6,9 +6,9 @@
     <title>Portfolio Admin</title>
 
     <!-- Admin-specific styles, completely isolated from public site -->
-    <link rel="stylesheet" href="css/admin-layout.css">
-    <link rel="stylesheet" href="css/admin-dashboard.css">
-    <link rel="stylesheet" href="css/admin-editor.css">
+    <link rel="stylesheet" href="css/admin-layout.css?v=2">
+    <link rel="stylesheet" href="css/admin-dashboard.css?v=2">
+    <link rel="stylesheet" href="css/admin-editor.css?v=2">
 
     <!-- Chart.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -614,8 +614,20 @@
                             <input type="url" id="contact-link-url" placeholder="https://github.com/..." required>
                         </div>
                         <div class="form-group">
-                            <label for="contact-link-icon">Icon (Optional)</label>
+                            <label for="contact-link-icon">Icon (Optional Text/URL)</label>
                             <input type="text" id="contact-link-icon" placeholder="e.g. github">
+                        </div>
+                        <div class="form-group" id="contact-link-upload-section" style="display: none;">
+                            <label>Uploaded Logo</label>
+                            <div id="contact-link-logo-preview-container" style="margin-bottom: 0.5rem; display: none;">
+                                <img id="contact-link-logo-preview" src="" alt="Logo Preview" style="max-width: 100px; max-height: 100px; border-radius: 4px; border: 1px solid var(--border-default);">
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="file" id="contact-link-logo-input" accept="image/png, image/jpeg, image/webp" class="form-control" style="flex: 1; padding: 0.5rem;">
+                                <button type="button" id="btn-upload-contact-logo" class="btn btn-primary btn-sm">Upload</button>
+                                <button type="button" id="btn-remove-contact-logo" class="btn btn-danger btn-sm" style="display: none;">Remove</button>
+                            </div>
+                            <small style="color: var(--fg-muted);">Optional. If uploaded, this overrides the text icon above. Supported: PNG, JPG, WEBP (Max 2MB).</small>
                         </div>
                         <div class="form-group">
                             <label for="contact-link-sort-order">Sort Order</label>
