@@ -77,22 +77,21 @@
 
 /* Skill Row */
 .skill-row {
-    display: grid;
-    grid-template-columns: 160px 1fr 45px;
+    display: flex;
     align-items: center;
-    column-gap: 16px;
     font-family: var(--font-mono);
     font-size: 0.95rem;
 }
 
 @media (max-width: 480px) {
     .skill-row {
-        grid-template-columns: 100px 1fr 40px;
-        column-gap: 12px;
+        font-size: 0.85rem;
     }
 }
 
 .skill-name {
+    width: 180px;
+    flex-shrink: 0;
     color: var(--fg-default);
     white-space: nowrap;
     overflow: hidden;
@@ -100,9 +99,10 @@
 }
 
 .skill-bar-container {
-    width: 100%;
+    flex-grow: 1;
     height: 4px;
     background: color-mix(in srgb, var(--border-color) 40%, transparent);
+    margin: 0 12px 0 0;
     position: relative;
     border-radius: 2px;
 }
