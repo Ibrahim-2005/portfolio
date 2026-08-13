@@ -64,7 +64,7 @@ async def test_skill_domain_invalid_payload(client: AsyncClient, auth_headers: d
 @pytest.mark.asyncio
 async def test_delete_skill_domain_in_use(client: AsyncClient, auth_headers: dict, db_session: Session):
     db_session.add(SkillDomain(id=1, name="Used"))
-    db_session.add(Skill(id=1, name="React", proficiency=90, domain_id=1))
+    db_session.add(Skill(id=1, name="React", level="Core", domain_id=1))
     db_session.commit()
 
     resp = await client.delete("/api/admin/skill-domains/1", headers=auth_headers)

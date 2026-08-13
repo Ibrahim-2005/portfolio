@@ -26,11 +26,8 @@ class Skill(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     icon: Mapped[str | None] = mapped_column(String(255), nullable=True)
     
-    # 0-100 scale
-    proficiency: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    
-    # Legacy field preserved temporarily for migration compatibility if needed
-    category: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    # Qualitative level: Core, Hands-on, Working
+    level: Mapped[str] = mapped_column(String(50), nullable=False, default="Working")
     
     sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 

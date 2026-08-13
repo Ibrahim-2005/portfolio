@@ -8,32 +8,42 @@ vendor-specific GROUP_BY / json_agg syntax.
 """
 from __future__ import annotations
 
-from collections import defaultdict
-
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
 from app.schemas.skill import SkillGroup, SkillItem
 
 
 def get_grouped(db: Session) -> list[SkillGroup]:
     """
-    Return all skills grouped by category, preserving insertion sort_order
-    within each category and category order by the lowest sort_order seen.
-
-    Returns:
-        List of SkillGroup objects ordered by first-appearance of each category.
+    Return all skills grouped by their domain, preserving the domain's sort_order
+    and the skill's sort_order within each domain.
     """
-    rows: list[Skill] = db.execute(
-        select(Skill).order_by(Skill.category, Skill.sort_order)
+    rows = db.execute(
+        select(Skill)
+        .join(Skill.domain)
+        .order_by(SkillDomain.sort_order, Skill.sort_order)
     ).scalars().all()
 
-    # Preserve category insertion order (Python 3.7+ dicts are ordered)
-    buckets: dict[str, list[SkillItem]] = defaultdict(list)
+    buckets: dict[str, dict] = {}
+
     for row in rows:
-        buckets[row.category].append(SkillItem.model_validate(row))
+        domain_name = row.domain.name
+        if domain_name not in buckets:
+            buckets[domain_name] = {
+                "category": domain_name,
+                "sort_order": row.domain.sort_order,
+                "items": []
+            }
+        buckets[domain_name]["items"].append(SkillItem.model_validate(row))
 
     return [
-        SkillGroup(category=cat, items=items) for cat, items in buckets.items()
+        SkillGroup(
+            category=data["category"],
+            sort_order=data["sort_order"],
+            items=data["items"]
+        )
+        for data in buckets.values()
     ]

@@ -7,13 +7,26 @@ import pytest
 from httpx import AsyncClient
 
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
+
+def _make_domain(db, **kwargs) -> SkillDomain:
+    defaults = dict(
+        name="Backend",
+        sort_order=1
+    )
+    defaults.update(kwargs)
+    d = SkillDomain(**defaults)
+    db.add(d)
+    db.commit()
+    db.refresh(d)
+    return d
 
 
 def _make_skill(db, **kwargs) -> Skill:
     defaults = dict(
-        category="Backend",
+        domain_id=1,
         name="Python",
-        proficiency=80,
+        level="Core",
         sort_order=0,
     )
     defaults.update(kwargs)
@@ -34,9 +47,11 @@ async def test_skills_empty(client: AsyncClient):
 @pytest.mark.asyncio
 async def test_skills_grouped(client: AsyncClient, db_session):
     """Skills are grouped by category, items ordered by sort_order."""
-    _make_skill(db_session, category="Backend", name="Python", sort_order=1)
-    _make_skill(db_session, category="Backend", name="FastAPI", sort_order=2)
-    _make_skill(db_session, category="Frontend", name="JavaScript", sort_order=1)
+    d1 = _make_domain(db_session, name="Backend", sort_order=1)
+    d2 = _make_domain(db_session, name="Frontend", sort_order=2)
+    _make_skill(db_session, domain_id=d1.id, name="Python", sort_order=1)
+    _make_skill(db_session, domain_id=d1.id, name="FastAPI", sort_order=2)
+    _make_skill(db_session, domain_id=d2.id, name="JavaScript", sort_order=1)
     db_session.commit()
 
     resp = await client.get("/api/skills")
@@ -61,9 +76,10 @@ async def test_skills_grouped(client: AsyncClient, db_session):
 @pytest.mark.asyncio
 async def test_skills_item_shape(client: AsyncClient, db_session):
     """Skill items expose name, icon, and proficiency only (no id/sort_order)."""
-    _make_skill(db_session, name="SQLAlchemy", proficiency=50)
+    _make_domain(db_session, name="Backend", sort_order=1)
+    _make_skill(db_session, domain_id=1, name="SQLAlchemy", level="Hands-on")
     db_session.commit()
 
     resp = await client.get("/api/skills")
     item = resp.json()[0]["items"][0]
-    assert set(item.keys()) == {"name", "proficiency", "icon"}
+    assert set(item.keys()) == {"name", "level", "icon"}

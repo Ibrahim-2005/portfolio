@@ -6,6 +6,7 @@ from app.models.education import Education
 from app.models.home_config import HomeConfig
 from app.models.project import Project
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
 
 
 @pytest.mark.asyncio
@@ -85,7 +86,8 @@ async def test_education_invalid_payload(client: AsyncClient, auth_headers: dict
 @pytest.mark.asyncio
 async def test_education_untouched_entities(client: AsyncClient, auth_headers: dict, db_session: Session):
     db_session.add(Project(id=1, title="P1", description="D", tech_stack=[]))
-    db_session.add(Skill(id=1, name="S1", proficiency=10))
+    db_session.add(SkillDomain(id=1, name="D1", sort_order=1))
+    db_session.add(Skill(id=1, name="S1", domain_id=1, level="Core"))
     db_session.add(HomeConfig(id=1, top_text="Top"))
     db_session.commit()
     

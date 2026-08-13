@@ -10,6 +10,7 @@ from app.models.analytics import AnalyticsEvent
 from app.models.guestbook import GuestbookEntry
 from app.models.message import Message
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
 
 # ── PROJECTS ──────────────────────────────────────────────────────────────────
 
@@ -60,10 +61,17 @@ async def test_project_crud(client: AsyncClient, auth_headers: dict):
 async def test_skill_admin_get(client: AsyncClient, auth_headers: dict, db_session):
     # 1. Create multiple skills to test ordering and retrieval
     db_session.execute(
+        SkillDomain.__table__.insert(),
+        [
+            {"id": 1, "name": "Backend", "sort_order": 2},
+            {"id": 2, "name": "Frontend", "sort_order": 1},
+        ],
+    )
+    db_session.execute(
         Skill.__table__.insert(),
         [
-            {"category": "Backend", "name": "Python", "proficiency": 90, "sort_order": 2, "proficiency_legacy": "Expert"},
-            {"category": "Frontend", "name": "React", "proficiency": 85, "sort_order": 1, "proficiency_legacy": "Advanced"},
+            {"domain_id": 1, "name": "Python", "level": "Core", "sort_order": 2},
+            {"domain_id": 2, "name": "React", "level": "Hands-on", "sort_order": 1},
         ],
     )
     db_session.commit()
@@ -81,22 +89,24 @@ async def test_skill_admin_get(client: AsyncClient, auth_headers: dict, db_sessi
     # 4. Verify shape contains all required fields (no legacy fields)
     assert "id" in data[0]
     assert "name" in data[0]
-    assert "proficiency" in data[0]
+    assert "level" in data[0]
     assert "icon" in data[0]
     assert "domain_id" in data[0]
     assert "sort_order" in data[0]
-    assert "category" in data[0]
     
     # Legacy fields should not be exposed by the schema
     assert "proficiency_legacy" not in data[0]
 
 
 @pytest.mark.asyncio
-async def test_skill_crud(client: AsyncClient, auth_headers: dict):
+async def test_skill_crud(client: AsyncClient, auth_headers: dict, db_session):
+    db_session.execute(SkillDomain.__table__.insert(), [{"id": 1, "name": "Backend", "sort_order": 1}])
+    db_session.commit()
+
     # 1. Create
     resp = await client.post(
         "/api/admin/skills",
-        json={"category": "Backend", "name": "Python", "proficiency": 90, "sort_order": 1},
+        json={"domain_id": 1, "name": "Python", "level": "Core", "sort_order": 1},
         headers=auth_headers,
     )
     assert resp.status_code == 201
@@ -106,11 +116,11 @@ async def test_skill_crud(client: AsyncClient, auth_headers: dict):
     # 2. Update
     resp = await client.put(
         f"/api/admin/skills/{skill['id']}",
-        json={"proficiency": 80},
+        json={"level": "Working"},
         headers=auth_headers,
     )
     assert resp.status_code == 200
-    assert resp.json()["proficiency"] == 80
+    assert resp.json()["level"] == "Working"
 
     # 3. Delete
     resp = await client.delete(f"/api/admin/skills/{skill['id']}", headers=auth_headers)

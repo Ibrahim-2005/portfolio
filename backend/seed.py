@@ -83,52 +83,86 @@ def seed_projects(db):
     db.commit()
 
 def seed_skills(db):
-    if db.query(Skill).first():
-        print("Skills already exist. Skipping skills seed.")
-        return
+    from app.models.skill_domain import SkillDomain
 
-    print("Seeding skills...")
-    
-    skills_data = [
-        # Backend
-        ("Backend", "Python", 1),
-        ("Backend", "Flask", 2),
-        ("Backend", "FastAPI", 3),
-        ("Backend", "SQLAlchemy", 4),
-        ("Backend", "REST API design", 5),
-        ("Backend", "JWT authentication", 6),
-        ("Backend", "rate limiting", 7),
-        ("Backend", "background jobs (APScheduler)", 8),
-        
-        # Database
-        ("Database", "PostgreSQL", 1),
-        ("Database", "SQLite", 2),
-        ("Database", "schema design & normalization", 3),
-        
-        # DevOps / Deployment
-        ("DevOps / Deployment", "GitHub Actions (CI/CD)", 1),
-        ("DevOps / Deployment", "Render", 2),
-        ("DevOps / Deployment", "Railway", 3),
-        ("DevOps / Deployment", "Git version control", 4),
-        
-        # Frontend
-        ("Frontend", "HTML", 1),
-        ("Frontend", "CSS", 2),
-        ("Frontend", "JavaScript", 3),
-        ("Frontend", "responsive design", 4),
-        
-        # Testing
-        ("Testing", "Pytest", 1),
-        ("Testing", "API testing", 2),
-        
-        # Other
-        ("Other", "Technical documentation", 1),
-        ("Other", "code audits & remediation planning", 2),
-        ("Other", "third-party API integration (Cloudinary, WhatsApp/CallMeBot)", 3),
+    print("Seeding skills and categories...")
+
+    # 1. Seed Categories (Domains)
+    categories = [
+        ("Backend", 1),
+        ("Databases", 2),
+        ("Frontend", 3),
+        ("Testing & Delivery", 4),
+        ("Engineering Practices", 5),
     ]
 
-    for category, name, order in skills_data:
-        db.add(Skill(category=category, name=name, proficiency="Intermediate", sort_order=order))
+    domain_map = {}
+    for name, sort_order in categories:
+        domain = db.execute(
+            select(SkillDomain).where(SkillDomain.name == name)
+        ).scalar_one_or_none()
+        if not domain:
+            domain = SkillDomain(name=name, sort_order=sort_order)
+            db.add(domain)
+            db.commit()
+            db.refresh(domain)
+        else:
+            # Update sort_order if it already exists
+            domain.sort_order = sort_order
+            db.commit()
+        domain_map[name] = domain.id
+
+    # 2. Seed Skills
+    skills_data = [
+        # Backend
+        ("Backend", "Python", "Core", 1),
+        ("Backend", "Flask", "Core", 2),
+        ("Backend", "FastAPI", "Hands-on", 3),
+        ("Backend", "REST API Design", "Core", 4),
+        ("Backend", "SQLAlchemy", "Hands-on", 5),
+        ("Backend", "JWT Authentication", "Core", 6),
+        ("Backend", "Rate Limiting", "Hands-on", 7),
+        ("Backend", "Background Jobs / APScheduler", "Hands-on", 8),
+        # Databases
+        ("Databases", "PostgreSQL", "Core", 1),
+        ("Databases", "SQLite", "Hands-on", 2),
+        ("Databases", "Database Design", "Core", 3),
+        ("Databases", "Schema Design & Normalization", "Core", 4),
+        # Frontend
+        ("Frontend", "HTML", "Hands-on", 1),
+        ("Frontend", "CSS", "Hands-on", 2),
+        ("Frontend", "JavaScript", "Hands-on", 3),
+        ("Frontend", "Responsive UI", "Hands-on", 4),
+        # Testing & Delivery
+        ("Testing & Delivery", "Pytest", "Core", 1),
+        ("Testing & Delivery", "API Testing", "Core", 2),
+        ("Testing & Delivery", "Git & GitHub", "Core", 3),
+        ("Testing & Delivery", "GitHub Actions / CI", "Hands-on", 4),
+        ("Testing & Delivery", "Render", "Hands-on", 5),
+        ("Testing & Delivery", "Railway", "Hands-on", 6),
+        # Engineering Practices
+        ("Engineering Practices", "Technical Documentation", "Core", 1),
+        ("Engineering Practices", "API Integration", "Hands-on", 2),
+        ("Engineering Practices", "Code Auditing & Remediation", "Hands-on", 3),
+    ]
+
+    for category_name, skill_name, level, sort_order in skills_data:
+        domain_id = domain_map[category_name]
+
+        # Check if skill exists
+        skill = db.execute(
+            select(Skill).where(Skill.name == skill_name, Skill.domain_id == domain_id)
+        ).scalar_one_or_none()
+
+        if not skill:
+            skill = Skill(
+                name=skill_name, domain_id=domain_id, level=level, sort_order=sort_order
+            )
+            db.add(skill)
+        else:
+            # Update existing skill
+            skill.level = level
+            skill.sort_order = sort_order
 
     db.commit()
 
@@ -183,13 +217,17 @@ def seed_singletons(db):
             tagline=None
         ))
 
-    if not db.query(SkillsConfig).filter(SkillsConfig.id == 1).first():
+    skills_cfg = db.query(SkillsConfig).filter(SkillsConfig.id == 1).first()
+    if not skills_cfg:
         db.add(SkillsConfig(
             id=1,
             top_text="// skills",
             heading="Skills",
-            tagline=None
+            tagline="Technologies and engineering practices I use to build, test, and ship software."
         ))
+    else:
+        if not skills_cfg.tagline:
+            skills_cfg.tagline = "Technologies and engineering practices I use to build, test, and ship software."
 
     if not db.query(ResumeConfig).filter(ResumeConfig.id == 1).first():
         db.add(ResumeConfig(

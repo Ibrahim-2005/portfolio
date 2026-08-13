@@ -30,6 +30,10 @@ def test_data_migration(db_session):
         db_session.execute(
             text("ALTER TABLE skills ADD COLUMN proficiency_legacy VARCHAR")
         )
+    if "category" not in skill_columns:
+        db_session.execute(text("ALTER TABLE skills ADD COLUMN category VARCHAR"))
+    if "proficiency" not in skill_columns:
+        db_session.execute(text("ALTER TABLE skills ADD COLUMN proficiency INTEGER DEFAULT 0"))
 
     db_session.commit()
 
@@ -46,12 +50,12 @@ def test_data_migration(db_session):
     # 2. Insert Legacy Skills
     db_session.execute(
         text(
-            "INSERT INTO skills (name, category, proficiency_legacy, sort_order, domain_id, proficiency) VALUES ('Python', 'Backend', 'Intermediate', 1, null, 0)"
+            "INSERT INTO skills (name, category, proficiency_legacy, sort_order, domain_id, proficiency, level) VALUES ('Python', 'Backend', 'Intermediate', 1, null, 0, 'Working')"
         )
     )
     db_session.execute(
         text(
-            "INSERT INTO skills (name, category, proficiency_legacy, sort_order, domain_id, proficiency) VALUES ('HTML', 'Frontend', 'Expert', 2, null, 0)"
+            "INSERT INTO skills (name, category, proficiency_legacy, sort_order, domain_id, proficiency, level) VALUES ('HTML', 'Frontend', 'Expert', 2, null, 0, 'Working')"
         )
     )
 
@@ -154,14 +158,18 @@ def test_migration_unknown_proficiency(db_session):
 
     if "proficiency_legacy" not in skill_columns:
         db_session.execute(text("ALTER TABLE skills ADD COLUMN proficiency_legacy VARCHAR"))
-        db_session.commit()
+    if "category" not in skill_columns:
+        db_session.execute(text("ALTER TABLE skills ADD COLUMN category VARCHAR"))
+    if "proficiency" not in skill_columns:
+        db_session.execute(text("ALTER TABLE skills ADD COLUMN proficiency INTEGER DEFAULT 0"))
+    db_session.commit()
 
-        # Insert unknown proficiency
-        db_session.execute(
-            text(
-                "INSERT INTO skills (name, category, proficiency_legacy, sort_order, domain_id, proficiency) VALUES ('Python', 'Backend', 'Jedi', 1, null, 0)"
-            )
+    # Insert unknown proficiency
+    db_session.execute(
+        text(
+            "INSERT INTO skills (name, category, proficiency_legacy, sort_order, domain_id, proficiency, level) VALUES ('Python', 'Backend', 'Jedi', 1, null, 0, 'Working')"
         )
+    )
     db_session.commit()
 
     with pytest.raises(ValueError, match="Unknown legacy proficiency: Jedi"):

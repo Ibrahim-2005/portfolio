@@ -169,7 +169,7 @@ async function loadSkillsList() {
                 <div>
                     <h4 style="margin: 0 0 0.25rem 0;">${escapeHtml(skill.name)}</h4>
                     <span style="font-size: 0.85rem; color: #666;">
-                        Domain: ${escapeHtml(domainName)} | Prof: ${skill.proficiency}% | Order: ${skill.sort_order}
+                        Domain: ${escapeHtml(domainName)} | Level: ${escapeHtml(skill.level)} | Order: ${skill.sort_order}
                     </span>
                 </div>
                 <div style="display: flex; gap: 0.5rem;">
@@ -204,7 +204,7 @@ function openSkillEditor(skill) {
         title.textContent = 'Edit Skill';
         document.getElementById('skill-id').value = skill.id;
         document.getElementById('skill-name').value = skill.name || '';
-        document.getElementById('skill-proficiency').value = skill.proficiency || 0;
+        document.getElementById('skill-level').value = skill.level || 'Working';
         document.getElementById('skill-icon').value = skill.icon || '';
         document.getElementById('skill-domain').value = skill.domain_id || '';
         document.getElementById('skill-sort-order').value = skill.sort_order || 0;
@@ -212,7 +212,7 @@ function openSkillEditor(skill) {
         title.textContent = 'Add Skill';
         document.getElementById('skill-id').value = '';
         document.getElementById('skill-name').value = '';
-        document.getElementById('skill-proficiency').value = 0;
+        document.getElementById('skill-level').value = 'Working';
         document.getElementById('skill-icon').value = '';
         document.getElementById('skill-domain').value = '';
         document.getElementById('skill-sort-order').value = 0;
@@ -235,7 +235,7 @@ async function saveSkill() {
         
         const payload = {
             name: document.getElementById('skill-name').value.trim(),
-            proficiency: parseInt(document.getElementById('skill-proficiency').value, 10) || 0,
+            level: document.getElementById('skill-level').value,
             icon: document.getElementById('skill-icon').value.trim() || null,
             domain_id: domainIdVal ? parseInt(domainIdVal, 10) : null,
             sort_order: parseInt(document.getElementById('skill-sort-order').value, 10) || 0

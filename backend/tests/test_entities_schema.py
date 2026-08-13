@@ -92,27 +92,22 @@ def test_project_schema():
 
 
 def test_skill_schema():
-    """Test Skill domain_id, icon, and 0-100 proficiency."""
+    """Test Skill domain_id, icon, and level."""
     data = {
         "id": 1,
         "name": "Python",
-        "category": "Backend",
         "domain_id": 2,
         "icon": "python-icon",
-        "proficiency": 80,
+        "level": "Core",
         "sort_order": 1
     }
     skill = SkillOut(**data)
     assert skill.domain_id == 2
-    assert skill.proficiency == 80
-    assert skill.category == "Backend"
+    assert skill.level == "Core"
 
-    # Test proficiency limits
+    # Test level limits
     with pytest.raises(ValidationError):
-        SkillOut(**{**data, "proficiency": -1})
-        
-    with pytest.raises(ValidationError):
-        SkillOut(**{**data, "proficiency": 101})
+        SkillOut(**{**data, "level": "InvalidLevel"})
 
 
 def test_message_schema():

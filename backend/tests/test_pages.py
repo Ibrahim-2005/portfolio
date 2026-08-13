@@ -8,6 +8,7 @@ from app.models.project import Project
 from app.models.projects_config import ProjectsConfig
 from app.models.public_settings import PublicSettings
 from app.models.skill import Skill
+from app.models.skill_domain import SkillDomain
 
 
 @pytest.mark.asyncio
@@ -113,7 +114,8 @@ async def test_existing_data_untouched(client: AsyncClient, auth_headers: dict, 
     """Verify existing sections/project/skill data is untouched."""
     # Seed projects, skills
     db_session.add(Project(id=1, title="TestProj", description="Desc", tech_stack=[], sort_order=1))
-    db_session.add(Skill(id=1, name="TestSkill", proficiency=50, sort_order=1))
+    db_session.add(SkillDomain(id=1, name="Domain", sort_order=1))
+    db_session.add(Skill(id=1, name="TestSkill", domain_id=1, level="Working", sort_order=1))
     db_session.commit()
     
     # Hit singleton API
