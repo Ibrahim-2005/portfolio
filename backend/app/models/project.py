@@ -25,6 +25,7 @@ class Project(Base):
 
     # ── Fields ────────────────────────────────────────────────────────────────
     title: Mapped[str] = mapped_column(String(255), nullable=False)
+    subtitle: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     description: Mapped[str] = mapped_column(Text, nullable=False)
 

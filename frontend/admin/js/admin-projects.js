@@ -136,6 +136,7 @@ function openProjectEditor(project) {
         title.textContent = 'Edit Project';
         document.getElementById('project-id').value = project.id;
         document.getElementById('project-title').value = project.title || '';
+        document.getElementById('project-subtitle').value = project.subtitle || '';
         document.getElementById('project-description').value = project.description || '';
         document.getElementById('project-repo-url').value = project.repo_url || '';
         document.getElementById('project-live-url').value = project.live_url || '';
@@ -148,6 +149,7 @@ function openProjectEditor(project) {
         title.textContent = 'Add Project';
         document.getElementById('project-id').value = '';
         document.getElementById('project-title').value = '';
+        document.getElementById('project-subtitle').value = '';
         document.getElementById('project-description').value = '';
         document.getElementById('project-repo-url').value = '';
         document.getElementById('project-live-url').value = '';
@@ -222,6 +224,7 @@ async function saveProject() {
 
         const payload = {
             title: document.getElementById('project-title').value.trim(),
+            subtitle: document.getElementById('project-subtitle').value.trim() || null,
             description: document.getElementById('project-description').value.trim(),
             repo_url: document.getElementById('project-repo-url').value.trim() || null,
             live_url: document.getElementById('project-live-url').value.trim() || null,
