@@ -25,3 +25,5 @@ credentials.json
 # Cache
 .pytest_cache/
 .ruff_cache/
+
+.prettierrc
