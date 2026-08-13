@@ -2,14 +2,14 @@
 .home-content {
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 2.4vw, 1.6rem);
+  gap: clamp(0.75rem, 1.5vw, 1.15rem);
   width: 100%;
   max-width: none;
   box-sizing: border-box;
   min-height: 100%;
   justify-content: center;
   position: relative;
-  padding: clamp(18px, 4vw, 54px);
+  padding: clamp(18px, 3.5vw, 46px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   background:
@@ -83,7 +83,7 @@
 
 .content-pane .home-tagline {
   font-size: clamp(1rem, 2.5vw, 2rem);
-  font-weight: 100;
+  font-weight: 500;
   margin: 0;
   color: var(--fg-main);
   text-wrap: balance;
@@ -95,7 +95,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin: 0.5rem 0 0.75rem;
+  margin: 0.2rem 0 0.35rem;
 }
 
 .badge {
@@ -132,7 +132,7 @@
 
 .home-intro {
   font-size: clamp(1rem, 1.5vw, 1.18rem);
-  line-height: 1.75;
+  line-height: 1.5;
   color: var(--fg-main);
   max-width: none;
   position: relative;
@@ -142,8 +142,8 @@
 .home-ctas {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 4px;
   position: relative;
   z-index: 1;
 }
@@ -268,5 +268,21 @@
   to {
     transform: translate3d(-2rem, 2rem, 0) scale(1.12);
     opacity: 0.92;
+  }
+}
+
+/* Desktop Home layout */
+@media (min-width: 1025px) {
+  .content-pane:has(.home-content) {
+    padding-top: 16px !important;
+    overflow: hidden;
+  }
+
+  .content-pane:has(.home-content)::-webkit-scrollbar {
+    display: none;
+  }
+
+  .content-pane:has(.home-content) {
+    scrollbar-width: none;
   }
 }
