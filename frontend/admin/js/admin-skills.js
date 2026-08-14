@@ -205,7 +205,7 @@ function openSkillEditor(skill) {
         document.getElementById('skill-id').value = skill.id;
         document.getElementById('skill-name').value = skill.name || '';
         document.getElementById('skill-level').value = skill.level || 'Working';
-        document.getElementById('skill-icon').value = skill.icon || '';
+        document.getElementById('skill-icon-input').value = skill.icon || '';
         document.getElementById('skill-domain').value = skill.domain_id || '';
         document.getElementById('skill-sort-order').value = skill.sort_order || 0;
     } else {
@@ -213,7 +213,7 @@ function openSkillEditor(skill) {
         document.getElementById('skill-id').value = '';
         document.getElementById('skill-name').value = '';
         document.getElementById('skill-level').value = 'Working';
-        document.getElementById('skill-icon').value = '';
+        document.getElementById('skill-icon-input').value = '';
         document.getElementById('skill-domain').value = '';
         document.getElementById('skill-sort-order').value = 0;
     }
@@ -236,7 +236,7 @@ async function saveSkill() {
         const payload = {
             name: document.getElementById('skill-name').value.trim(),
             level: document.getElementById('skill-level').value,
-            icon: document.getElementById('skill-icon').value.trim() || null,
+            icon: document.getElementById('skill-icon-input') ? document.getElementById('skill-icon-input').value.trim() || null : null,
             domain_id: domainIdVal ? parseInt(domainIdVal, 10) : null,
             sort_order: parseInt(document.getElementById('skill-sort-order').value, 10) || 0
         };
