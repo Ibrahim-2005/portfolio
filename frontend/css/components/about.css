@@ -4,7 +4,6 @@
   width: 100%;
   max-width: none;
   box-sizing: border-box;
-  padding: 0.1rem clamp(0.75rem, 1.25vw, 1.25rem) 0.1rem;
   color: var(--fg-default);
 }
 
