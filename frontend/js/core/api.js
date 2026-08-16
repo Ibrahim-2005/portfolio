@@ -55,7 +55,13 @@ export const api = {
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                name: payload.name,
+                email: payload.email,
+                phone: payload.phone || null,
+                subject: payload.subject || null,
+                message: payload.message
+            })
         });
         if (!response.ok) {
             let errMsg = 'Failed to submit message';

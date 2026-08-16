@@ -16,6 +16,8 @@ async def test_submit_contact(client: AsyncClient, db_session: Session):
     payload = {
         "name": "Test User",
         "email": "test@example.com",
+        "phone": "123-456-7890",
+        "subject": "Test Subject",
         "message": "This is a test message.",
     }
     resp = await client.post("/api/contact", json=payload)
@@ -28,7 +30,24 @@ async def test_submit_contact(client: AsyncClient, db_session: Session):
     msg = db_session.query(Message).first()
     assert msg.name == "Test User"
     assert msg.email == "test@example.com"
+    assert msg.phone == "123-456-7890"
+    assert msg.subject == "Test Subject"
     assert msg.message == "This is a test message."
+
+
+@pytest.mark.asyncio
+async def test_submit_contact_without_optional(client: AsyncClient, db_session: Session):
+    payload = {
+        "name": "Test User",
+        "email": "test@example.com",
+        "message": "This is a test message.",
+    }
+    resp = await client.post("/api/contact", json=payload)
+    assert resp.status_code == 201
+
+    msg = db_session.query(Message).filter_by(email="test@example.com").order_by(Message.id.desc()).first()
+    assert msg.phone is None
+    assert msg.subject is None
 
 
 @pytest.mark.asyncio

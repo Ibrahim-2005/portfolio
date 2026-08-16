@@ -30,6 +30,8 @@ def submit_contact(
     new_message = Message(
         name=payload.name,
         email=payload.email,
+        phone=payload.phone,
+        subject=payload.subject,
         message=payload.message,
     )
     db.add(new_message)

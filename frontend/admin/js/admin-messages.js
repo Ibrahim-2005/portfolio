@@ -38,7 +38,8 @@ async function loadMessages() {
                         <h4 style="margin: 0;">${escapeHtml(msg.name)} <span style="font-weight: normal; color: var(--text-muted);">&lt;${escapeHtml(msg.email)}&gt;</span></h4>
                         <span style="font-size: 0.85rem; color: var(--text-muted);">${new Date(msg.created_at).toLocaleString()}</span>
                     </div>
-                    ${msg.phone ? `<div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">Phone: ${escapeHtml(msg.phone)}</div>` : ''}
+                    ${msg.phone ? `<div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.25rem;">Phone: ${escapeHtml(msg.phone)}</div>` : ''}
+                    ${msg.subject ? `<div style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem;">Subject: ${escapeHtml(msg.subject)}</div>` : ''}
                     <div style="white-space: pre-wrap; font-size: 0.95rem;">${escapeHtml(msg.message)}</div>
                 </div>
                 <div class="item-actions" style="margin-left: 1rem; align-self: flex-start;">

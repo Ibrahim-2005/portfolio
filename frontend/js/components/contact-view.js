@@ -66,6 +66,13 @@ export async function renderContact() {
         linksHtml = '<p style="color: var(--fg-muted);">No contact links available.</p>';
     }
 
+    const introText = `
+        <div class="contact-intro-text">
+            <p></p>
+            <p></p>
+        </div>
+    `;
+
     return `
 <div class="contact-container">
     <div class="contact-header">
@@ -75,12 +82,13 @@ export async function renderContact() {
     </div>
 
     <div class="contact-layout">
-        <div class="contact-column">
-            <h3 class="contact-column-title">FIND ME ON</h3>
+        <div class="contact-column contact-info-column">
+            ${introText}
+            <h3 class="contact-column-title">LET'S CONNECT</h3>
             ${linksHtml}
         </div>
 
-        <div class="contact-column">
+        <div class="contact-column contact-form-column">
             <h3 class="contact-column-title">SEND A MESSAGE</h3>
             <div class="contact-form-section">
                 <form id="public-contact-form" class="contact-form" onsubmit="window.submitContactForm(event)">
@@ -95,13 +103,18 @@ export async function renderContact() {
                     </div>
 
                     <div class="contact-form-group">
+                        <label class="contact-form-label" for="contact-phone">// YOUR_PHONE</label>
+                        <input type="tel" id="contact-phone" name="phone" class="contact-form-input" />
+                    </div>
+
+                    <div class="contact-form-group">
                         <label class="contact-form-label" for="contact-subject">// SUBJECT</label>
                         <input type="text" id="contact-subject" name="subject" class="contact-form-input" />
                     </div>
 
                     <div class="contact-form-group">
                         <label class="contact-form-label" for="contact-message">// MESSAGE <span class="required">*</span></label>
-                        <textarea id="contact-message" name="message" class="contact-form-textarea" required></textarea>
+                        <textarea id="contact-message" name="message" class="contact-form-textarea" required minlength="10"></textarea>
                     </div>
 
                     <button type="submit" id="contact-submit-btn" class="contact-form-submit">[ → send_message() ]</button>
@@ -123,22 +136,20 @@ window.submitContactForm = async function(e) {
     const btn = document.getElementById('contact-submit-btn');
     const feedback = document.getElementById('contact-form-feedback');
 
-    // Read fields matching existing schema (MessageCreate expects name, email, message)
-    // We can also prepend the subject to the message if needed since the model only has 'message'
     const name = document.getElementById('contact-name').value.trim();
     const email = document.getElementById('contact-email').value.trim();
+    const phone = document.getElementById('contact-phone').value.trim();
     const subject = document.getElementById('contact-subject').value.trim();
-    let messageBody = document.getElementById('contact-message').value.trim();
-
-    if (subject) {
-        messageBody = `Subject: ${subject}\n\n${messageBody}`;
-    }
+    const messageBody = document.getElementById('contact-message').value.trim();
 
     const payload = {
         name: name,
         email: email,
         message: messageBody
     };
+
+    if (phone) payload.phone = phone;
+    if (subject) payload.subject = subject;
 
     btn.disabled = true;
     btn.textContent = '[ sending... ]';
@@ -151,7 +162,6 @@ window.submitContactForm = async function(e) {
         feedback.textContent = 'Message sent successfully!';
         feedback.classList.add('success');
 
-        // Use existing toast if available
         if (window.showToast) {
             window.showToast('Message sent successfully!');
         }
