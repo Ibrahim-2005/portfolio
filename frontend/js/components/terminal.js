@@ -60,7 +60,11 @@ export function initTerminal() {
         const line = document.createElement('div');
         line.className = 'terminal-line';
         if (isCommand) {
-            line.innerHTML = `<span class="prompt">guest@portfolio:~$</span> ${text}`;
+            const promptSpan = document.createElement('span');
+            promptSpan.className = 'prompt';
+            promptSpan.textContent = 'guest@portfolio:~$';
+            line.appendChild(promptSpan);
+            line.appendChild(document.createTextNode(` ${text}`));
         } else {
             line.textContent = text;
         }
