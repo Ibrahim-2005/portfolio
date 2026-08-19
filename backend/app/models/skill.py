@@ -27,7 +27,7 @@ class Skill(Base):
     icon: Mapped[str | None] = mapped_column(String(255), nullable=True)
     
     # Qualitative level: Core, Hands-on, Working
-    level: Mapped[str] = mapped_column(String(50), nullable=False, default="Working")
+    level: Mapped[str] = mapped_column(String(50), nullable=False, server_default="Working", default="Working")
     
     sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 

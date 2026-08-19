@@ -153,3 +153,21 @@ async def test_admin_route_token_for_deleted_user(client, db_session):
         headers={"Authorization": f"Bearer {token}"},
     )
     assert resp.status_code == 401
+
+
+@pytest.mark.asyncio
+async def test_login_rate_limit(client, db_session):
+    """Exceeding rate limit on login (5/min) -> 429 Too Many Requests."""
+    _seed_admin(db_session)
+
+    statuses = []
+    for _ in range(8):
+        resp = await client.post(
+            "/api/auth/login",
+            json={"email": "admin@test.com", "password": "wrong-password"},
+        )
+        statuses.append(resp.status_code)
+
+    assert 429 in statuses
+    first_429 = statuses.index(429)
+    assert all(s == 429 for s in statuses[first_429:])
