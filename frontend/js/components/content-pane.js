@@ -134,7 +134,7 @@ export async function renderContent() {
     } else if (activeTab.slug === 'contact') {
         html = await renderContact();
     } else if (activeTab.slug === 'readme') {
-        const data = await api.request('/pages/readme');
+        const data = await api.getPageConfig('readme');
         if (!data) {
             html = '<div style="color:red;padding:2rem;">Failed to load README.</div>';
         } else if (data.content) {
@@ -147,7 +147,7 @@ export async function renderContent() {
             html = '<div style="padding:2rem;"><i>No README content available.</i></div>';
         }
     } else if (activeTab.slug === 'certificates') {
-        const data = await api.request('/pages/certificates');
+        const data = await api.getPageConfig('certificates');
         if (!data) {
             html = '<div style="color:red;padding:2rem;">Failed to load Certificates.</div>';
         } else if (data.content) {
