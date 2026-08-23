@@ -42,7 +42,12 @@ async function fetchCachedJSON(endpoint, cacheKey) {
 export const api = {
     // Structured Phase 3 Endpoints
     getSidebar: () => fetchCachedJSON('/sidebar', 'sidebar'),
-    getPageConfig: (slug) => fetchCachedJSON(`/pages/${slug}`, `page:${slug}`),
+    getPageConfig: (slug) => {
+        if (slug === 'readme' || slug === 'certificates') {
+            return fetchJSON(`/pages/${slug}`);
+        }
+        return fetchCachedJSON(`/pages/${slug}`, `page:${slug}`);
+    },
     getProjects: () => fetchCachedJSON('/projects', 'projects'),
     getSkills: () => fetchCachedJSON('/skills', 'skills'),
     getEducation: () => fetchCachedJSON('/education', 'education'),

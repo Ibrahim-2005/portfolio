@@ -111,7 +111,7 @@ export async function renderContent() {
 
 
     // Check cache
-    if (contentCache[activeTab.id]) {
+    if (contentCache[activeTab.id] && activeTab.slug !== 'readme' && activeTab.slug !== 'certificates') {
         pane.innerHTML = contentCache[activeTab.id];
         return;
     }
@@ -135,30 +135,64 @@ export async function renderContent() {
         html = await renderContact();
     } else if (activeTab.slug === 'readme') {
         const data = await api.getPageConfig('readme');
+        let contentHtml = '';
         if (!data) {
-            html = '<div style="color:red;padding:2rem;">Failed to load README.</div>';
+            contentHtml = '<div style="color:red;padding:1rem 0;">Failed to load README.</div>';
         } else if (data.content) {
-            if (window.marked) {
-                html = `<div style="padding:2rem;max-width:800px;">${window.marked.parse(data.content)}</div>`;
+            if (window.marked && window.DOMPurify) {
+                contentHtml = window.DOMPurify.sanitize(window.marked.parse(data.content));
+            } else if (window.marked) {
+                contentHtml = window.marked.parse(data.content);
             } else {
-                html = `<div style="padding:2rem;max-width:800px;"><pre>${data.content}</pre></div>`;
+                contentHtml = `<pre>${data.content}</pre>`;
             }
         } else {
-            html = '<div style="padding:2rem;"><i>No README content available.</i></div>';
+            contentHtml = '<div style="padding:1rem 0;"><i>No README content available.</i></div>';
         }
+
+        html = `
+<div class="about-page-container">
+    <div class="about-page-comment">// readme</div>
+    <h1 class="about-page-heading">README.md</h1>
+    <h2 class="about-page-tagline">Project documentation, architecture, and technical details.</h2>
+    <hr style="height: 1px; padding: 0; margin: 1.25rem 0 1.5rem 0; background-color: var(--border-color); border: 0;" />
+
+    <div class="markdown-card">
+        <div class="markdown-body">
+            ${contentHtml}
+        </div>
+    </div>
+</div>`;
     } else if (activeTab.slug === 'certificates') {
         const data = await api.getPageConfig('certificates');
+        let contentHtml = '';
         if (!data) {
-            html = '<div style="color:red;padding:2rem;">Failed to load Certificates.</div>';
+            contentHtml = '<div style="color:red;padding:1rem 0;">Failed to load Certificates.</div>';
         } else if (data.content) {
-            if (window.marked) {
-                html = `<div style="padding:2rem;max-width:800px;">${window.marked.parse(data.content)}</div>`;
+            if (window.marked && window.DOMPurify) {
+                contentHtml = window.DOMPurify.sanitize(window.marked.parse(data.content));
+            } else if (window.marked) {
+                contentHtml = window.marked.parse(data.content);
             } else {
-                html = `<div style="padding:2rem;max-width:800px;"><pre>${data.content}</pre></div>`;
+                contentHtml = `<pre>${data.content}</pre>`;
             }
         } else {
-            html = '<div style="padding:2rem;"><i>No Certificates available.</i></div>';
+            contentHtml = '<div style="padding:1rem 0;"><i>No Certificates available.</i></div>';
         }
+
+        html = `
+<div class="about-page-container">
+    <div class="about-page-comment">// certificates</div>
+    <h1 class="about-page-heading">Certificates</h1>
+    <h2 class="about-page-tagline">Courses, achievements, and verifications.</h2>
+    <hr style="height: 1px; padding: 0; margin: 1.25rem 0 1.5rem 0; background-color: var(--border-color); border: 0;" />
+
+    <div class="markdown-card">
+        <div class="markdown-body">
+            ${contentHtml}
+        </div>
+    </div>
+</div>`;
     } else {
         html = '<div style="color:red;padding:2rem;">Failed to load content. Unknown page.</div>';
     }
