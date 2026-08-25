@@ -15,8 +15,9 @@ from app.models.resume_file import ResumeFile
 
 router = APIRouter(tags=["public:resume"])
 
-@router.get(
+@router.api_route(
     "/resume",
+    methods=["GET", "HEAD"],
     summary="Download Resume PDF",
     description="Serves the portfolio's main resume PDF file.",
     responses={

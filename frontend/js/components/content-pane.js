@@ -7,6 +7,7 @@ import { renderHome } from './home-view.js';
 import { renderAbout } from './about-view.js';
 import { renderEducation } from './education-view.js';
 import { renderContact } from './contact-view.js';
+import { renderResume } from './resume-view.js';
 
 // Cache to avoid re-rendering content for the same tab repeatedly
 const contentCache = {};
@@ -97,15 +98,9 @@ export async function renderContent() {
 
     // Special case for Resume tab
     if (activeTab.slug === 'resume') {
-        const resumeUrl = `${API_BASE_URL}/resume`;
-        pane.innerHTML = `
-            <div style="display: flex; flex-direction: column; height: 100%; padding: 1rem;">
-                <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
-                    <a href="${resumeUrl}" target="_blank" download="Resume.pdf" class="cta-button primary" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Download PDF</a>
-                </div>
-                <iframe src="${resumeUrl}" style="flex-grow: 1; width: 100%; border: 1px solid var(--border-color); border-radius: 4px; background: white;"></iframe>
-            </div>
-        `;
+        pane.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--fg-muted);">Loading resume...</div>';
+        const html = await renderResume();
+        pane.innerHTML = html;
         return;
     }
 
