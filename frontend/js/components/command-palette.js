@@ -1,19 +1,20 @@
 // components/command-palette.js
-// Handles the Ctrl+Shift+P overlay, theme selection, quick open, and commands logic
+// Handles the VS Code-style "Go to File / Run Command" palette, theme selection, and keyboard navigation
 
 import { themes, setTheme, getCurrentTheme } from '../features/theme-engine.js';
-import { getFiles, openTabBySlug } from './sidebar.js';
+import { getFiles, createFileIcon } from './sidebar.js';
 import { state } from '../core/state.js';
+import { toggleTerminal } from './terminal.js';
 
 let isPaletteOpenInternal = false;
-let currentMode = 'commands'; // 'commands', 'themes', 'files'
+let currentMode = 'all'; // 'all', 'commands', 'themes'
 let selectedIndex = 0;
 let filteredItems = [];
 
 const commands = [
-    { id: 'cmd-theme', name: 'Preferences: Color Theme', action: () => openPaletteWithMode('themes') },
-    { id: 'cmd-shortcuts', name: 'Preferences: Open Keyboard Shortcuts', action: () => openShortcutsView() },
-    { id: 'cmd-terminal', name: 'View: Toggle Terminal', action: () => document.dispatchEvent(new KeyboardEvent('keydown', { key: '`', ctrlKey: true })) }
+    { id: 'cmd-theme', name: 'Preferences: Color Theme', icon: '🎨', action: () => openPaletteWithMode('themes') },
+    { id: 'cmd-shortcuts', name: 'Preferences: Open Keyboard Shortcuts', icon: '⌨', action: () => openShortcutsView() },
+    { id: 'cmd-terminal', name: 'View: Toggle Terminal', icon: '▭', action: () => toggleTerminal() }
 ];
 
 export function isPaletteOpen() {
@@ -24,7 +25,7 @@ export function initPalette() {
     const overlay = document.getElementById('command-palette-overlay');
     const input = document.getElementById('cmd-input');
     const toggleBtn = document.getElementById('status-theme-toggle');
-    
+
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
             openPaletteWithMode('themes');
@@ -49,43 +50,52 @@ export function initPalette() {
 
         if (e.key === 'ArrowDown') {
             e.preventDefault();
-            selectedIndex = Math.min(selectedIndex + 1, filteredItems.length - 1);
-            renderList();
+            if (filteredItems.length > 0) {
+                selectedIndex = (selectedIndex + 1) % filteredItems.length;
+                renderList();
+            }
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            selectedIndex = Math.max(selectedIndex - 1, 0);
-            renderList();
+            if (filteredItems.length > 0) {
+                selectedIndex = (selectedIndex - 1 + filteredItems.length) % filteredItems.length;
+                renderList();
+            }
         } else if (e.key === 'Enter') {
             e.preventDefault();
-            if (filteredItems.length > 0) {
+            if (filteredItems.length > 0 && filteredItems[selectedIndex]) {
                 executeItem(filteredItems[selectedIndex]);
             }
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closePalette();
         }
     });
 }
 
 export function togglePalette() {
     if (isPaletteOpenInternal) closePalette();
-    else openPaletteWithMode('commands');
+    else openPaletteWithMode('all');
 }
 
-export function openPaletteWithMode(mode) {
+export function openPaletteWithMode(mode = 'all') {
     isPaletteOpenInternal = true;
     currentMode = mode;
     const overlay = document.getElementById('command-palette-overlay');
     const input = document.getElementById('cmd-input');
-    
+    const prefix = overlay.querySelector('.cmd-prompt-prefix');
+
     overlay.classList.add('visible');
-    
+
     if (mode === 'themes') {
         input.placeholder = 'Select Color Theme...';
-    } else if (mode === 'files') {
-        input.placeholder = 'Search files by name...';
+        input.value = '';
+        if (prefix) prefix.style.display = 'none';
     } else {
-        input.placeholder = 'Type a command...';
+        input.placeholder = 'Go to file or run command...';
+        input.value = '';
+        if (prefix) prefix.style.display = 'inline-block';
     }
-    
-    input.value = (mode === 'commands') ? '>' : '';
+
     filterItems(input.value);
     input.focus();
 }
@@ -96,53 +106,79 @@ export function closePalette() {
     overlay.classList.remove('visible');
 }
 
-function filterItems(query) {
-    // If they typed >, switch to commands mode
+function filterItems(rawQuery = '') {
+    let query = (rawQuery || '').trim();
+    let isCommandPrefix = false;
+
     if (query.startsWith('>')) {
-        currentMode = 'commands';
+        isCommandPrefix = true;
         query = query.substring(1).trim().toLowerCase();
     } else {
-        query = query.trim().toLowerCase();
+        query = query.toLowerCase();
     }
 
     if (currentMode === 'themes') {
-        filteredItems = themes.filter(t => t.name.toLowerCase().includes(query)).map(t => ({
-            type: 'theme',
-            id: t.id,
-            name: t.name,
-            isActive: t.id === getCurrentTheme()
-        }));
-    } else if (currentMode === 'files') {
-        const files = getFiles();
-        filteredItems = files.filter(f => f.title.toLowerCase().includes(query)).map(f => ({
-            type: 'file',
-            id: f.id,
-            name: f.title,
-            slug: f.slug,
-            node: f
-        }));
+        filteredItems = themes
+            .filter(t => t.name.toLowerCase().includes(query))
+            .map(t => ({
+                type: 'theme',
+                id: t.id,
+                name: t.name,
+                isActive: t.id === getCurrentTheme()
+            }));
+
+        selectedIndex = 0;
+        if (query === '') {
+            const activeIndex = filteredItems.findIndex(t => t.isActive);
+            if (activeIndex !== -1) selectedIndex = activeIndex;
+        }
+    } else if (isCommandPrefix) {
+        filteredItems = commands
+            .filter(c => c.name.toLowerCase().includes(query))
+            .map(c => ({
+                type: 'command',
+                id: c.id,
+                name: c.name,
+                icon: c.icon,
+                action: c.action
+            }));
+        selectedIndex = 0;
     } else {
-        // Commands
-        filteredItems = commands.filter(c => c.name.toLowerCase().includes(query)).map(c => ({
-            type: 'command',
-            id: c.id,
-            name: c.name,
-            action: c.action
-        }));
+        // Unified mode: Show matching COMMANDS first, then matching FILES below
+        const matchedCommands = commands
+            .filter(c => c.name.toLowerCase().includes(query))
+            .map(c => ({
+                type: 'command',
+                id: c.id,
+                name: c.name,
+                icon: c.icon,
+                action: c.action
+            }));
+
+        const files = getFiles();
+        const matchedFiles = files
+            .filter(f => {
+                const fullName = `${f.title}${f.extension || ''}`.toLowerCase();
+                return fullName.includes(query) || (f.slug && f.slug.toLowerCase().includes(query));
+            })
+            .map(f => ({
+                type: 'file',
+                id: f.id,
+                name: `${f.title}${f.extension || ''}`,
+                slug: f.slug,
+                node: f
+            }));
+
+        filteredItems = [...matchedCommands, ...matchedFiles];
+        selectedIndex = 0;
     }
 
-    selectedIndex = 0;
-    
-    // For themes, pre-select the active theme if query is empty
-    if (currentMode === 'themes' && query === '') {
-        const activeIndex = filteredItems.findIndex(t => t.isActive);
-        if (activeIndex !== -1) selectedIndex = activeIndex;
-    }
-    
     renderList();
 }
 
 function executeItem(item) {
+    if (!item) return;
+
     if (item.type === 'theme') {
         setTheme(item.id);
         closePalette();
@@ -160,63 +196,182 @@ function executeItem(item) {
 function renderList() {
     const listEl = document.getElementById('cmd-list');
     listEl.innerHTML = '';
-    
+
     if (filteredItems.length === 0) {
-        listEl.innerHTML = '<div class="cmd-item" style="color:var(--fg-muted);">No results found</div>';
+        listEl.innerHTML = '<div class="cmd-empty">No files or commands found.</div>';
         return;
     }
 
-    filteredItems.forEach((item, idx) => {
-        const el = document.createElement('div');
-        el.className = `cmd-item ${idx === selectedIndex ? 'selected' : ''}`;
-        
-        const label = document.createElement('span');
-        label.textContent = item.name;
-        
-        if (item.type === 'theme' && item.isActive) {
-            const check = document.createElement('span');
-            check.textContent = '✓';
-            check.style.opacity = '0.7';
-            el.appendChild(label);
-            el.appendChild(check);
-        } else if (item.type === 'file') {
-            const icon = document.createElement('span');
-            icon.textContent = '📄 ';
-            icon.style.opacity = '0.7';
-            el.appendChild(icon);
-            el.appendChild(label);
-        } else {
-            el.appendChild(label);
+    if (currentMode === 'themes') {
+        const sectionEl = document.createElement('div');
+        sectionEl.className = 'cmd-section-header';
+        sectionEl.textContent = 'THEMES';
+        listEl.appendChild(sectionEl);
+
+        filteredItems.forEach((item, idx) => {
+            const el = createThemeRow(item, idx);
+            listEl.appendChild(el);
+        });
+    } else {
+        const commandItems = filteredItems.filter(it => it.type === 'command');
+        const fileItems = filteredItems.filter(it => it.type === 'file');
+
+        let globalIndex = 0;
+
+        // 1. COMMANDS SECTION
+        if (commandItems.length > 0) {
+            const cmdHeader = document.createElement('div');
+            cmdHeader.className = 'cmd-section-header';
+            cmdHeader.textContent = 'COMMANDS';
+            listEl.appendChild(cmdHeader);
+
+            commandItems.forEach(item => {
+                const el = createCommandRow(item, globalIndex);
+                listEl.appendChild(el);
+                globalIndex++;
+            });
         }
 
-        el.addEventListener('mouseenter', () => {
-            selectedIndex = idx;
-            renderList();
-        });
+        // 2. FILES SECTION (BELOW COMMANDS)
+        if (fileItems.length > 0) {
+            const fileHeader = document.createElement('div');
+            fileHeader.className = 'cmd-section-header';
+            fileHeader.textContent = 'FILES';
+            listEl.appendChild(fileHeader);
 
-        el.addEventListener('click', () => {
-            executeItem(item);
-        });
+            fileItems.forEach(item => {
+                const el = createFileRow(item, globalIndex);
+                listEl.appendChild(el);
+                globalIndex++;
+            });
+        }
+    }
 
-        listEl.appendChild(el);
-    });
-    
-    // Scroll into view
+    // Scroll selected element into view
     const selectedEl = listEl.querySelector('.selected');
     if (selectedEl) {
         selectedEl.scrollIntoView({ block: 'nearest' });
     }
 }
 
+function createFileRow(item, idx) {
+    const el = document.createElement('div');
+    el.className = `cmd-item ${idx === selectedIndex ? 'selected' : ''}`;
+    el.setAttribute('role', 'option');
+    el.setAttribute('aria-selected', idx === selectedIndex ? 'true' : 'false');
+    el.dataset.index = idx;
+
+    const leftGroup = document.createElement('div');
+    leftGroup.className = 'cmd-item-left';
+
+    const iconSpan = createFileIcon(item.node);
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'cmd-item-name';
+    nameSpan.textContent = item.name;
+
+    leftGroup.appendChild(iconSpan);
+    leftGroup.appendChild(nameSpan);
+
+    el.appendChild(leftGroup);
+
+    el.addEventListener('mouseenter', () => {
+        selectedIndex = idx;
+        renderList();
+    });
+
+    el.addEventListener('click', () => {
+        executeItem(item);
+    });
+
+    return el;
+}
+
+function createCommandRow(item, idx) {
+    const el = document.createElement('div');
+    el.className = `cmd-item ${idx === selectedIndex ? 'selected' : ''}`;
+    el.setAttribute('role', 'option');
+    el.setAttribute('aria-selected', idx === selectedIndex ? 'true' : 'false');
+    el.dataset.index = idx;
+
+    const leftGroup = document.createElement('div');
+    leftGroup.className = 'cmd-item-left';
+
+    const iconSpan = document.createElement('span');
+    iconSpan.className = 'icon cmd-file-icon';
+    iconSpan.textContent = item.icon || '⚡';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'cmd-item-name';
+    nameSpan.textContent = item.name;
+
+    leftGroup.appendChild(iconSpan);
+    leftGroup.appendChild(nameSpan);
+
+    el.appendChild(leftGroup);
+
+    el.addEventListener('mouseenter', () => {
+        selectedIndex = idx;
+        renderList();
+    });
+
+    el.addEventListener('click', () => {
+        executeItem(item);
+    });
+
+    return el;
+}
+
+function createThemeRow(item, idx) {
+    const el = document.createElement('div');
+    el.className = `cmd-item ${idx === selectedIndex ? 'selected' : ''}`;
+    el.setAttribute('role', 'option');
+    el.setAttribute('aria-selected', idx === selectedIndex ? 'true' : 'false');
+    el.dataset.index = idx;
+
+    const leftGroup = document.createElement('div');
+    leftGroup.className = 'cmd-item-left';
+
+    const iconSpan = document.createElement('span');
+    iconSpan.className = 'icon cmd-file-icon';
+    iconSpan.textContent = '🎨';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'cmd-item-name';
+    nameSpan.textContent = item.name;
+
+    leftGroup.appendChild(iconSpan);
+    leftGroup.appendChild(nameSpan);
+
+    el.appendChild(leftGroup);
+
+    if (item.isActive) {
+        const check = document.createElement('span');
+        check.className = 'cmd-item-check';
+        check.textContent = '✓';
+        el.appendChild(check);
+    }
+
+    el.addEventListener('mouseenter', () => {
+        selectedIndex = idx;
+        renderList();
+    });
+
+    el.addEventListener('click', () => {
+        executeItem(item);
+    });
+
+    return el;
+}
+
 function openShortcutsView() {
-    // Generate a virtual node for the shortcuts page
     const shortcutsNode = {
         id: 'virtual-shortcuts',
         slug: 'shortcuts',
         title: 'Keyboard Shortcuts',
         type: 'page',
         icon: '⌨',
-        virtual: true // indicates it shouldn't be fetched from API
+        virtual: true
     };
     state.openTab(shortcutsNode);
 }

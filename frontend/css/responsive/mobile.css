@@ -95,4 +95,24 @@
     .cmd-list .cmd-item {
         padding: 14px 10px !important; /* Larger touch targets */
     }
+
+    /* Titlebar Search Pill on Mobile */
+    .titlebar-search-pill {
+        width: auto;
+        max-width: 170px;
+        padding: 0 6px;
+        font-size: 11px;
+    }
+
+    .titlebar-search-pill .pill-desc,
+    .titlebar-search-pill .pill-sep {
+        display: none;
+    }
+
+    /* Titlebar Easter Egg mobile constraint */
+    .titlebar-easter-egg {
+        max-width: 90px;
+        font-size: 10px;
+        text-overflow: ellipsis;
+    }
 }

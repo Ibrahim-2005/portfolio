@@ -11,6 +11,16 @@
         radial-gradient(circle at var(--pointer-x, 72%) var(--pointer-y, 18%), var(--glow-primary), transparent 24rem),
         radial-gradient(circle at 12% 82%, var(--glow-secondary), transparent 26rem),
         linear-gradient(135deg, color-mix(in srgb, var(--bg-main) 86%, #07111f 14%), var(--bg-main) 56%, color-mix(in srgb, var(--bg-main) 88%, #2b173c 12%));
+    transition: height var(--motion-med), width var(--motion-med), border-radius var(--motion-med), box-shadow var(--motion-med), transform var(--motion-med);
+}
+
+.app-container.is-fullscreen {
+    border-radius: 0 !important;
+    margin: 0 !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    box-shadow: none !important;
 }
 
 .app-container::before,
@@ -40,7 +50,7 @@
 
 .titlebar {
     height: var(--titlebar-height);
-    background: linear-gradient(180deg, var(--surface-glass-strong), color-mix(in srgb, var(--bg-titlebar) 72%, transparent));
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-titlebar) 86%, #050914 14%), color-mix(in srgb, var(--bg-titlebar) 70%, #020409 30%));
     backdrop-filter: blur(18px) saturate(1.25);
     display: flex;
     align-items: center;
@@ -48,22 +58,46 @@
     padding: 0 10px;
     flex-shrink: 0;
     user-select: none;
-    border-bottom: 1px solid var(--border-subtle);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 45%, #000 55%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 2px 8px rgba(0, 0, 0, 0.22);
+    position: relative;
+}
+
+.titlebar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 60px;
+    z-index: 2;
 }
 
 .titlebar-controls-mac {
     display: flex;
+    align-items: center;
     gap: 8px;
-    width: 60px; /* fixed width to balance title centering */
+    flex-shrink: 0;
 }
 
 .mac-btn {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.16);
     transition: transform var(--motion-fast), filter var(--motion-fast);
+    outline: none;
+    line-height: 0;
+    color: #cbd5e1;
+}
+
+.mac-btn:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent), 0 0 0 1px rgba(0, 0, 0, 0.22);
 }
 
 .mac-btn.close { background-color: #ff5f56; }
@@ -75,18 +109,161 @@
     transform: scale(1.08);
 }
 
-.titlebar-title {
-    text-align: center;
-    flex-grow: 1;
-    font-size: 12px;
+/* Mac window control SVG icons */
+.mac-icon {
+    width: 7.5px;
+    height: 7.5px;
+    display: block;
+    pointer-events: none;
+    opacity: 0;
+    color: #cbd5e1;
+    transition: opacity var(--motion-fast), color var(--motion-fast);
+    filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.35));
+    flex-shrink: 0;
+}
+
+.titlebar-controls-mac:hover .mac-icon,
+.mac-btn:hover .mac-icon,
+.mac-btn:focus-visible .mac-icon {
+    opacity: 0.85;
+    color: #cbd5e1;
+}
+
+.mac-btn:hover .mac-icon {
+    opacity: 1;
+    color: #000000;
+}
+
+.app-container:not(.is-fullscreen) .icon-restore { display: none !important; }
+.app-container.is-fullscreen .icon-minimize { display: none !important; }
+
+.titlebar-easter-egg {
+    font-size: 11px;
     font-family: var(--font-code);
+    color: var(--accent-strong, #b56bff);
+    white-space: nowrap;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    transform: translateX(-4px);
+    transition: opacity var(--motion-fast), transform var(--motion-fast), max-width var(--motion-med);
+}
+
+.titlebar-easter-egg.is-visible {
+    opacity: 1;
+    max-width: calc(50vw - 230px);
+    transform: translateX(0);
+    animation: easter-egg-pop 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Center Command / Search Pill */
+.titlebar-search-pill {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: clamp(280px, 30vw, 360px);
+    height: 24px;
+    padding: 0 12px;
+    background: color-mix(in srgb, var(--bg-main) 68%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 65%, transparent);
+    border-radius: var(--radius-sm);
     color: var(--fg-muted);
+    font-family: var(--font-code);
+    font-size: 11.5px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 5;
+    transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast);
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18) inset;
+}
+
+.titlebar-search-pill:hover {
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg-main) 88%);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border-color));
+    color: var(--fg-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+.titlebar-search-pill:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-soft), 0 2px 8px rgba(0, 0, 0, 0.22);
+    color: var(--fg-main);
+}
+
+.pill-left-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.pill-search-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: var(--fg-muted);
+    transition: color var(--motion-fast);
+}
+
+.titlebar-search-pill:hover .pill-search-icon,
+.titlebar-search-pill:focus-visible .pill-search-icon {
+    color: var(--accent);
+}
+
+.pill-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pill-title {
+    color: var(--fg-main);
+    font-weight: 500;
+}
+
+.pill-sep {
+    color: var(--fg-muted);
+    opacity: 0.6;
+}
+
+.pill-desc {
+    color: var(--fg-muted);
+    font-size: 11px;
+}
+
+.pill-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+}
+
+.pill-key {
+    font-size: 9.5px;
+    font-family: var(--font-code);
+    background: color-mix(in srgb, var(--bg-sidebar) 75%, var(--bg-main) 25%);
+    border: 1px solid color-mix(in srgb, var(--border-color) 75%, transparent);
+    border-radius: 3px;
+    padding: 1.5px 5px;
+    color: var(--fg-muted);
+    line-height: 1.2;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .titlebar-actions {
-    width: 60px; /* balance */
+    width: 60px;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    z-index: 2;
 }
 
 .sidebar-toggle-btn {
@@ -102,6 +279,11 @@
     background: var(--bg-hover);
     color: var(--fg-active);
     transform: translateY(-1px);
+}
+
+@keyframes easter-egg-pop {
+    0% { opacity: 0; transform: translateX(-6px) scale(0.96); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 @keyframes ambient-drift {
