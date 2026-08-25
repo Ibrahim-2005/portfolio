@@ -1,58 +1,62 @@
 /* Markdown Rendering Styles (for README and Certificates) */
 
 .markdown-card {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 1.6rem 2rem;
-    border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border-default));
-    border-top-color: color-mix(in srgb, var(--accent) 45%, var(--border-default));
-    border-radius: var(--radius-md);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 1.6rem 2rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border-default));
+  border-top-color: color-mix(
+    in srgb,
+    var(--accent) 45%,
+    var(--border-default)
+  );
+  border-radius: var(--radius-md);
 
-    /* Dynamic Syntax Palette */
-    --syn-purple: color-mix(in srgb, #9B7BFF 60%, var(--fg-active) 40%);
-    --syn-green: color-mix(in srgb, #39E6A5 60%, var(--fg-active) 40%);
-    --syn-cyan: color-mix(in srgb, #32D6FF 60%, var(--fg-active) 40%);
+  /* Dynamic Syntax Palette */
+  --syn-purple: color-mix(in srgb, #9b7bff 60%, var(--fg-active) 40%);
+  --syn-green: color-mix(in srgb, #39e6a5 60%, var(--fg-active) 40%);
+  --syn-cyan: color-mix(in srgb, #32d6ff 60%, var(--fg-active) 40%);
 
-    background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--bg-hover) 92%, var(--accent) 8%),
-        color-mix(in srgb, var(--bg-main) 96%, transparent)
-    );
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-hover) 92%, var(--accent) 8%),
+    color-mix(in srgb, var(--bg-main) 96%, transparent)
+  );
 
-    box-shadow:
-        0 14px 35px rgba(0, 0, 0, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 
 .markdown-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: linear-gradient(135deg, black, transparent 75%);
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(135deg, black, transparent 75%);
+  pointer-events: none;
 }
 
 .markdown-card::after {
-    content: '';
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    right: -100px;
-    top: -120px;
-    border-radius: 50%;
-    background: radial-gradient(
-        circle,
-        color-mix(in srgb, var(--accent) 12%, transparent),
-        transparent 70%
-    );
-    pointer-events: none;
-    z-index: -1;
+  content: "";
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  right: -100px;
+  top: -120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 12%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
 }
 
 .markdown-body {
@@ -76,7 +80,7 @@
 }
 
 .markdown-body > *:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .markdown-body h1 {
@@ -131,7 +135,7 @@
 .markdown-body pre,
 .markdown-body details {
   margin-top: 0;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0;
 }
 
 .markdown-body ul {
@@ -181,13 +185,13 @@
 }
 
 .markdown-body code::before {
-    content: "[ ";
-    color: color-mix(in srgb, var(--syn-green) 50%, transparent);
+  content: "[ ";
+  color: color-mix(in srgb, var(--syn-green) 50%, transparent);
 }
 
 .markdown-body code::after {
-    content: " ]";
-    color: color-mix(in srgb, var(--syn-green) 50%, transparent);
+  content: " ]";
+  color: color-mix(in srgb, var(--syn-green) 50%, transparent);
 }
 
 .markdown-body pre {
@@ -214,7 +218,7 @@
 
 .markdown-body pre code::before,
 .markdown-body pre code::after {
-    content: none;
+  content: none;
 }
 
 .markdown-body a {
@@ -235,7 +239,7 @@
 }
 
 @media (max-width: 700px) {
-    .markdown-card {
-        padding: 1.25rem 1rem;
-    }
+  .markdown-card {
+    padding: 1.25rem 1rem;
+  }
 }
