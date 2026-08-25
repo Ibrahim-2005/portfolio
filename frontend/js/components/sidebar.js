@@ -1,8 +1,36 @@
 // components/sidebar.js - Renders and manages the file tree
-import { api } from '../core/api.js?v=5';
-import { state } from '../core/state.js?v=5';
+import { api } from '../core/api.js';
+import { state } from '../core/state.js';
 
 export let flatFileNodes = []; // Store a flat map for easy lookup
+
+export function createFileIcon(node) {
+    const icon = document.createElement('span');
+    icon.className = 'icon';
+    if (node && node.icon_url) {
+        const img = document.createElement('img');
+        img.src = node.icon_url;
+        img.style.width = '14px';
+        img.style.height = '14px';
+        img.style.marginRight = '6px';
+        img.style.verticalAlign = 'middle';
+        img.alt = '';
+        icon.appendChild(img);
+    } else if (node && node.has_icon) {
+        const img = document.createElement('img');
+        const timestamp = node._loadedAt || Date.now();
+        img.src = `/api/sidebar/${node.id}/icon?t=${timestamp}`;
+        img.style.width = '14px';
+        img.style.height = '14px';
+        img.style.marginRight = '6px';
+        img.style.verticalAlign = 'middle';
+        img.alt = '';
+        icon.appendChild(img);
+    } else {
+        icon.textContent = '';
+    }
+    return icon;
+}
 
 export function getFiles() {
     return flatFileNodes.filter(n => n.type !== 'folder');
@@ -14,7 +42,7 @@ export async function initSidebar() {
 
     const items = await api.getSidebar() || [];
 
-    // Map backend items to frontend format expected by state.openTab and renderTree
+    const loadTime = Date.now();
     const sections = items.map(item => ({
         id: item.id,
         title: item.label,
@@ -23,7 +51,8 @@ export async function initSidebar() {
         sort_order: item.sort_order,
         extension: item.extension || '',
         has_icon: item.has_icon,
-        icon_url: item.icon_url
+        icon_url: item.icon_url,
+        _loadedAt: loadTime
     }));
 
     flatFileNodes = [];
@@ -74,35 +103,7 @@ function renderTree(nodes, container, depth) {
         item.appendChild(spacer);
 
         // Icon
-        const icon = document.createElement('span');
-        icon.className = 'icon';
-        if (node.icon_url) {
-            const img = document.createElement('img');
-            img.src = node.icon_url;
-            img.style.width = '14px';
-            img.style.height = '14px';
-            img.style.marginRight = '4px';
-            img.style.verticalAlign = 'middle';
-            icon.appendChild(img);
-        } else if (node.has_icon) {
-            const img = document.createElement('img');
-            img.src = `/api/sidebar/${node.id}/icon`;
-            img.style.width = '14px';
-            img.style.height = '14px';
-            img.style.marginRight = '4px';
-            img.style.verticalAlign = 'middle';
-            icon.appendChild(img);
-        } else {
-            if (node.slug === 'projects') {
-                icon.textContent = '📦';
-            } else if (node.slug.includes('contact')) {
-                icon.textContent = '✉';
-            } else if (node.slug === 'home' || node.title.toLowerCase() === 'home') {
-                icon.textContent = '🏠';
-            } else {
-                icon.textContent = '📄';
-            }
-        }
+        const icon = createFileIcon(node);
         item.appendChild(icon);
 
         // Title

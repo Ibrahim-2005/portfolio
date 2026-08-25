@@ -1,5 +1,5 @@
 import { api } from "../core/api.js";
-import { openTabBySlug } from "./sidebar.js?v=5";
+import { openTabBySlug } from "./sidebar.js";
 
 // Expose navigation helper globally so inline onclick can use it
 window.navigateTab = (slug) => {

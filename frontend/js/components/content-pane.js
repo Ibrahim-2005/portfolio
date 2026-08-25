@@ -1,6 +1,6 @@
 // components/content-pane.js - Renders the content of the active tab
-import { state } from '../core/state.js?v=5';
-import { api, API_BASE_URL } from '../core/api.js?v=5';
+import { state } from '../core/state.js';
+import { api, API_BASE_URL } from '../core/api.js';
 import { renderProjects } from './project-card.js';
 import { renderSkills } from './skills-view.js';
 import { renderHome } from './home-view.js';
