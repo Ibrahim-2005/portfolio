@@ -8,11 +8,13 @@ import { initPetCompanions } from './features/pet-companion.js';
 import { initUiPolish } from './features/ui-polish.js';
 import { initTerminal } from './components/terminal.js';
 import { initWindowControls } from './features/window-controls.js';
+import { initMenubar } from './components/menubar.js';
 import { api } from './core/api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System
     initTheme();
+    initMenubar();
     initPalette();
     initShortcuts();
     initCursorEngine();

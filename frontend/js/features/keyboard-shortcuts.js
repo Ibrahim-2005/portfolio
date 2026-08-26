@@ -3,6 +3,7 @@
 
 import { togglePalette, closePalette, openPaletteWithMode, isPaletteOpen } from '../components/command-palette.js';
 import { toggleTerminal, closeTerminal, isTerminalOpen } from '../components/terminal.js';
+import { toggleSidebar } from '../components/sidebar.js';
 import { state } from '../core/state.js';
 
 let chordState = null;
@@ -67,14 +68,7 @@ export function initShortcuts() {
         // Ctrl+B / Cmd+B -> Toggle Sidebar
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
             e.preventDefault();
-            const sidebar = document.querySelector('.sidebar');
-            if (sidebar) {
-                if (window.innerWidth <= 1024) {
-                    sidebar.classList.toggle('open');
-                } else {
-                    sidebar.classList.toggle('collapsed');
-                }
-            }
+            toggleSidebar();
             return;
         }
 

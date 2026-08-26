@@ -71,7 +71,7 @@ export async function initSidebar() {
     if (toggleBtn && sidebar) {
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            sidebar.classList.toggle('open');
+            toggleSidebar();
         });
 
         // Close sidebar if clicking outside of it when open
@@ -80,6 +80,16 @@ export async function initSidebar() {
                 sidebar.classList.remove('open');
             }
         });
+    }
+}
+
+export function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+    if (window.innerWidth <= 1024) {
+        sidebar.classList.toggle('open');
+    } else {
+        sidebar.classList.toggle('collapsed');
     }
 }
 

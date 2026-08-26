@@ -1,0 +1,218 @@
+/* components/menubar.css */
+/* Dedicated VS Code-style horizontal menubar row below Titlebar */
+
+.app-menubar {
+    height: 28px;
+    width: 100%;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-titlebar) 88%, #080c16 12%), color-mix(in srgb, var(--bg-titlebar) 72%, #020408 28%));
+    backdrop-filter: blur(16px) saturate(1.2);
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 45%, #000 55%);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 2px;
+    flex-shrink: 0;
+    user-select: none;
+    position: relative;
+    z-index: 100;
+    overflow: visible;
+}
+
+.menubar-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    overflow: visible;
+}
+
+.menubar-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 2px 8px;
+    height: 22px;
+    font-size: 11.5px;
+    font-family: var(--font-code);
+    color: var(--fg-muted);
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.menubar-btn:hover {
+    background: var(--bg-hover);
+    color: var(--fg-main);
+}
+
+.menubar-item.is-open .menubar-btn {
+    background: color-mix(in srgb, var(--accent) 22%, var(--bg-hover));
+    color: var(--fg-main);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset;
+}
+
+/* Dropdown Menu */
+.menu-dropdown {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    min-width: 205px;
+    background: color-mix(in srgb, var(--bg-sidebar, #181818) 96%, #000 4%);
+    backdrop-filter: blur(28px) saturate(1.25);
+    border: 1px solid color-mix(in srgb, var(--border-color) 75%, transparent);
+    border-radius: var(--radius-sm, 5px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 3px 10px rgba(0, 0, 0, 0.35);
+    padding: 4px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    gap: 1px;
+    animation: menu-drop 0.12s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.menubar-item.is-open > .menu-dropdown {
+    display: flex;
+}
+
+/* Menu Items */
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 4.5px 8px;
+    min-height: 24px;
+    font-size: 11.5px;
+    font-family: var(--font-code);
+    color: var(--fg-main);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.menu-item:hover,
+.menu-item:focus-visible {
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 68%, #a855f7 32%));
+    color: #ffffff;
+    box-shadow: 0 2px 8px var(--glow-primary, rgba(168, 85, 247, 0.3));
+}
+
+.menu-item.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.menu-item-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.menu-item-shortcut {
+    font-size: 10px;
+    color: var(--fg-muted);
+    opacity: 0.82;
+    font-family: var(--font-code);
+    flex-shrink: 0;
+    letter-spacing: 0.2px;
+}
+
+.menu-item:hover .menu-item-shortcut {
+    color: rgba(255, 255, 255, 0.88);
+    opacity: 1;
+}
+
+.menu-item-arrow {
+    font-size: 13px;
+    color: var(--fg-muted);
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.menu-item:hover .menu-item-arrow {
+    color: #ffffff;
+}
+
+.menu-separator {
+    height: 1px;
+    background: color-mix(in srgb, var(--border-color) 55%, transparent);
+    margin: 4px 2px;
+}
+
+/* Submenu Handling */
+.has-submenu {
+    position: relative;
+}
+
+.submenu-dropdown {
+    position: absolute;
+    top: -4px;
+    left: calc(100% + 2px);
+    min-width: 180px;
+    display: none;
+    z-index: 1001;
+}
+
+.has-submenu:hover > .submenu-dropdown,
+.has-submenu:focus-within > .submenu-dropdown {
+    display: flex;
+}
+
+/* Dynamic Files Section */
+.dynamic-files-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.menu-item .icon {
+    width: 14px;
+    height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.menu-item .icon img {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+}
+
+@keyframes menu-drop {
+    0% {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive Overrides */
+@media screen and (max-width: 768px) {
+    .app-menubar {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .app-menubar::-webkit-scrollbar {
+        display: none;
+    }
+    .menubar-btn {
+        padding: 2px 6px;
+        font-size: 11px;
+    }
+}

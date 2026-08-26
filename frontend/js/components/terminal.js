@@ -6,23 +6,73 @@ import { setTheme, themes } from '../features/theme-engine.js';
 export let isTerminalOpen = false;
 let termInput;
 let terminalPanel;
+let clearTerminalFn = null;
+let executeCommandFn = null;
+let printLineFn = null;
+let lastExecutedCommand = 'help';
 
 export const toggleTerminal = () => {
-    isTerminalOpen = !isTerminalOpen;
-    if (isTerminalOpen) {
+    if (!terminalPanel) {
+        terminalPanel = document.getElementById('terminal-panel');
+    }
+    if (!termInput) {
+        termInput = document.getElementById('terminal-input');
+    }
+    if (!terminalPanel) return;
+
+    const isCurrentlyCollapsed = terminalPanel.classList.contains('collapsed');
+
+    if (isCurrentlyCollapsed) {
         terminalPanel.classList.remove('collapsed');
-        termInput.focus();
+        isTerminalOpen = true;
+        if (termInput) {
+            setTimeout(() => termInput.focus(), 20);
+        }
     } else {
         terminalPanel.classList.add('collapsed');
         terminalPanel.style.height = '';
         terminalPanel.style.top = '';
+        isTerminalOpen = false;
+        if (document.activeElement && terminalPanel.contains(document.activeElement)) {
+            document.activeElement.blur();
+        }
     }
     document.dispatchEvent(new CustomEvent('terminalToggled', { detail: { isOpen: isTerminalOpen } }));
+};
+
+export const openTerminal = () => {
+    if (!isTerminalOpen) {
+        toggleTerminal();
+    } else if (termInput) {
+        termInput.focus();
+    }
 };
 
 export const closeTerminal = () => {
     if (isTerminalOpen) {
         toggleTerminal();
+    }
+};
+
+export const clearTerminalOutput = () => {
+    openTerminal();
+    if (clearTerminalFn) {
+        clearTerminalFn();
+    }
+};
+
+export const runLastTerminalCommand = () => {
+    openTerminal();
+    if (executeCommandFn && lastExecutedCommand) {
+        if (printLineFn) printLineFn(lastExecutedCommand, true);
+        executeCommandFn(lastExecutedCommand);
+    }
+};
+
+export const newTerminalSession = () => {
+    openTerminal();
+    if (clearTerminalFn) {
+        clearTerminalFn();
     }
 };
 
@@ -72,16 +122,15 @@ export function initTerminal() {
         termOutput.parentElement.scrollTop = termOutput.parentElement.scrollHeight;
     };
 
-    const clearTerminal = () => {
-        termOutput.innerHTML = '';
-        printLine('Portfolio v0.1.0 — type \'help\' to get started');
-    };
+    printLineFn = printLine;
+    clearTerminalFn = clearTerminal;
 
     // Command parser
     const executeCommand = (cmdStr) => {
         const args = cmdStr.trim().split(' ').filter(a => a);
         if (args.length === 0) return;
         
+        lastExecutedCommand = cmdStr.trim();
         const cmd = args[0].toLowerCase();
 
         // Analytics
@@ -158,6 +207,7 @@ export function initTerminal() {
                 printLine('Type "help" for a list of available commands.');
         }
     };
+    executeCommandFn = executeCommand;
 
     // Handle input event for autocomplete
     termInput.addEventListener('input', (e) => {
