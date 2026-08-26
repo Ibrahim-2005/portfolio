@@ -27,3 +27,6 @@ credentials.json
 .ruff_cache/
 
 .prettierrc
+
+# Local refining / audit notes
+docs/development/REFINING-CHECKLIST.md
