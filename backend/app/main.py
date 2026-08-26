@@ -83,8 +83,10 @@ app.include_router(pub_contact_links.router, prefix=_PUBLIC_PREFIX)
 
 app.include_router(pub_resume.router, prefix=_PUBLIC_PREFIX)
 from app.routers.public import sidebar as pub_sidebar
+from app.routers.public import source_control as pub_source_control
 
 app.include_router(pub_sidebar.router, prefix=_PUBLIC_PREFIX)
+app.include_router(pub_source_control.router, prefix=_PUBLIC_PREFIX)
 
 
 # Auth — /api/auth/login (public, no JWT required)

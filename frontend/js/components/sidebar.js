@@ -91,6 +91,14 @@ export function toggleSidebar() {
     } else {
         sidebar.classList.toggle('collapsed');
     }
+    const explorerBtn = document.querySelector('.activity-btn[data-action="explorer"]');
+    if (explorerBtn) {
+        if (!sidebar.classList.contains('collapsed')) {
+            explorerBtn.classList.add('active');
+        } else {
+            explorerBtn.classList.remove('active');
+        }
+    }
 }
 
 function renderTree(nodes, container, depth) {

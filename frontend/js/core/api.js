@@ -53,6 +53,7 @@ export const api = {
     getEducation: () => fetchCachedJSON('/education', 'education'),
     getContactLinks: () => fetchCachedJSON('/contact-links', 'contact-links'),
     getPublicSettings: () => fetchCachedJSON('/pages/settings', 'settings'),
+    getSourceControl: () => fetchJSON('/source-control'),
     
     // Contact Submission
     submitContactMessage: async (payload) => {

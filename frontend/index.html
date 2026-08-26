@@ -89,6 +89,7 @@
 
     <!-- Components -->
     <link rel="stylesheet" href="css/layout/titlebar.css?v=2" />
+    <link rel="stylesheet" href="css/layout/activity-bar.css" />
     <link rel="stylesheet" href="css/layout/sidebar.css" />
     <link rel="stylesheet" href="css/layout/tabs.css" />
     <link rel="stylesheet" href="css/layout/content-pane.css" />
@@ -256,6 +257,259 @@
       ></nav>
 
       <div class="main-body">
+        <!-- Desktop Activity Bar -->
+        <aside class="activity-bar" id="activity-bar" aria-label="Activity Bar">
+          <div class="activity-bar-top">
+            <button
+              type="button"
+              class="activity-btn active"
+              data-action="explorer"
+              title="Explorer"
+              aria-label="Explorer"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h3.6a2 2 0 0 1 1.6.8l1.4 1.7h6.4A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5V7.5z"></path>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="activity-btn"
+              data-action="search"
+              title="Search"
+              aria-label="Search"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                <line x1="15.5" y1="15.5" x2="20.5" y2="20.5"></line>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="activity-btn"
+              data-action="source-control"
+              title="Source Control"
+              aria-label="Source Control"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7" cy="6.5" r="2.5"></circle>
+                <circle cx="7" cy="17.5" r="2.5"></circle>
+                <circle cx="17.5" cy="12" r="2.5"></circle>
+                <line x1="7" y1="9" x2="7" y2="15"></line>
+                <line x1="7" y1="12" x2="15" y2="12"></line>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="activity-btn"
+              data-action="terminal"
+              title="Terminal"
+              aria-label="Terminal"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="activity-btn"
+              data-action="download-resume"
+              title="Download Resume"
+              aria-label="Download Resume"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 3h8l5 5v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
+                <polyline points="14 3 14 8 19 8"></polyline>
+                <line x1="12" y1="11" x2="12" y2="17"></line>
+                <polyline points="9.5 14.5 12 17 14.5 14.5"></polyline>
+              </svg>
+            </button>
+          </div>
+          <div class="activity-bar-bottom">
+            <button
+              type="button"
+              class="activity-btn"
+              data-action="settings"
+              title="Settings"
+              aria-label="Settings"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Source Control Popover -->
+        <div id="source-control-popover" class="source-control-popover" role="dialog" aria-label="Source Control">
+          <div class="sc-header">
+            <span class="sc-title">SOURCE CONTROL</span>
+          </div>
+          <div id="sc-content-area" class="sc-content-area">
+            <div class="sc-loading">Loading repository status...</div>
+          </div>
+        </div>
+
+        <!-- Settings Popover -->
+        <div id="settings-popover" class="settings-popover" role="dialog" aria-label="Settings">
+          <div class="settings-header">
+            <span class="settings-title">SETTINGS</span>
+          </div>
+
+          <div class="settings-separator"></div>
+
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <span class="settings-section-icon">🎨</span>
+              <span class="settings-section-title">COLOR THEME</span>
+            </div>
+            <div class="settings-theme-list" id="settings-theme-list">
+              <button type="button" class="settings-theme-btn" data-theme="light-plus">
+                <span class="theme-btn-left">
+                  <span class="theme-color-dot dot-light">🔵</span>
+                  <span class="theme-btn-name">Portfolio Light</span>
+                </span>
+                <span class="theme-check"></span>
+              </button>
+              <button type="button" class="settings-theme-btn active" data-theme="dark-plus">
+                <span class="theme-btn-left">
+                  <span class="theme-color-dot dot-dark">🟣</span>
+                  <span class="theme-btn-name">Portfolio Dark</span>
+                </span>
+                <span class="theme-check">✓</span>
+              </button>
+              <button type="button" class="settings-theme-btn has-tooltip" data-theme="interstellar" title="Cosmic / cinematic">
+                <span class="theme-btn-left">
+                  <span class="theme-color-dot dot-interstellar">🚀</span>
+                  <span class="theme-btn-name">Interstellar</span>
+                </span>
+                <span class="theme-hover-subtitle">Cosmic / cinematic</span>
+                <span class="theme-check"></span>
+              </button>
+              <button type="button" class="settings-theme-btn has-tooltip" data-theme="project-hail-mary" title="Deep space / science">
+                <span class="theme-btn-left">
+                  <span class="theme-color-dot dot-phm">📚</span>
+                  <span class="theme-btn-name">Project Hail Mary</span>
+                </span>
+                <span class="theme-hover-subtitle">Deep space / science</span>
+                <span class="theme-check"></span>
+              </button>
+              <button type="button" class="settings-theme-btn has-tooltip" data-theme="f1" title="Racing / telemetry">
+                <span class="theme-btn-left">
+                  <span class="theme-color-dot dot-f1">🏎️</span>
+                  <span class="theme-btn-name">F1</span>
+                </span>
+                <span class="theme-hover-subtitle">Racing / telemetry</span>
+                <span class="theme-check"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-separator"></div>
+
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <span class="settings-section-icon">⚡</span>
+              <span class="settings-section-title">QUICK ACTIONS</span>
+            </div>
+            <div class="settings-action-list">
+              <button type="button" class="settings-action-btn" data-action="command-palette">
+                <span class="action-btn-left">
+                  <span class="action-icon">🔎</span>
+                  <span class="action-name">Command Palette</span>
+                </span>
+                <span class="action-shortcut">Ctrl+P</span>
+              </button>
+              <button type="button" class="settings-action-btn" data-action="toggle-terminal">
+                <span class="action-btn-left">
+                  <span class="action-icon">⌨️</span>
+                  <span class="action-name">Toggle Terminal</span>
+                </span>
+                <span class="action-shortcut">Ctrl+\`</span>
+              </button>
+              <button type="button" class="settings-action-btn" data-action="download-resume">
+                <span class="action-btn-left">
+                  <span class="action-icon">📄</span>
+                  <span class="action-name">Download Resume</span>
+                </span>
+                <span class="action-shortcut">PDF</span>
+              </button>
+              <button type="button" class="settings-action-btn" data-action="toggle-fullscreen">
+                <span class="action-btn-left">
+                  <span class="action-icon">🖥️</span>
+                  <span class="action-name">Toggle Fullscreen</span>
+                </span>
+                <span class="action-shortcut">F11</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-separator"></div>
+
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <span class="settings-section-icon">⌨️</span>
+              <span class="settings-section-title">KEYBOARD SHORTCUTS</span>
+            </div>
+            <div class="settings-shortcuts-list">
+              <div class="shortcut-row">
+                <kbd class="keycap">Ctrl P</kbd>
+                <span class="shortcut-desc">Command Palette</span>
+              </div>
+              <div class="shortcut-row">
+                <kbd class="keycap">Ctrl \`</kbd>
+                <span class="shortcut-desc">Toggle Terminal</span>
+              </div>
+              <div class="shortcut-row">
+                <kbd class="keycap">Ctrl B</kbd>
+                <span class="shortcut-desc">Toggle Sidebar</span>
+              </div>
+              <div class="shortcut-row">
+                <kbd class="keycap">Esc</kbd>
+                <span class="shortcut-desc">Close Overlay</span>
+              </div>
+              <div class="shortcut-row">
+                <kbd class="keycap">↑ / ↓</kbd>
+                <span class="shortcut-desc">Terminal History</span>
+              </div>
+              <div class="shortcut-row">
+                <kbd class="keycap">F11</kbd>
+                <span class="shortcut-desc">Toggle Fullscreen</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-separator"></div>
+
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <span class="settings-section-icon">🔗</span>
+              <span class="settings-section-title">CONNECT</span>
+            </div>
+            <div class="settings-connect-list">
+              <a href="https://github.com/Ibrahim-2005" target="_blank" rel="noopener noreferrer" class="settings-connect-link">
+                <span>GitHub</span>
+                <span class="connect-arrow">↗</span>
+              </a>
+              <a href="https://www.linkedin.com/in/mohamed-ibrahim-y/" target="_blank" rel="noopener noreferrer" class="settings-connect-link">
+                <span>LinkedIn</span>
+                <span class="connect-arrow">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-separator"></div>
+
+          <div class="settings-footer">
+            <div class="settings-footer-brand">Portfolio</div>
+            <div class="settings-footer-tech">FastAPI · PostgreSQL · Vanilla JS</div>
+            <div class="settings-footer-credit">
+              Made with 💜 by <a href="https://github.com/Ibrahim-2005/portfolio" target="_blank" rel="noopener noreferrer" class="settings-author-link">Mohamed Ibrahim Y</a>
+            </div>
+          </div>
+        </div>
+
         <!-- Sidebar -->
         <aside class="sidebar">
           <div class="sidebar-header">EXPLORER</div>

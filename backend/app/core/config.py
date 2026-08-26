@@ -34,6 +34,10 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: str | None = None
     CLOUDINARY_API_SECRET: str | None = None
 
+    # ── GitHub Integration ───────────────────────────────────────────────────
+    GITHUB_REPO: str = "Ibrahim-2005/portfolio"
+    GITHUB_TOKEN: str | None = None
+
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",
         env_file_encoding="utf-8",

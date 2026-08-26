@@ -168,8 +168,8 @@ export function initTerminal() {
                 document.body.removeChild(a);
                 break;
             case 'socials':
-                printLine('GitHub: https://github.com/ibrahim');
-                printLine('LinkedIn: https://linkedin.com/in/ibrahim');
+                printLine('GitHub: https://github.com/Ibrahim-2005');
+                printLine('LinkedIn: https://www.linkedin.com/in/mohamed-ibrahim-y/');
                 break;
             case 'theme':
                 if (args.length > 1) {

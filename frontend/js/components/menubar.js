@@ -484,7 +484,7 @@ function executeMenuAction(action) {
             });
             break;
         case 'github':
-            window.open('https://github.com/ibrahim', '_blank');
+            window.open('https://github.com/Ibrahim-2005', '_blank');
             break;
         case 'about': {
             const files = getFiles();
