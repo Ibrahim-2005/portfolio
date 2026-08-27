@@ -2,7 +2,8 @@
 // VS Code-style top application menu bar (File, Edit, View, Go, Run, Terminal, Help)
 
 import { state } from '../core/state.js';
-import { getFiles, createFileIcon, toggleSidebar } from './sidebar.js';
+import { getFiles, toggleSidebar } from './sidebar.js';
+import { iconService } from '../services/icon-service.js';
 import { openPaletteWithMode } from './command-palette.js';
 import { toggleTerminal, openTerminal, clearTerminalOutput, runLastTerminalCommand, newTerminalSession } from './terminal.js';
 
@@ -306,7 +307,7 @@ function updateRecentFilesSubmenu(fileMenuItem) {
         const labelSpan = document.createElement('span');
         labelSpan.className = 'menu-item-label';
 
-        const iconSpan = createFileIcon(file);
+        const iconSpan = iconService.createFileIconElement(file);
         const nameText = document.createTextNode(` ${file.title}${file.extension || ''}`);
 
         labelSpan.appendChild(iconSpan);
@@ -337,7 +338,7 @@ function updateGoMenuFiles(goMenuItem) {
         const labelSpan = document.createElement('span');
         labelSpan.className = 'menu-item-label';
 
-        const iconSpan = createFileIcon(file);
+        const iconSpan = iconService.createFileIconElement(file);
         const nameText = document.createTextNode(` ${file.title}${file.extension || ''}`);
 
         labelSpan.appendChild(iconSpan);
