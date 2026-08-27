@@ -2,7 +2,8 @@
 // Handles the VS Code-style "Go to File / Run Command" palette, theme selection, and keyboard navigation
 
 import { themes, setTheme, getCurrentTheme } from '../features/theme-engine.js';
-import { getFiles, createFileIcon } from './sidebar.js';
+import { getFiles } from './sidebar.js';
+import { iconService } from '../services/icon-service.js';
 import { state } from '../core/state.js';
 import { toggleTerminal } from './terminal.js';
 
@@ -264,7 +265,7 @@ function createFileRow(item, idx) {
     const leftGroup = document.createElement('div');
     leftGroup.className = 'cmd-item-left';
 
-    const iconSpan = createFileIcon(item.node);
+    const iconSpan = iconService.createFileIconElement(item.node);
 
     const nameSpan = document.createElement('span');
     nameSpan.className = 'cmd-item-name';
