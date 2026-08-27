@@ -15,7 +15,8 @@
     flex-shrink: 0;
     border-right: 1px solid var(--border-subtle);
     box-shadow: 16px 0 45px rgba(0, 0, 0, 0.12);
-    transition: width var(--motion-fast);
+    user-select: none;
+    z-index: 4;
 }
 
 .sidebar.collapsed {
@@ -23,59 +24,111 @@
 }
 
 .sidebar-header {
-    padding: 10px 20px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    height: var(--titlebar-height, 35px);
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     color: var(--fg-muted);
+    font-family: var(--font-code);
     border-bottom: 1px solid var(--border-subtle);
     background: linear-gradient(90deg, var(--accent-soft), transparent 72%);
+    flex-shrink: 0;
 }
 
 .sidebar-content {
     flex-grow: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 0 8px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-subtle) transparent;
 }
 
+.sidebar-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: var(--fg-muted);
+}
+
+/* Two-column file-row layout: [ICON COLUMN] [FILE NAME COLUMN] */
 .tree-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    column-gap: 22px;
     align-items: center;
-    padding: 4px 10px;
+    height: 38px;
+    min-height: 38px;
+    padding: 0 16px 0 18px;
+    margin: 0;
     cursor: pointer;
     user-select: none;
     color: var(--fg-muted);
-    min-height: 30px;
-    border-radius: var(--radius-sm);
-    margin: 2px 8px;
-    transition: background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast), box-shadow var(--motion-fast);
+    font-family: var(--font-code);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+    border-radius: 0;
+    transition: background var(--motion-fast), color var(--motion-fast);
+    outline: none;
+    position: relative;
 }
 
 .tree-item:hover {
     background: var(--bg-hover);
     color: var(--fg-main);
-    transform: translateX(3px);
 }
 
 .tree-item.active {
-    background: linear-gradient(90deg, var(--accent-soft), color-mix(in srgb, var(--accent) 8%, transparent));
-    color: var(--fg-active);
-    box-shadow: inset 2px 0 0 var(--accent), 0 8px 24px rgba(0, 0, 0, 0.12);
+    background: color-mix(in srgb, var(--accent) 18%, var(--bg-hover));
+    color: var(--fg-active, #ffffff);
+    box-shadow: inset 3px 0 0 var(--accent), 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-weight: 400;
 }
 
-.tree-item .chevron {
-    font-size: 10px;
-    width: 16px;
-    text-align: center;
+.tree-item:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: -1px;
 }
 
-.tree-item .icon {
-    margin: 0 6px;
-    font-size: 14px;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
+.tree-item .icon,
+.tree-item-icon {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
 }
 
-.tree-item .indent {
-    width: 16px;
-    display: inline-block;
+.tree-item .icon img,
+.tree-item-icon img {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.tree-item-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    display: block;
+    line-height: 1.2;
 }

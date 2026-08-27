@@ -1,35 +1,15 @@
 // components/sidebar.js - Renders and manages the file tree
 import { api } from '../core/api.js';
 import { state } from '../core/state.js';
+import { iconService } from '../services/icon-service.js';
 
 export let flatFileNodes = []; // Store a flat map for easy lookup
 
+/**
+ * Creates a file icon element via the centralized icon service (preserved for backwards compatibility).
+ */
 export function createFileIcon(node) {
-    const icon = document.createElement('span');
-    icon.className = 'icon';
-    if (node && node.icon_url) {
-        const img = document.createElement('img');
-        img.src = node.icon_url;
-        img.style.width = '14px';
-        img.style.height = '14px';
-        img.style.marginRight = '6px';
-        img.style.verticalAlign = 'middle';
-        img.alt = '';
-        icon.appendChild(img);
-    } else if (node && node.has_icon) {
-        const img = document.createElement('img');
-        const timestamp = node._loadedAt || Date.now();
-        img.src = `/api/sidebar/${node.id}/icon?t=${timestamp}`;
-        img.style.width = '14px';
-        img.style.height = '14px';
-        img.style.marginRight = '6px';
-        img.style.verticalAlign = 'middle';
-        img.alt = '';
-        icon.appendChild(img);
-    } else {
-        icon.textContent = '';
-    }
-    return icon;
+    return iconService.createFileIconElement(node);
 }
 
 export function getFiles() {
@@ -108,25 +88,21 @@ function renderTree(nodes, container, depth) {
         const item = document.createElement('div');
         item.className = `tree-item ${node.type}`;
         item.dataset.id = node.id;
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('role', 'treeitem');
+        const fullTitle = `${node.title}${node.extension || ''}`;
+        item.setAttribute('aria-label', fullTitle);
+        item.setAttribute('title', fullTitle);
         
-        // Indentation
-        const indent = document.createElement('span');
-        indent.className = 'indent';
-        indent.style.width = `${depth * 12}px`;
-        item.appendChild(indent);
-
-        // Spacer for files aligning with folders (since we no longer have folders)
-        const spacer = document.createElement('span');
-        spacer.className = 'chevron';
-        item.appendChild(spacer);
-
-        // Icon
+        // Icon (Left Column)
         const icon = createFileIcon(node);
         item.appendChild(icon);
 
-        // Title
-        const title = document.createTextNode(` ${node.title}${node.extension}`);
-        item.appendChild(title);
+        // Title Label (Centered Column)
+        const label = document.createElement('span');
+        label.className = 'tree-item-label';
+        label.textContent = fullTitle;
+        item.appendChild(label);
 
         // Click handler
         item.addEventListener('click', (e) => {

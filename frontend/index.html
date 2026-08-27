@@ -512,25 +512,23 @@
 
         <!-- Sidebar -->
         <aside class="sidebar">
-          <div class="sidebar-header">EXPLORER</div>
+          <div class="sidebar-header">PORTFOLIO</div>
 
           <!-- Pet Companion Container -->
           <div id="pet-container"></div>
 
           <div class="sidebar-content">
-            <div class="tree-item folder expanded">
-              <span class="chevron">▼</span>
-              <span class="icon">📁</span> portfolio
+            <div class="tree-item file active" tabindex="0" role="treeitem">
+              <span class="icon tree-item-icon"><img src="/assets/icons/home.png" alt="Python" draggable="false"></span>
+              <span class="tree-item-label">home.py</span>
             </div>
-            <div class="tree-item file active">
-              <span class="indent"></span><span class="icon">📄</span> Home.md
+            <div class="tree-item file" tabindex="0" role="treeitem">
+              <span class="icon tree-item-icon"><img src="/assets/icons/about.png" alt="HTML" draggable="false"></span>
+              <span class="tree-item-label">about.html</span>
             </div>
-            <div class="tree-item file">
-              <span class="indent"></span><span class="icon">📄</span> About.md
-            </div>
-            <div class="tree-item file">
-              <span class="indent"></span
-              ><span class="icon">📄</span> Projects.json
+            <div class="tree-item file" tabindex="0" role="treeitem">
+              <span class="icon tree-item-icon"><img src="/assets/icons/projects.png" alt="PostgreSQL" draggable="false"></span>
+              <span class="tree-item-label">projects.sql</span>
             </div>
           </div>
         </aside>
@@ -540,11 +538,11 @@
           <!-- Tab Bar -->
           <nav class="tabs">
             <div class="tab active">
-              <span class="icon">📄</span> Home.md
+              <span class="icon tab-icon"><img src="/assets/icons/home.png" alt="Python" draggable="false"></span> home.py
               <button class="close-btn">×</button>
             </div>
             <div class="tab">
-              <span class="icon">📄</span> About.md
+              <span class="icon tab-icon"><img src="/assets/icons/about.png" alt="HTML" draggable="false"></span> about.html
               <button class="close-btn">×</button>
             </div>
           </nav>
