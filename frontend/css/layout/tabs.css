@@ -29,11 +29,13 @@
 .tab {
     display: flex;
     align-items: center;
-    padding: 0 12px;
+    padding: 0 10px 0 12px;
     min-width: 120px;
+    max-width: 220px;
     height: 100%;
     background: color-mix(in srgb, var(--bg-tab-inactive) 86%, transparent);
     color: var(--fg-muted);
+    font-family: var(--font-code);
     border-right: 1px solid var(--border-subtle);
     cursor: pointer;
     user-select: none;
@@ -41,9 +43,22 @@
     transition: background var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
 }
 
+.tab-label {
+    font-family: var(--font-code);
+    font-size: 12.5px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+    margin-right: 6px;
+}
+
 .tab.active {
     background: linear-gradient(180deg, color-mix(in srgb, var(--bg-tab-active) 94%, transparent), var(--bg-tab-active));
-    color: var(--accent);
+    color: white;
     box-shadow: inset 0 2px 0 var(--accent), 0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
@@ -75,7 +90,7 @@
     margin-left: auto;
     opacity: 0;
     color: var(--fg-muted);
-    font-size: 14px;
+    font-size: 15px;
     border-radius: var(--radius-sm);
     transition: opacity var(--motion-fast), background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast);
 }
@@ -87,7 +102,7 @@
 
 .tab .close-btn:hover {
     background: var(--bg-hover);
-    color: var(--fg-main);
+    color: white;
     transform: scale(1.08);
 }
 

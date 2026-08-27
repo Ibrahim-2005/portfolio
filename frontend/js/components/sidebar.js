@@ -16,7 +16,12 @@ export function getFiles() {
     return flatFileNodes.filter(n => n.type !== 'folder');
 }
 
+export function getHomeNode() {
+    return flatFileNodes.find(n => n.slug === 'home' || (n.title && n.title.toLowerCase() === 'home'));
+}
+
 export async function initSidebar() {
+    state.setFallbackNodeProvider(getHomeNode);
     const sidebarContent = document.querySelector('.sidebar-content');
     sidebarContent.innerHTML = '<div style="padding: 10px; color: var(--fg-muted);">Loading...</div>';
 
@@ -40,7 +45,7 @@ export async function initSidebar() {
     renderTree(sections, sidebarContent, 0);
 
     // After rendering, if Home exists, open it by default
-    const homeNode = flatFileNodes.find(n => n.slug === 'home' || n.title.toLowerCase() === 'home');
+    const homeNode = getHomeNode();
     if (homeNode) {
         state.openTab(homeNode);
     }

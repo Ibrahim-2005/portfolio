@@ -5,6 +5,33 @@ class State {
         this.openTabs = []; // Array of file nodes: { id, slug, title, icon, type }
         this.activeTabId = null;
         this.listeners = [];
+        this.fallbackNodeProvider = null;
+    }
+
+    setFallbackNodeProvider(provider) {
+        this.fallbackNodeProvider = provider;
+    }
+
+    isHomeNode(node) {
+        if (!node) return false;
+        const slug = (node.slug || '').toLowerCase();
+        const title = (node.title || node.label || node.name || '').toLowerCase();
+        return slug === 'home' || title === 'home' || title === 'home.py';
+    }
+
+    getFallbackNode() {
+        if (typeof this.fallbackNodeProvider === 'function') {
+            const node = this.fallbackNodeProvider();
+            if (node) return node;
+        }
+        return {
+            id: 1,
+            title: 'home',
+            slug: 'home',
+            type: 'page',
+            sort_order: 1,
+            extension: '.py'
+        };
     }
 
     subscribe(listener) {
@@ -16,30 +43,58 @@ class State {
     }
 
     openTab(fileNode) {
-        const existingTab = this.openTabs.find(t => t.id === fileNode.id);
+        if (!fileNode) return;
+        const existingTab = this.openTabs.find(t => t.id === fileNode.id || (t.slug && t.slug === fileNode.slug));
         
         if (!existingTab) {
             this.openTabs.push(fileNode);
+            this.activeTabId = fileNode.id;
+        } else {
+            this.activeTabId = existingTab.id;
         }
-        this.activeTabId = fileNode.id;
         this.notify();
     }
 
     closeTab(tabId) {
         const index = this.openTabs.findIndex(t => t.id === tabId);
-        if (index !== -1) {
-            this.openTabs.splice(index, 1);
-            if (this.activeTabId === tabId) {
-                // Determine new active tab
-                if (this.openTabs.length > 0) {
-                    const newIndex = index > 0 ? index - 1 : 0;
-                    this.activeTabId = this.openTabs[newIndex].id;
-                } else {
-                    this.activeTabId = null;
-                }
-            }
-            this.notify();
+        if (index === -1) return;
+
+        // If only home.py is open, prevent closing it (workspace must never have 0 tabs)
+        if (this.openTabs.length === 1 && this.isHomeNode(this.openTabs[0])) {
+            return;
         }
+
+        // If closing the last remaining non-home tab, restore home.py fallback
+        if (this.openTabs.length === 1) {
+            this.openTabs.splice(index, 1);
+            const fallback = this.getFallbackNode();
+            this.openTabs = [fallback];
+            this.activeTabId = fallback.id;
+            this.notify();
+            return;
+        }
+
+        // Multiple tabs open: close tab normally
+        this.openTabs.splice(index, 1);
+        if (this.activeTabId === tabId) {
+            if (this.openTabs.length > 0) {
+                const newIndex = index > 0 ? index - 1 : 0;
+                this.activeTabId = this.openTabs[newIndex].id;
+            } else {
+                const fallback = this.getFallbackNode();
+                this.openTabs = [fallback];
+                this.activeTabId = fallback.id;
+            }
+        }
+        this.notify();
+    }
+
+    closeAllTabs() {
+        this.openTabs = [];
+        const fallback = this.getFallbackNode();
+        this.openTabs = [fallback];
+        this.activeTabId = fallback.id;
+        this.notify();
     }
 
     activateTab(tabId) {

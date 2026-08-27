@@ -12,19 +12,28 @@ export function renderTabs() {
         
         const icon = iconService.createFileIconElement(tabData, { className: 'tab-icon' });
         
-        const extension = (!tabData.title.includes('.') && tabData.slug !== 'projects' && !tabData.title.toLowerCase().includes('home')) ? '.md' : '';
-        const title = document.createTextNode(` ${tabData.title}${extension}`);
+        const rawTitle = tabData.title || tabData.label || tabData.name || tabData.slug || '';
+        const rawExt = tabData.extension || '';
+        const fullFilename = (rawExt && !rawTitle.toLowerCase().endsWith(rawExt.toLowerCase()))
+            ? `${rawTitle}${rawExt}`
+            : rawTitle;
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'tab-label';
+        labelSpan.textContent = fullFilename;
+        labelSpan.title = fullFilename;
         
         const closeBtn = document.createElement('button');
         closeBtn.className = 'close-btn';
         closeBtn.innerHTML = '×';
+        closeBtn.setAttribute('aria-label', `Close ${fullFilename}`);
         closeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             state.closeTab(tabData.id);
         });
 
         tabEl.appendChild(icon);
-        tabEl.appendChild(title);
+        tabEl.appendChild(labelSpan);
         tabEl.appendChild(closeBtn);
 
         tabEl.addEventListener('click', () => {

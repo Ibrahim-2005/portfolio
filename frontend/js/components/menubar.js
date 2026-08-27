@@ -377,7 +377,7 @@ function executeMenuAction(action) {
             }
             break;
         case 'close-all-tabs':
-            [...state.openTabs].forEach(tab => state.closeTab(tab.id));
+            state.closeAllTabs();
             break;
         case 'download-resume': {
             const a = document.createElement('a');
