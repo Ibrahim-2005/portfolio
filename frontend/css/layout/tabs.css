@@ -52,8 +52,23 @@
     color: var(--fg-active);
 }
 
-.tab .icon {
+.tab .icon,
+.tab-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
     margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.tab .icon img,
+.tab-icon img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    object-fit: contain;
 }
 
 .tab .close-btn {

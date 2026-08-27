@@ -1,5 +1,6 @@
 // components/tabs.js - Renders and manages the tab bar
 import { state } from '../core/state.js';
+import { iconService } from '../services/icon-service.js';
 
 export function renderTabs() {
     const tabsContainer = document.querySelector('.tabs');
@@ -9,17 +10,7 @@ export function renderTabs() {
         const tabEl = document.createElement('div');
         tabEl.className = `tab ${state.activeTabId === tabData.id ? 'active' : ''}`;
         
-        const icon = document.createElement('span');
-        icon.className = 'icon';
-        if (tabData.slug === 'projects') {
-            icon.textContent = '📦';
-        } else if (tabData.slug.includes('contact')) {
-            icon.textContent = '✉';
-        } else if (tabData.slug === 'home' || tabData.title.toLowerCase() === 'home') {
-            icon.textContent = '🏠';
-        } else {
-            icon.textContent = '📄';
-        }
+        const icon = iconService.createFileIconElement(tabData, { className: 'tab-icon' });
         
         const extension = (!tabData.title.includes('.') && tabData.slug !== 'projects' && !tabData.title.toLowerCase().includes('home')) ? '.md' : '';
         const title = document.createTextNode(` ${tabData.title}${extension}`);
