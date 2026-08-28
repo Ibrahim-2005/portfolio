@@ -2,20 +2,93 @@
 // Handles the VS Code-style "Go to File / Run Command" palette, theme selection, and keyboard navigation
 
 import { themes, setTheme, getCurrentTheme } from '../features/theme-engine.js';
-import { getFiles } from './sidebar.js';
+import { getFiles, toggleSidebar } from './sidebar.js';
 import { iconService } from '../services/icon-service.js';
 import { state } from '../core/state.js';
 import { toggleTerminal } from './terminal.js';
+import { toggleFullscreen } from '../features/window-controls.js';
 
 let isPaletteOpenInternal = false;
-let currentMode = 'all'; // 'all', 'commands', 'themes'
+let currentMode = 'all'; // 'all', 'files', 'commands', 'themes'
 let selectedIndex = 0;
 let filteredItems = [];
 
 const commands = [
-    { id: 'cmd-theme', name: 'Preferences: Color Theme', icon: '🎨', action: () => openPaletteWithMode('themes') },
-    { id: 'cmd-shortcuts', name: 'Preferences: Open Keyboard Shortcuts', icon: '⌨', action: () => openShortcutsView() },
-    { id: 'cmd-terminal', name: 'View: Toggle Terminal', icon: '▭', action: () => toggleTerminal() }
+    {
+        id: 'cmd-theme',
+        name: 'Preferences: Color Theme',
+        icon: '🎨',
+        shortcut: 'Ctrl+K Ctrl+T',
+        action: () => openPaletteWithMode('themes')
+    },
+    {
+        id: 'cmd-shortcuts',
+        name: 'Preferences: Open Keyboard Shortcuts',
+        icon: '⌨',
+        shortcut: 'Ctrl+K S',
+        action: () => openShortcutsView()
+    },
+    {
+        id: 'cmd-files',
+        name: 'File: Go to File...',
+        icon: '📄',
+        shortcut: 'Ctrl+P',
+        action: () => openPaletteWithMode('files')
+    },
+    {
+        id: 'cmd-sidebar',
+        name: 'View: Toggle Primary Side Bar',
+        icon: '▤',
+        shortcut: 'Ctrl+B',
+        action: () => toggleSidebar()
+    },
+    {
+        id: 'cmd-terminal',
+        name: 'View: Toggle Terminal',
+        icon: '▭',
+        shortcut: 'Ctrl+`',
+        action: () => toggleTerminal()
+    },
+    {
+        id: 'cmd-fullscreen',
+        name: 'View: Toggle Full Screen',
+        icon: '⛶',
+        shortcut: 'F11',
+        action: () => toggleFullscreen()
+    },
+    {
+        id: 'cmd-close-tab',
+        name: 'File: Close Active Tab',
+        icon: '×',
+        shortcut: 'Ctrl+W',
+        action: () => {
+            if (state.activeTabId) {
+                state.closeTab(state.activeTabId);
+            }
+        }
+    },
+    {
+        id: 'cmd-close-all-tabs',
+        name: 'File: Close All Tabs',
+        icon: '🗑',
+        shortcut: 'Ctrl+K W',
+        action: () => state.closeAllTabs()
+    },
+    {
+        id: 'cmd-download-resume',
+        name: 'File: Download Resume (PDF)',
+        icon: '⬇',
+        shortcut: '',
+        action: () => {
+            const a = document.createElement('a');
+            a.href = 'assets/resume/Mohamed_ IbrahimY_ Resume.pdf';
+            a.download = 'Mohamed_ IbrahimY_ Resume.pdf';
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    }
 ];
 
 export function isPaletteOpen() {
@@ -33,12 +106,26 @@ export function initPalette() {
         });
     }
 
-    // Close on click outside
+    // Close on click outside (backdrop only)
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
             closePalette();
         }
     });
+
+    const listEl = document.getElementById('cmd-list');
+    if (listEl) {
+        listEl.addEventListener('click', (e) => {
+            const itemEl = e.target.closest('.cmd-item');
+            if (itemEl && itemEl.dataset.index !== undefined) {
+                const idx = parseInt(itemEl.dataset.index, 10);
+                if (!isNaN(idx) && filteredItems[idx]) {
+                    selectedIndex = idx;
+                    executeSelectedItem();
+                }
+            }
+        });
+    }
 
     // Input filtering
     input.addEventListener('input', (e) => {
@@ -52,20 +139,18 @@ export function initPalette() {
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (filteredItems.length > 0) {
-                selectedIndex = (selectedIndex + 1) % filteredItems.length;
-                renderList();
+                const nextIndex = (selectedIndex + 1) % filteredItems.length;
+                updateSelectedIndex(nextIndex, true);
             }
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             if (filteredItems.length > 0) {
-                selectedIndex = (selectedIndex - 1 + filteredItems.length) % filteredItems.length;
-                renderList();
+                const nextIndex = (selectedIndex - 1 + filteredItems.length) % filteredItems.length;
+                updateSelectedIndex(nextIndex, true);
             }
         } else if (e.key === 'Enter') {
             e.preventDefault();
-            if (filteredItems.length > 0 && filteredItems[selectedIndex]) {
-                executeItem(filteredItems[selectedIndex]);
-            }
+            executeSelectedItem();
         } else if (e.key === 'Escape') {
             e.preventDefault();
             closePalette();
@@ -91,6 +176,14 @@ export function openPaletteWithMode(mode = 'all') {
         input.placeholder = 'Select Color Theme...';
         input.value = '';
         if (prefix) prefix.style.display = 'none';
+    } else if (mode === 'commands') {
+        input.placeholder = 'Type a command or search...';
+        input.value = '';
+        if (prefix) prefix.style.display = 'inline-block';
+    } else if (mode === 'files') {
+        input.placeholder = 'Go to file...';
+        input.value = '';
+        if (prefix) prefix.style.display = 'none';
     } else {
         input.placeholder = 'Go to file or run command...';
         input.value = '';
@@ -105,6 +198,8 @@ export function closePalette() {
     isPaletteOpenInternal = false;
     const overlay = document.getElementById('command-palette-overlay');
     overlay.classList.remove('visible');
+    const input = document.getElementById('cmd-input');
+    if (input) input.blur();
 }
 
 function filterItems(rawQuery = '') {
@@ -133,7 +228,7 @@ function filterItems(rawQuery = '') {
             const activeIndex = filteredItems.findIndex(t => t.isActive);
             if (activeIndex !== -1) selectedIndex = activeIndex;
         }
-    } else if (isCommandPrefix) {
+    } else if (currentMode === 'commands' || isCommandPrefix) {
         filteredItems = commands
             .filter(c => c.name.toLowerCase().includes(query))
             .map(c => ({
@@ -141,11 +236,27 @@ function filterItems(rawQuery = '') {
                 id: c.id,
                 name: c.name,
                 icon: c.icon,
+                shortcut: c.shortcut,
                 action: c.action
             }));
         selectedIndex = 0;
+    } else if (currentMode === 'files') {
+        const files = getFiles();
+        filteredItems = files
+            .filter(f => {
+                const fullName = `${f.title}${f.extension || ''}`.toLowerCase();
+                return fullName.includes(query) || (f.slug && f.slug.toLowerCase().includes(query));
+            })
+            .map(f => ({
+                type: 'file',
+                id: f.id,
+                name: `${f.title}${f.extension || ''}`,
+                slug: f.slug,
+                node: f
+            }));
+        selectedIndex = 0;
     } else {
-        // Unified mode: Show matching COMMANDS first, then matching FILES below
+        // Unified mode ('all')
         const matchedCommands = commands
             .filter(c => c.name.toLowerCase().includes(query))
             .map(c => ({
@@ -153,6 +264,7 @@ function filterItems(rawQuery = '') {
                 id: c.id,
                 name: c.name,
                 icon: c.icon,
+                shortcut: c.shortcut,
                 action: c.action
             }));
 
@@ -170,11 +282,48 @@ function filterItems(rawQuery = '') {
                 node: f
             }));
 
-        filteredItems = [...matchedCommands, ...matchedFiles];
+        if (query === '') {
+            filteredItems = [...matchedCommands, ...matchedFiles];
+        } else {
+            filteredItems = [...matchedCommands, ...matchedFiles];
+        }
+        selectedIndex = 0;
+    }
+
+    if (selectedIndex >= filteredItems.length) {
         selectedIndex = 0;
     }
 
     renderList();
+}
+
+function executeSelectedItem() {
+    if (filteredItems.length > 0 && filteredItems[selectedIndex]) {
+        executeItem(filteredItems[selectedIndex]);
+    }
+}
+
+function updateSelectedIndex(newIdx, scrollIntoView = false) {
+    if (newIdx < 0 || newIdx >= filteredItems.length) return;
+    selectedIndex = newIdx;
+
+    const listEl = document.getElementById('cmd-list');
+    if (!listEl) return;
+
+    const prevSelected = listEl.querySelector('.cmd-item.selected');
+    if (prevSelected) {
+        prevSelected.classList.remove('selected');
+        prevSelected.setAttribute('aria-selected', 'false');
+    }
+
+    const newSelected = listEl.querySelector(`.cmd-item[data-index="${selectedIndex}"]`);
+    if (newSelected) {
+        newSelected.classList.add('selected');
+        newSelected.setAttribute('aria-selected', 'true');
+        if (scrollIntoView) {
+            newSelected.scrollIntoView({ block: 'nearest' });
+        }
+    }
 }
 
 function executeItem(item) {
@@ -188,7 +337,7 @@ function executeItem(item) {
         closePalette();
     } else if (item.type === 'command') {
         item.action();
-        if (item.id !== 'cmd-theme') {
+        if (item.id !== 'cmd-theme' && item.id !== 'cmd-files') {
             closePalette();
         }
     }
@@ -199,7 +348,11 @@ function renderList() {
     listEl.innerHTML = '';
 
     if (filteredItems.length === 0) {
-        listEl.innerHTML = '<div class="cmd-empty">No files or commands found.</div>';
+        let emptyMsg = 'No files or commands found.';
+        if (currentMode === 'themes') emptyMsg = 'No matching themes found.';
+        else if (currentMode === 'commands') emptyMsg = 'No matching commands found.';
+        else if (currentMode === 'files') emptyMsg = 'No matching files found.';
+        listEl.innerHTML = `<div class="cmd-empty">${emptyMsg}</div>`;
         return;
     }
 
@@ -277,12 +430,13 @@ function createFileRow(item, idx) {
     el.appendChild(leftGroup);
 
     el.addEventListener('mouseenter', () => {
-        selectedIndex = idx;
-        renderList();
+        updateSelectedIndex(idx, false);
     });
 
-    el.addEventListener('click', () => {
-        executeItem(item);
+    el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedIndex = idx;
+        executeSelectedItem();
     });
 
     return el;
@@ -311,13 +465,21 @@ function createCommandRow(item, idx) {
 
     el.appendChild(leftGroup);
 
+    if (item.shortcut) {
+        const shortcutSpan = document.createElement('span');
+        shortcutSpan.className = 'cmd-item-shortcut';
+        shortcutSpan.textContent = item.shortcut;
+        el.appendChild(shortcutSpan);
+    }
+
     el.addEventListener('mouseenter', () => {
-        selectedIndex = idx;
-        renderList();
+        updateSelectedIndex(idx, false);
     });
 
-    el.addEventListener('click', () => {
-        executeItem(item);
+    el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedIndex = idx;
+        executeSelectedItem();
     });
 
     return el;
@@ -354,12 +516,13 @@ function createThemeRow(item, idx) {
     }
 
     el.addEventListener('mouseenter', () => {
-        selectedIndex = idx;
-        renderList();
+        updateSelectedIndex(idx, false);
     });
 
-    el.addEventListener('click', () => {
-        executeItem(item);
+    el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedIndex = idx;
+        executeSelectedItem();
     });
 
     return el;

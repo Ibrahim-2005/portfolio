@@ -161,3 +161,20 @@ function updateControlsState(maxBtn, minBtn, fullscreenActive) {
     }
   }
 }
+
+export function toggleFullscreen() {
+  const appContainer = document.querySelector(".app-container");
+  const maxBtn = document.querySelector(".mac-btn.maximize");
+  const minBtn = document.querySelector(".mac-btn.minimize");
+  if (!appContainer) return;
+
+  if (isFullscreen || appContainer.classList.contains("is-fullscreen")) {
+    exitFullscreenMode(appContainer, maxBtn, minBtn);
+  } else {
+    enterFullscreenMode(appContainer, maxBtn, minBtn);
+  }
+}
+
+export function getIsFullscreen() {
+  return isFullscreen;
+}

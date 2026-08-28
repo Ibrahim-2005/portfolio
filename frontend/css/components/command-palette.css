@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    z-index: 1000;
+    z-index: 12000;
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--motion-fast);
@@ -169,6 +169,7 @@
     white-space: nowrap;
 }
 
+.cmd-item-shortcut,
 .cmd-item-path {
     font-size: 11px;
     color: var(--fg-muted);
@@ -178,6 +179,7 @@
     transition: color var(--motion-fast);
 }
 
+.cmd-item.selected .cmd-item-shortcut,
 .cmd-item.selected .cmd-item-path {
     color: rgba(255, 255, 255, 0.75);
 }
