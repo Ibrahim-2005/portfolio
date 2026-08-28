@@ -60,7 +60,7 @@ const commands = [
         id: 'cmd-close-tab',
         name: 'File: Close Active Tab',
         icon: '×',
-        shortcut: 'Ctrl+W',
+        shortcut: '',
         action: () => {
             if (state.activeTabId) {
                 state.closeTab(state.activeTabId);

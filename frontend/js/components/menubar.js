@@ -94,15 +94,13 @@ function renderMenubar(container) {
             <div class="menu-dropdown" role="menu">
                 <div class="menu-item" data-action="new-tab">
                     <span class="menu-item-label">New Tab</span>
-                    <span class="menu-item-shortcut">Ctrl+N</span>
                 </div>
                 <div class="menu-item" data-action="open-file">
                     <span class="menu-item-label">Open File...</span>
-                    <span class="menu-item-shortcut">Ctrl+O</span>
+                    <span class="menu-item-shortcut">Ctrl+P</span>
                 </div>
                 <div class="menu-item" data-action="close-tab">
                     <span class="menu-item-label">Close Tab</span>
-                    <span class="menu-item-shortcut">Ctrl+W</span>
                 </div>
                 <div class="menu-item" data-action="close-all-tabs">
                     <span class="menu-item-label">Close All Tabs</span>
@@ -164,15 +162,12 @@ function renderMenubar(container) {
                 </div>
                 <div class="menu-item" data-action="zoom-in">
                     <span class="menu-item-label">Zoom In</span>
-                    <span class="menu-item-shortcut">Ctrl+=</span>
                 </div>
                 <div class="menu-item" data-action="zoom-out">
                     <span class="menu-item-label">Zoom Out</span>
-                    <span class="menu-item-shortcut">Ctrl+-</span>
                 </div>
                 <div class="menu-item" data-action="reset-zoom">
                     <span class="menu-item-label">Reset Zoom</span>
-                    <span class="menu-item-shortcut">Ctrl+0</span>
                 </div>
             </div>
         </div>

@@ -103,3 +103,154 @@
         filter: none;
     }
 }
+
+/* Keyboard Shortcuts 2-Column Desktop Grid */
+.shortcuts-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.shortcuts-header {
+    margin-bottom: 22px;
+}
+
+.shortcuts-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--fg-default);
+    margin-bottom: 6px;
+}
+
+.shortcuts-intro {
+    font-size: 0.95rem;
+    color: var(--fg-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.keyboard-shortcuts-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.shortcuts-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.shortcuts-card {
+    background: color-mix(in srgb, var(--bg-sidebar) 55%, transparent);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+.shortcuts-card-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--fg-muted);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border-subtle) 70%, transparent);
+}
+
+.shortcuts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.shortcuts-table tr {
+    border-bottom: 1px solid color-mix(in srgb, var(--border-subtle) 35%, transparent);
+    transition: background 0.12s ease;
+}
+
+.shortcuts-table tr:last-child {
+    border-bottom: none;
+}
+
+.shortcuts-table tr:hover {
+    background: color-mix(in srgb, var(--accent-soft) 30%, transparent);
+}
+
+.shortcuts-table td {
+    padding: 9px 8px;
+    border-bottom: none;
+    vertical-align: middle;
+}
+
+.shortcuts-col-name {
+    color: var(--fg-default);
+    font-size: 0.92rem;
+    text-align: left;
+}
+
+.shortcuts-col-keys {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.shortcuts-chord-arrow {
+    display: inline-block;
+    margin: 0 4px;
+    color: var(--fg-muted);
+    font-size: 0.82em;
+}
+
+.shortcuts-chord-note {
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+    margin-top: 12px;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.shortcuts-browser-card {
+    background: color-mix(in srgb, var(--bg-sidebar) 65%, transparent);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--accent, #4a90e2);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+.shortcuts-browser-card-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--fg-default);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.shortcuts-browser-intro {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+}
+
+.browser-desc {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--fg-default);
+}
+
+.browser-hint {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    margin-top: 3px;
+    line-height: 1.4;
+}

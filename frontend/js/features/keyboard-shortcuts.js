@@ -3,11 +3,24 @@
 
 import { togglePalette, closePalette, openPaletteWithMode, isPaletteOpen } from '../components/command-palette.js';
 import { toggleTerminal, closeTerminal, isTerminalOpen } from '../components/terminal.js';
-import { toggleSidebar } from '../components/sidebar.js';
+import { toggleSidebar, getFiles } from '../components/sidebar.js';
 import { state } from '../core/state.js';
+import { toggleFullscreen } from './window-controls.js';
 
 let chordState = null;
 let chordTimeout = null;
+
+export function openShortcutsView() {
+    const shortcutsNode = {
+        id: 'virtual-shortcuts',
+        slug: 'shortcuts',
+        title: 'Keyboard Shortcuts',
+        type: 'page',
+        icon: '⌨',
+        virtual: true
+    };
+    state.openTab(shortcutsNode);
+}
 
 export function initShortcuts() {
     document.addEventListener('keydown', (e) => {
@@ -21,14 +34,32 @@ export function initShortcuts() {
             return;
         }
 
-        // --- Chords (Multi-key sequences like Ctrl+K, Ctrl+T) ---
+        // --- Chords (Multi-key sequences starting with Ctrl+K) ---
         if (chordState === 'CtrlK') {
             clearTimeout(chordTimeout);
             chordState = null;
             
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 't') {
+            // Ctrl+K Ctrl+T or Ctrl+K T -> Color Theme
+            if (e.key.toLowerCase() === 't') {
                 e.preventDefault();
                 openPaletteWithMode('themes');
+                return;
+            }
+            // Ctrl+K Ctrl+S or Ctrl+K S -> Open Keyboard Shortcuts
+            if (e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                openShortcutsView();
+                return;
+            }
+            // Ctrl+K Ctrl+W or Ctrl+K W -> Close All Tabs
+            if (e.key.toLowerCase() === 'w') {
+                e.preventDefault();
+                state.closeAllTabs();
+                return;
+            }
+            // If Escape pressed while in chord, just cancel chord
+            if (e.key === 'Escape') {
+                e.preventDefault();
                 return;
             }
             // If they pressed something else, just fall through
@@ -72,28 +103,13 @@ export function initShortcuts() {
             return;
         }
 
-        // Ctrl+W / Cmd+W -> Close active tab
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'w') {
-            e.preventDefault();
-            if (state.activeTabId) {
-                state.closeTab(state.activeTabId);
-            }
-            return;
-        }
-
-        // Ctrl+Tab and Ctrl+Shift+Tab
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Tab') {
-            e.preventDefault();
-            if (e.shiftKey) {
-                state.cyclePrevTab();
-            } else {
-                state.cycleNextTab();
-            }
-            return;
-        }
-
-        // Escape
+        // Escape cascade
         if (e.key === 'Escape') {
+            if (chordState) {
+                clearTimeout(chordTimeout);
+                chordState = null;
+                return;
+            }
             if (isPaletteOpen()) {
                 closePalette();
                 return;

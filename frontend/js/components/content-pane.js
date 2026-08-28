@@ -24,51 +24,195 @@ export async function renderContent() {
     // Special case for Keyboard Shortcuts (virtual)
     if (activeTab.slug === 'shortcuts') {
         pane.innerHTML = `
-        <div style="padding: 2rem;">
-            <h1 style="margin-bottom: 1rem; color: var(--fg-default);">Keyboard Shortcuts</h1>
-            <p style="margin-bottom: 2rem; color: var(--fg-muted);">These shortcuts work anywhere on the site (unless you're typing in an input field).</p>
-            <table style="width: 100%; border-collapse: collapse; color: var(--fg-default);">
-                <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
-                    <th style="padding: 10px;">Command</th>
-                    <th style="padding: 10px;">Keybinding</th>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Show Command Palette</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Quick Open File</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>P</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Preferences: Color Theme</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>K</kbd> <kbd>Ctrl</kbd> + <kbd>T</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Toggle Terminal Panel</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>\`</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Toggle Sidebar Visibility</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>B</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Close Active Editor</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>W</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Open Next Editor</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>Tab</kbd></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 10px;">Open Previous Editor</td>
-                    <td style="padding: 10px;"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd></td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;">Navigate Sidebar</td>
-                    <td style="padding: 10px;"><kbd>↑</kbd> / <kbd>↓</kbd> / <kbd>Enter</kbd> (when sidebar is focused)</td>
-                </tr>
-            </table>
+        <div class="shortcuts-container">
+            <div class="shortcuts-header">
+                <h1 class="shortcuts-title">Keyboard Shortcuts</h1>
+                <p class="shortcuts-intro">Essential keyboard shortcuts for navigating and controlling PortfolioOS.</p>
+            </div>
+
+            <div class="keyboard-shortcuts-grid">
+                <!-- Left Column -->
+                <div class="shortcuts-column">
+                    <!-- 1. Navigation & Palette -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Navigation & Palette</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Show Command Palette</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Quick Open / Go to File</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>P</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 2. Preferences (Chords) -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Preferences (Chords)</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Color Theme Palette</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>T</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Open Keyboard Shortcuts</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>S</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 3. View & Layout -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">View & Layout</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Toggle Terminal Panel</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>\`</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Toggle Sidebar Visibility</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>B</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Toggle Full Screen</td>
+                                <td class="shortcuts-col-keys"><kbd>F11</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 4. Tabs & Editors -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Tabs & Editors</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Close All Editors</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>W</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 5. Multi-Key Shortcuts (Chords) -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Multi-Key Shortcuts (Chords)</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Theme Palette</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>T</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Keyboard Shortcuts</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>S</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Close All Portfolio Tabs</td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>W</kbd></td>
+                            </tr>
+                        </table>
+                        <div class="shortcuts-chord-note">
+                            Press the first key combination (<kbd>Ctrl+K</kbd> or <kbd>Cmd+K</kbd>), release it, then press the second key within 2 seconds. Press <kbd>Esc</kbd> to cancel.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="shortcuts-column">
+                    <!-- 1. Terminal -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Terminal</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Previous Command (History)</td>
+                                <td class="shortcuts-col-keys"><kbd>↑</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Next Command (History)</td>
+                                <td class="shortcuts-col-keys"><kbd>↓</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Theme Autocomplete</td>
+                                <td class="shortcuts-col-keys"><kbd>Tab</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 2. Sidebar -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Sidebar</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Navigate Previous Item</td>
+                                <td class="shortcuts-col-keys"><kbd>↑</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Navigate Next Item</td>
+                                <td class="shortcuts-col-keys"><kbd>↓</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">Open Selected / Toggle Folder</td>
+                                <td class="shortcuts-col-keys"><kbd>Enter</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 3. Overlays -->
+                    <div class="shortcuts-card">
+                        <div class="shortcuts-card-title">Overlays</div>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">Close Overlay / Cancel</td>
+                                <td class="shortcuts-col-keys"><kbd>Esc</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 4. Browser-Reserved Shortcuts -->
+                    <div class="shortcuts-browser-card">
+                        <div class="shortcuts-browser-card-title">
+                            <span>💡</span> Browser-Reserved Shortcuts
+                        </div>
+                        <p class="shortcuts-browser-intro">
+                            These shortcuts are controlled by your browser and cannot reliably be overridden by web apps:
+                        </p>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td class="shortcuts-col-name">
+                                    <span class="browser-desc">Close browser tab</span>
+                                    <span class="browser-hint">Use editor tab <kbd>×</kbd> button or <kbd>Ctrl+K</kbd> <span class="shortcuts-chord-arrow">then</span> <kbd>W</kbd></span>
+                                </td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl+W</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">
+                                    <span class="browser-desc">Switch browser tabs</span>
+                                    <span class="browser-hint">Click portfolio tabs directly</span>
+                                </td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl+Tab</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">
+                                    <span class="browser-desc">New browser window</span>
+                                </td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl+N</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">
+                                    <span class="browser-desc">Open local disk file</span>
+                                    <span class="browser-hint">Use <kbd>Ctrl+P</kbd> for portfolio files</span>
+                                </td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl+O</kbd></td>
+                            </tr>
+                            <tr>
+                                <td class="shortcuts-col-name">
+                                    <span class="browser-desc">Browser page zoom</span>
+                                </td>
+                                <td class="shortcuts-col-keys"><kbd>Ctrl + / - / 0</kbd></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>`;
         return;
     }

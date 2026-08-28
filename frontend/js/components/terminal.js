@@ -10,6 +10,16 @@ let clearTerminalFn = null;
 let executeCommandFn = null;
 let printLineFn = null;
 let lastExecutedCommand = 'help';
+const commandHistory = [];
+let historyIndex = 0;
+let tempInput = '';
+
+function clearTerminal() {
+    const termOutput = document.querySelector('.terminal-output');
+    if (termOutput) {
+        termOutput.innerHTML = '';
+    }
+}
 
 export const toggleTerminal = () => {
     if (!terminalPanel) {
@@ -243,7 +253,46 @@ export function initTerminal() {
             printLine(val, true); // echo command
             termInput.value = '';
             termSuggestions.innerHTML = ''; // clear suggestions
+
+            const trimmed = val.trim();
+            if (trimmed) {
+                if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== trimmed) {
+                    commandHistory.push(trimmed);
+                }
+            }
+            historyIndex = commandHistory.length;
+            tempInput = '';
+
             executeCommand(val);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (commandHistory.length === 0) return;
+            if (historyIndex === commandHistory.length) {
+                tempInput = termInput.value;
+            }
+            if (historyIndex > 0) {
+                historyIndex--;
+                termInput.value = commandHistory[historyIndex];
+                setTimeout(() => {
+                    termInput.selectionStart = termInput.selectionEnd = termInput.value.length;
+                }, 0);
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (commandHistory.length === 0) return;
+            if (historyIndex < commandHistory.length - 1) {
+                historyIndex++;
+                termInput.value = commandHistory[historyIndex];
+                setTimeout(() => {
+                    termInput.selectionStart = termInput.selectionEnd = termInput.value.length;
+                }, 0);
+            } else if (historyIndex === commandHistory.length - 1) {
+                historyIndex = commandHistory.length;
+                termInput.value = tempInput;
+                setTimeout(() => {
+                    termInput.selectionStart = termInput.selectionEnd = termInput.value.length;
+                }, 0);
+            }
         } else if (e.key === 'Tab') {
             e.preventDefault(); // prevent losing focus
             // simple tab completion for themes
