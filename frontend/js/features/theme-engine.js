@@ -2,19 +2,19 @@
 // Handles reading/writing the active theme to local storage and the DOM
 
 export const themes = [
-    { id: 'dark-plus', name: 'Dark+' },
-    { id: 'dracula', name: 'Dracula' },
-    { id: 'one-dark-pro', name: 'One Dark Pro' },
-    { id: 'monokai', name: 'Monokai' },
-    { id: 'nord', name: 'Nord' },
-    { id: 'solarized-dark', name: 'Solarized Dark' },
-    { id: 'night-owl', name: 'Night Owl' },
-    { id: 'light-plus', name: 'Light+' },
-    { id: 'solarized-light', name: 'Solarized Light' },
-    { id: 'github-light', name: 'GitHub Light' },
-    { id: 'project-hail-mary', name: 'Project Hail Mary' },
-    { id: 'interstellar', name: 'Interstellar' },
-    { id: 'f1', name: 'F1' }
+    { id: 'dark-plus', name: 'Dark+', dot: '🟣', contrast: 'dark' },
+    { id: 'light-plus', name: 'Light+', dot: '🔵', contrast: 'light' },
+    { id: 'dracula', name: 'Dracula', dot: '🧛', contrast: 'dark' },
+    { id: 'one-dark-pro', name: 'One Dark Pro', dot: '⚛️', contrast: 'dark' },
+    { id: 'monokai', name: 'Monokai', dot: '🦎', contrast: 'dark' },
+    { id: 'nord', name: 'Nord', dot: '❄️', contrast: 'dark' },
+    { id: 'solarized-dark', name: 'Solarized Dark', dot: '☀️', contrast: 'dark' },
+    { id: 'night-owl', name: 'Night Owl', dot: '🦉', contrast: 'dark' },
+    { id: 'solarized-light', name: 'Solarized Light', dot: '🌞', contrast: 'light' },
+    { id: 'github-light', name: 'GitHub Light', dot: '🐙', contrast: 'light' },
+    { id: 'project-hail-mary', name: 'Project Hail Mary', dot: '📚', description: 'Deep space / science', contrast: 'dark' },
+    { id: 'interstellar', name: 'Interstellar', dot: '🚀', description: 'Cosmic / cinematic', contrast: 'dark' },
+    { id: 'f1', name: 'F1', dot: '🏎️', description: 'Racing / telemetry', contrast: 'dark' }
 ];
 
 export function initTheme() {

@@ -2,7 +2,7 @@
 /* Desktop Activity Bar on far left */
 
 .activity-bar {
-    width: 48px;
+    width: var(--activity-bar-width, 60px);
     background: linear-gradient(180deg, color-mix(in srgb, var(--bg-sidebar, #181818) 95%, #050810 5%), color-mix(in srgb, var(--bg-sidebar, #181818) 86%, #000 14%));
     border-right: 1px solid color-mix(in srgb, var(--border-color) 45%, #000 55%);
     display: flex;
@@ -26,8 +26,8 @@
 }
 
 .activity-btn {
-    width: 48px;
-    height: 44px;
+    width: var(--activity-bar-width, 60px);
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,8 +42,8 @@
 }
 
 .activity-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 23px;
+    height: 23px;
     stroke-width: 1.5;
     transition: transform var(--motion-fast);
 }
@@ -75,7 +75,7 @@
 .source-control-popover {
     position: absolute;
     top: 92px; /* Aligned near Source Control activity icon */
-    left: 54px;
+    left: calc(var(--activity-bar-width, 60px) + 6px);
     width: 290px;
     background: color-mix(in srgb, var(--bg-sidebar, #181818) 96%, #030610 4%);
     backdrop-filter: blur(28px) saturate(1.25);
@@ -285,7 +285,7 @@
 .settings-popover {
     position: absolute;
     bottom: 8px; /* Aligned above the Settings activity icon */
-    left: 54px;
+    left: calc(var(--activity-bar-width, 60px) + 6px);
     width: 300px;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
@@ -345,7 +345,30 @@
     font-size: 11px;
 }
 
-.settings-theme-list,
+.settings-theme-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 195px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--border-color) 60%, transparent) transparent;
+    padding-right: 3px;
+}
+
+.settings-theme-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.settings-theme-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.settings-theme-list::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--border-color) 60%, transparent);
+    border-radius: 2px;
+}
+
 .settings-action-list {
     display: flex;
     flex-direction: column;

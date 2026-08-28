@@ -5,7 +5,7 @@ import { toggleSidebar } from './sidebar.js';
 import { openPaletteWithMode } from './command-palette.js';
 import { toggleTerminal } from './terminal.js';
 import { api } from '../core/api.js';
-import { setTheme, getCurrentTheme } from '../features/theme-engine.js';
+import { themes, setTheme, getCurrentTheme } from '../features/theme-engine.js';
 
 let sourceControlLoaded = false;
 
@@ -109,18 +109,8 @@ function initSettingsPopover() {
     const popover = document.getElementById('settings-popover');
     if (!popover) return;
 
+    renderSettingsThemeList();
     syncSettingsThemeState();
-
-    // Theme buttons
-    popover.querySelectorAll('.settings-theme-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const themeId = btn.dataset.theme;
-            if (themeId) {
-                setTheme(themeId, true);
-                syncSettingsThemeState();
-            }
-        });
-    });
 
     // Listen to themeChanged event
     document.addEventListener('themeChanged', () => {
@@ -151,19 +141,68 @@ function initSettingsPopover() {
     });
 }
 
+function renderSettingsThemeList() {
+    const listEl = document.getElementById('settings-theme-list');
+    if (!listEl) return;
+
+    listEl.innerHTML = '';
+    const currentTheme = getCurrentTheme();
+
+    themes.forEach(theme => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'settings-theme-btn';
+        if (theme.description) {
+            btn.classList.add('has-tooltip');
+            btn.title = theme.description;
+        }
+        btn.dataset.theme = theme.id;
+
+        const leftSpan = document.createElement('span');
+        leftSpan.className = 'theme-btn-left';
+
+        const dotSpan = document.createElement('span');
+        dotSpan.className = `theme-color-dot dot-${theme.id}`;
+        dotSpan.textContent = theme.dot || '🎨';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'theme-btn-name';
+        nameSpan.textContent = theme.name;
+
+        leftSpan.appendChild(dotSpan);
+        leftSpan.appendChild(nameSpan);
+        btn.appendChild(leftSpan);
+
+        if (theme.description) {
+            const subtitleSpan = document.createElement('span');
+            subtitleSpan.className = 'theme-hover-subtitle';
+            subtitleSpan.textContent = theme.description;
+            btn.appendChild(subtitleSpan);
+        }
+
+        const checkSpan = document.createElement('span');
+        checkSpan.className = 'theme-check';
+        if (theme.id === currentTheme) {
+            btn.classList.add('active');
+            checkSpan.textContent = '✓';
+        }
+        btn.appendChild(checkSpan);
+
+        btn.addEventListener('click', () => {
+            setTheme(theme.id, true);
+            syncSettingsThemeState();
+        });
+
+        listEl.appendChild(btn);
+    });
+}
+
 function syncSettingsThemeState() {
     const currentTheme = getCurrentTheme();
     const themeBtns = document.querySelectorAll('.settings-theme-btn');
     themeBtns.forEach(btn => {
         const tId = btn.dataset.theme;
-        let isMatch = false;
-        if (tId === currentTheme) {
-            isMatch = true;
-        } else if (tId === 'light-plus' && (currentTheme === 'light-plus' || currentTheme === 'github-light' || currentTheme === 'solarized-light')) {
-            isMatch = true;
-        } else if (tId === 'dark-plus' && (currentTheme === 'dark-plus' || currentTheme === 'dracula' || currentTheme === 'one-dark-pro' || currentTheme === 'monokai' || currentTheme === 'nord' || currentTheme === 'solarized-dark' || currentTheme === 'night-owl')) {
-            isMatch = true;
-        }
+        const isMatch = (tId === currentTheme);
 
         const checkSpan = btn.querySelector('.theme-check');
         if (isMatch) {
@@ -174,6 +213,12 @@ function syncSettingsThemeState() {
             if (checkSpan) checkSpan.textContent = '';
         }
     });
+
+    const listEl = document.getElementById('settings-theme-list');
+    const activeBtn = listEl?.querySelector('.settings-theme-btn.active');
+    if (activeBtn) {
+        activeBtn.scrollIntoView({ block: 'nearest' });
+    }
 }
 
 function toggleFullscreen() {
