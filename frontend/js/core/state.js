@@ -1,11 +1,14 @@
 // core/state.js - Manages application state
 
+const STORAGE_KEY = 'portfolio-tabs';
+
 class State {
     constructor() {
         this.openTabs = []; // Array of file nodes: { id, slug, title, icon, type }
         this.activeTabId = null;
         this.listeners = [];
         this.fallbackNodeProvider = null;
+        this.isRestored = false;
     }
 
     setFallbackNodeProvider(provider) {
@@ -39,6 +42,105 @@ class State {
     }
 
     notify() {
+        this.saveTabs();
+        this.listeners.forEach(listener => listener(this));
+    }
+
+    saveTabs() {
+        if (!this.isRestored) return;
+        if (typeof localStorage === 'undefined') return;
+        try {
+            const openTabs = this.openTabs
+                .filter(t => t && (t.slug || t.id !== undefined))
+                .map(t => t.slug || t.id);
+
+            const activeTab = this.getActiveTab();
+            const activeTabIdentifier = activeTab ? (activeTab.slug || activeTab.id) : null;
+
+            const data = {
+                openTabs,
+                activeTab: activeTabIdentifier
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.warn('Failed to save tab state to localStorage', e);
+        }
+    }
+
+    restorePersistedTabs(availableNodes = []) {
+        this.isRestored = false;
+        let loadedData = null;
+
+        if (typeof localStorage !== 'undefined') {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    loadedData = JSON.parse(raw);
+                }
+            } catch (err) {
+                console.warn('Corrupted tab state in localStorage, falling back to home.py', err);
+                loadedData = null;
+            }
+        }
+
+        const resolveNode = (identifier) => {
+            if (identifier === null || identifier === undefined) return null;
+            if (identifier === 'shortcuts' || identifier === 'virtual-shortcuts') {
+                return {
+                    id: 'virtual-shortcuts',
+                    slug: 'shortcuts',
+                    title: 'Keyboard Shortcuts',
+                    type: 'page',
+                    icon: '⌨',
+                    virtual: true
+                };
+            }
+            return availableNodes.find(n =>
+                (n.slug && n.slug === identifier) ||
+                (n.id !== undefined && (n.id === identifier || String(n.id) === String(identifier)))
+            ) || null;
+        };
+
+        let restoredTabs = [];
+        let desiredActiveIdentifier = null;
+
+        if (loadedData && Array.isArray(loadedData.openTabs)) {
+            desiredActiveIdentifier = loadedData.activeTab !== undefined ? loadedData.activeTab : loadedData.activeTabId;
+            const seenIds = new Set();
+
+            for (const item of loadedData.openTabs) {
+                const node = resolveNode(item);
+                if (node && !seenIds.has(node.id)) {
+                    seenIds.add(node.id);
+                    restoredTabs.push(node);
+                }
+            }
+        }
+
+        // Fallback if no valid tabs restored (Cases B, C, D)
+        if (restoredTabs.length === 0) {
+            const fallback = this.getFallbackNode();
+            if (fallback) {
+                restoredTabs = [fallback];
+                desiredActiveIdentifier = fallback.slug || fallback.id;
+            }
+        }
+
+        this.openTabs = restoredTabs;
+
+        // Resolve active tab
+        let activeNode = resolveNode(desiredActiveIdentifier);
+        if (!activeNode || !this.openTabs.some(t => t.id === activeNode.id)) {
+            activeNode = this.openTabs[0];
+        }
+
+        this.activeTabId = activeNode ? activeNode.id : null;
+        this.isRestored = true;
+
+        // Save clean normalized state
+        this.saveTabs();
+
+        // Notify router & UI listeners
         this.listeners.forEach(listener => listener(this));
     }
 

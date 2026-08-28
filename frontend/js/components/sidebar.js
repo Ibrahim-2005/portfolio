@@ -44,11 +44,8 @@ export async function initSidebar() {
     sidebarContent.innerHTML = '';
     renderTree(sections, sidebarContent, 0);
 
-    // After rendering, if Home exists, open it by default
-    const homeNode = getHomeNode();
-    if (homeNode) {
-        state.openTab(homeNode);
-    }
+    // Restore persisted tabs (or fallback to Home if no valid persisted state)
+    state.restorePersistedTabs(flatFileNodes);
 
     // Bind sidebar toggle button
     const toggleBtn = document.querySelector('.sidebar-toggle-btn');
