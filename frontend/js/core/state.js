@@ -95,6 +95,15 @@ class State {
                     virtual: true
                 };
             }
+            if (identifier === 'education' || identifier === 'virtual-education') {
+                return {
+                    id: 'education',
+                    slug: 'education',
+                    title: 'Education',
+                    extension: '.edu',
+                    type: 'page'
+                };
+            }
             return availableNodes.find(n =>
                 (n.slug && n.slug === identifier) ||
                 (n.id !== undefined && (n.id === identifier || String(n.id) === String(identifier)))

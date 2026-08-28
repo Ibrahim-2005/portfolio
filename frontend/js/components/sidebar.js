@@ -148,7 +148,16 @@ export function updateSidebarActive() {
 }
 
 export function openTabBySlug(slug) {
-    const node = flatFileNodes.find(n => n.slug === slug || n.title.toLowerCase() === slug);
+    let node = flatFileNodes.find(n => n.slug === slug || (n.title && n.title.toLowerCase() === slug));
+    if (!node && slug === 'education') {
+        node = {
+            id: 'education',
+            slug: 'education',
+            title: 'Education',
+            extension: '.edu',
+            type: 'page'
+        };
+    }
     if (node && node.type !== 'folder') {
         state.openTab(node);
         return true;

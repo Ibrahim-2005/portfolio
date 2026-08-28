@@ -106,6 +106,7 @@
     <link rel="stylesheet" href="css/components/command-palette.css?v=2" />
     <link rel="stylesheet" href="css/components/about.css" />
     <link rel="stylesheet" href="css/components/skills.css" />
+    <link rel="stylesheet" href="css/components/education.css" />
     <link rel="stylesheet" href="css/components/contact.css" />
     <link rel="stylesheet" href="css/components/menubar.css" />
     <link rel="stylesheet" href="css/components/markdown.css" />
@@ -530,40 +531,39 @@
       <!-- Terminal Panel -->
       <section class="terminal-panel collapsed" id="terminal-panel">
         <div class="terminal-header">
-          <div class="terminal-tabs">
-            <div class="term-tab active">TERMINAL</div>
-            <div class="term-tab">OUTPUT</div>
-            <div class="term-tab">DEBUG CONSOLE</div>
-            <div class="term-tab">PORTS</div>
+          <div class="terminal-header-left">
+            <span class="terminal-header-title">TERMINAL</span>
+            <div class="terminal-sessions-bar" id="terminal-sessions-bar">
+              <button type="button" class="term-session-tab active" data-session-id="1" title="Session: 1: bash">
+                <span class="session-dot">●</span>
+                <span class="term-session-title"> 1: bash</span>
+                <span class="term-session-close-btn" title="Close 1: bash" aria-label="Close 1: bash">×</span>
+              </button>
+            </div>
           </div>
           <div class="terminal-actions">
-            <button class="term-action-btn" aria-label="Maximize">^</button>
-            <button
-              class="term-action-btn term-close-btn"
-              aria-label="Close Terminal"
-            >
-              ×
-            </button>
+            <button type="button" class="term-action-btn term-new-btn" title="New Terminal" aria-label="New Terminal">+</button>
+            <button type="button" class="term-action-btn term-clear-btn" title="Clear Terminal" aria-label="Clear Terminal">⊘</button>
+            <button type="button" class="term-action-btn term-maximize-btn" title="Toggle Maximize" aria-label="Maximize Panel">⤢</button>
+            <button type="button" class="term-action-btn term-close-btn" title="Close Panel" aria-label="Close Terminal">×</button>
           </div>
         </div>
-        <div class="terminal-body">
+        <div class="terminal-body" id="terminal-body">
           <div class="terminal-output">
-            <div class="terminal-line">
-              Portfolio v0.1.0 — type 'help' to get started
-            </div>
+            <div class="terminal-line system">PortfolioOS Terminal v1.0.0 — Type <span class="term-cmd-highlight">help</span> to view available commands.</div>
           </div>
           <div class="terminal-input-line">
             <span class="prompt">guest@portfolio:~$</span>
             <input
               type="text"
               id="terminal-input"
-              class="cmd-input terminal-real-input"
+              class="terminal-real-input"
               autocomplete="off"
               spellcheck="false"
-              autofocus
+              aria-label="Terminal Input"
             />
           </div>
-          <div id="terminal-suggestions" class="terminal-suggestions"></div>
+          <div id="terminal-suggestions" class="terminal-suggestions" role="listbox"></div>
         </div>
       </section>
 

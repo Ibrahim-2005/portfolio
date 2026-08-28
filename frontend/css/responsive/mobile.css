@@ -74,7 +74,7 @@
         left: 0;
         width: 100vw;
         height: 100vh; /* fallback, overridden by visualViewport JS */
-        z-index: 10000;
+        z-index: 9000;
     }
     
     .terminal-panel .term-action-btn[aria-label="Maximize"] {

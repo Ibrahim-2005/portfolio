@@ -1,15 +1,21 @@
 /* Terminal Component Layout */
 .terminal-panel {
-    height: var(--terminal-height);
+    height: var(--terminal-height, 260px);
     background:
-        linear-gradient(180deg, var(--surface-glass-strong), color-mix(in srgb, var(--bg-terminal) 88%, transparent)),
+        linear-gradient(180deg, var(--surface-glass-strong), color-mix(in srgb, var(--bg-terminal) 92%, transparent)),
         radial-gradient(circle at 12% 0%, var(--accent-soft), transparent 24rem);
     border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    box-shadow: 0 -22px 55px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.22);
     animation: terminal-rise var(--motion-med) both;
+    transition: height var(--motion-med) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.terminal-panel.is-maximized {
+    height: 62vh !important;
+    max-height: 85vh !important;
 }
 
 .terminal-panel.collapsed {
@@ -17,66 +23,227 @@
 }
 
 .terminal-header {
-    height: 35px;
+    height: 34px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
-    background: color-mix(in srgb, var(--bg-panel-header) 78%, transparent);
+    padding: 0 10px 0 14px;
+    background: color-mix(in srgb, var(--bg-panel-header) 82%, transparent);
     border-bottom: 1px solid var(--border-subtle);
+    user-select: none;
 }
 
-.terminal-tabs {
+.terminal-header-left {
     display: flex;
-    gap: 15px;
+    align-items: center;
+    gap: 12px;
 }
 
-.term-tab {
+.terminal-header-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--fg-muted);
+    font-family: var(--font-code);
+    text-transform: uppercase;
+}
+
+.terminal-sessions-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.term-session-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 5px 2px 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-code);
     font-size: 11px;
     color: var(--fg-muted);
     cursor: pointer;
-    text-transform: uppercase;
-    border-bottom: 1px solid transparent;
-    padding: 10px 0 8px;
-    transition: color var(--motion-fast), border-color var(--motion-fast);
+    transition: all var(--motion-fast);
+    user-select: none;
+    line-height: 1.2;
 }
 
-.term-tab.active {
-    color: var(--fg-active);
-    border-bottom: 1px solid var(--accent);
+.term-session-tab:hover {
+    color: var(--fg-main);
+    background: color-mix(in srgb, var(--bg-hover) 60%, transparent);
+}
+
+.term-session-tab.active {
+    color: var(--fg-main);
+    background: color-mix(in srgb, var(--bg-hover) 90%, transparent);
+    border-color: var(--border-subtle);
+}
+
+.term-session-tab .session-dot {
+    font-size: 8px;
+    color: var(--accent, #38bdf8);
+    pointer-events: none;
+}
+
+.term-session-tab.active .session-dot {
+    color: #4ade80;
+}
+
+.term-session-title {
+    pointer-events: none;
+}
+
+.term-session-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 2px;
+    color: var(--fg-muted);
+    opacity: 0.65;
+    margin-left: 2px;
+    cursor: pointer;
+    transition: all var(--motion-fast);
+}
+
+.term-session-close-btn:hover {
+    opacity: 1;
+    color: #f87171;
+    background: color-mix(in srgb, #f87171 18%, transparent);
 }
 
 .terminal-actions {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 4px;
 }
 
 .term-action-btn {
+    width: 26px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: var(--fg-muted);
-    font-size: 14px;
+    font-size: 13px;
     border-radius: var(--radius-sm);
-    padding: 2px 7px;
-    transition: background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.term-action-btn * {
+    pointer-events: none;
 }
 
 .term-action-btn:hover {
     color: var(--fg-main);
     background: var(--bg-hover);
-    transform: translateY(-1px);
 }
 
 .terminal-body {
     flex-grow: 1;
-    padding: 10px;
+    padding: 12px 16px;
     overflow-y: auto;
     color: var(--terminal-fg);
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 100% 28px;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-subtle) transparent;
+    cursor: text;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 3px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--fg-muted);
+}
+
+.terminal-output {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 6px;
+}
+
+.terminal-line {
+    font-family: var(--font-code);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--terminal-fg, var(--fg-main));
+    word-break: break-word;
+}
+
+.terminal-line.command-echo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg-active, #ffffff);
+    font-weight: 500;
+}
+
+.terminal-line.system {
+    color: var(--fg-muted);
+    font-style: italic;
+}
+
+.terminal-line.error {
+    color: #f87171;
+}
+
+.terminal-line.success {
+    color: var(--accent, #38bdf8);
+}
+
+.term-cmd-highlight {
+    color: var(--accent);
+    font-weight: 600;
+    font-style: normal;
 }
 
 .terminal-input-line {
     display: flex;
-    align-items: center; /* changed from baseline to center for input alignment */
+    align-items: center;
+    gap: 8px;
+    min-height: 28px;
+    width: 100%;
+    cursor: text;
+    padding: 3px 6px;
+    border-radius: var(--radius-sm);
+    box-sizing: border-box;
+    transition: background var(--motion-fast);
+}
+
+.terminal-input-line:hover {
+    background: color-mix(in srgb, var(--bg-hover) 35%, transparent);
+}
+
+.prompt {
+    color: var(--terminal-prompt, var(--accent));
+    font-family: var(--font-code);
+    font-size: 12.5px;
+    font-weight: 600;
+    user-select: none;
+    flex-shrink: 0;
+    cursor: text;
 }
 
 .terminal-real-input {
@@ -84,51 +251,44 @@
     border: none;
     color: var(--fg-main);
     font-family: var(--font-code);
-    font-size: 13px;
+    font-size: 12.5px;
     flex-grow: 1;
     outline: none;
     padding: 0;
-    margin-left: 8px;
+    margin: 0;
     caret-color: var(--accent);
-}
-
-.prompt {
-    color: var(--accent);
-    margin-right: 0px; /* spacing handled by input margin */
-}
-
-.terminal-input-line .prompt {
-    color: var(--terminal-prompt, var(--accent));
-    margin-right: 8px; /* spacing */
+    cursor: text;
 }
 
 .terminal-suggestions {
-    margin-top: 5px;
-    margin-left: 140px; /* roughly align with input start */
+    margin-top: 6px;
+    padding-left: 6px;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
+    font-family: var(--font-code);
     font-size: 11px;
 }
 
 .suggestion-pill {
-    background: var(--bg-hover);
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg-hover));
     color: var(--fg-main);
-    padding: 2px 6px;
-    border-radius: 999px;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    border: 1px solid var(--border-subtle);
-    transition: background var(--motion-fast), transform var(--motion-fast), color var(--motion-fast);
+    border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+    transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
 }
 
-.suggestion-pill:hover {
+.suggestion-pill:hover,
+.suggestion-pill.selected {
     background: var(--accent);
     color: var(--bg-main);
-    transform: translateY(-1px);
+    border-color: var(--accent);
 }
 
 @keyframes terminal-rise {
-    from { opacity: 0; transform: translateY(18px); }
+    from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
