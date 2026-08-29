@@ -1,0 +1,409 @@
+/* features/cursor.css */
+/* Dedicated PortfolioOS Cursor Architecture */
+
+/* Global baseline: Eliminate browser hand cursor across all clickable elements */
+a,
+button,
+[role="button"],
+select,
+summary,
+[role="tab"],
+[role="menuitem"],
+[role="option"] {
+    cursor: default;
+}
+
+/* ==========================================================
+   1. BASIC THEMES (10 Themes) — PortfolioOS Precision Cursor
+   ========================================================== */
+body.has-portfolio-cursor,
+body.has-portfolio-cursor a,
+body.has-portfolio-cursor button,
+body.has-portfolio-cursor [role="button"],
+body.has-portfolio-cursor select,
+body.has-portfolio-cursor summary,
+body.has-portfolio-cursor [role="tab"],
+body.has-portfolio-cursor [role="menuitem"],
+body.has-portfolio-cursor [role="option"],
+body.has-portfolio-cursor .tab,
+body.has-portfolio-cursor .tree-item,
+body.has-portfolio-cursor .activity-icon,
+body.has-portfolio-cursor .activity-btn,
+body.has-portfolio-cursor .menubar-btn,
+body.has-portfolio-cursor .menu-item,
+body.has-portfolio-cursor .cmd-item,
+body.has-portfolio-cursor .statusbar-item,
+body.has-portfolio-cursor .cta-button,
+body.has-portfolio-cursor .settings-theme-btn,
+body.has-portfolio-cursor .settings-action-btn,
+body.has-portfolio-cursor .term-action-btn,
+body.has-portfolio-cursor .term-session-tab,
+body.has-portfolio-cursor .term-session-close-btn,
+body.has-portfolio-cursor .term-autocomplete-item,
+body.has-portfolio-cursor .project-card,
+body.has-portfolio-cursor .skill-category-card,
+body.has-portfolio-cursor .education-card,
+body.has-portfolio-cursor .shortcuts-card,
+body.has-portfolio-cursor .close-btn,
+body.has-portfolio-cursor .tab-close-btn,
+body.has-portfolio-cursor .sidebar-toggle-btn,
+body.has-portfolio-cursor .window-control-btn,
+body.has-portfolio-cursor .btn-primary,
+body.has-portfolio-cursor .btn-secondary,
+body.has-portfolio-cursor .btn-terminal,
+body.has-portfolio-cursor .social-link-btn,
+body.has-portfolio-cursor .sidebar-header,
+body.has-portfolio-cursor .explorer-section-header,
+body.has-portfolio-cursor .folder-toggle,
+body.has-portfolio-cursor .contact-link-card,
+body.has-portfolio-cursor .contact-submit-btn,
+body.has-portfolio-cursor .sc-github-link,
+body.has-portfolio-cursor [onclick] {
+    cursor: var(--portfolio-cursor, default);
+}
+
+/* Ensure all nested children inside clickable elements inherit the precision cursor */
+body.has-portfolio-cursor a *,
+body.has-portfolio-cursor button *,
+body.has-portfolio-cursor [role="button"] *,
+body.has-portfolio-cursor .tab *,
+body.has-portfolio-cursor .tree-item *,
+body.has-portfolio-cursor .activity-btn *,
+body.has-portfolio-cursor .activity-icon *,
+body.has-portfolio-cursor .menubar-btn *,
+body.has-portfolio-cursor .menu-item *,
+body.has-portfolio-cursor .cmd-item *,
+body.has-portfolio-cursor .statusbar-item *,
+body.has-portfolio-cursor .settings-theme-btn *,
+body.has-portfolio-cursor .term-action-btn *,
+body.has-portfolio-cursor .term-session-tab *,
+body.has-portfolio-cursor .term-session-close-btn *,
+body.has-portfolio-cursor .tab-close-btn *,
+body.has-portfolio-cursor .project-card *,
+body.has-portfolio-cursor .skill-category-card *,
+body.has-portfolio-cursor .education-card * {
+    cursor: inherit;
+}
+
+/* Pressed / Active feedback for basic themes */
+body.has-portfolio-cursor:active,
+body.has-portfolio-cursor:active a,
+body.has-portfolio-cursor:active button,
+body.has-portfolio-cursor:active [role="button"],
+body.has-portfolio-cursor:active .tab,
+body.has-portfolio-cursor:active .tree-item,
+body.has-portfolio-cursor:active .activity-icon,
+body.has-portfolio-cursor:active .activity-btn,
+body.has-portfolio-cursor:active .menubar-btn,
+body.has-portfolio-cursor:active .menu-item,
+body.has-portfolio-cursor:active .cmd-item,
+body.has-portfolio-cursor:active .statusbar-item,
+body.has-portfolio-cursor:active .cta-button,
+body.has-portfolio-cursor:active .settings-theme-btn,
+body.has-portfolio-cursor:active .term-action-btn,
+body.has-portfolio-cursor:active .term-session-tab,
+body.has-portfolio-cursor:active .project-card,
+body.has-portfolio-cursor:active .skill-category-card,
+body.has-portfolio-cursor:active .education-card {
+    cursor: var(--portfolio-cursor-active, var(--portfolio-cursor, default));
+}
+
+/* ==========================================================
+   2. SPECIAL THEME: F1 (Concept #6 Speed Vector Cursor)
+   ========================================================== */
+body.cursor-f1 {
+    cursor: var(--cursor-f1, default);
+}
+
+body.cursor-f1 a,
+body.cursor-f1 button,
+body.cursor-f1 [role="button"],
+body.cursor-f1 select,
+body.cursor-f1 summary,
+body.cursor-f1 [role="tab"],
+body.cursor-f1 [role="menuitem"],
+body.cursor-f1 [role="option"],
+body.cursor-f1 .tab,
+body.cursor-f1 .tree-item,
+body.cursor-f1 .activity-icon,
+body.cursor-f1 .activity-btn,
+body.cursor-f1 .menubar-btn,
+body.cursor-f1 .menu-item,
+body.cursor-f1 .cmd-item,
+body.cursor-f1 .statusbar-item,
+body.cursor-f1 .cta-button,
+body.cursor-f1 .settings-theme-btn,
+body.cursor-f1 .settings-action-btn,
+body.cursor-f1 .term-action-btn,
+body.cursor-f1 .term-session-tab,
+body.cursor-f1 .term-session-close-btn,
+body.cursor-f1 .term-autocomplete-item,
+body.cursor-f1 .project-card,
+body.cursor-f1 .skill-category-card,
+body.cursor-f1 .education-card,
+body.cursor-f1 .shortcuts-card,
+body.cursor-f1 .close-btn,
+body.cursor-f1 .tab-close-btn,
+body.cursor-f1 .sidebar-toggle-btn,
+body.cursor-f1 .window-control-btn,
+body.cursor-f1 .btn-primary,
+body.cursor-f1 .btn-secondary,
+body.cursor-f1 .btn-terminal,
+body.cursor-f1 .social-link-btn,
+body.cursor-f1 .sidebar-header,
+body.cursor-f1 .explorer-section-header,
+body.cursor-f1 .folder-toggle,
+body.cursor-f1 .contact-link-card,
+body.cursor-f1 .contact-submit-btn,
+body.cursor-f1 .sc-github-link,
+body.cursor-f1 [onclick] {
+    cursor: var(--cursor-f1-hover, var(--cursor-f1, default));
+}
+
+body.cursor-f1 a *,
+body.cursor-f1 button *,
+body.cursor-f1 [role="button"] *,
+body.cursor-f1 .tab *,
+body.cursor-f1 .tree-item *,
+body.cursor-f1 .activity-btn *,
+body.cursor-f1 .activity-icon *,
+body.cursor-f1 .menubar-btn *,
+body.cursor-f1 .menu-item *,
+body.cursor-f1 .cmd-item *,
+body.cursor-f1 .statusbar-item *,
+body.cursor-f1 .settings-theme-btn *,
+body.cursor-f1 .term-action-btn *,
+body.cursor-f1 .term-session-tab *,
+body.cursor-f1 .term-session-close-btn *,
+body.cursor-f1 .tab-close-btn *,
+body.cursor-f1 .project-card *,
+body.cursor-f1 .skill-category-card *,
+body.cursor-f1 .education-card * {
+    cursor: inherit;
+}
+
+/* Subtle pressed / active feedback when clicking in F1 theme */
+body.cursor-f1:active,
+body.cursor-f1:active a,
+body.cursor-f1:active button,
+body.cursor-f1:active [role="button"],
+body.cursor-f1:active .tab,
+body.cursor-f1:active .tree-item,
+body.cursor-f1:active .activity-icon,
+body.cursor-f1:active .activity-btn,
+body.cursor-f1:active .menubar-btn,
+body.cursor-f1:active .menu-item,
+body.cursor-f1:active .cmd-item,
+body.cursor-f1:active .statusbar-item,
+body.cursor-f1:active .cta-button,
+body.cursor-f1:active .settings-theme-btn,
+body.cursor-f1:active .term-action-btn,
+body.cursor-f1:active .term-session-tab,
+body.cursor-f1:active .project-card,
+body.cursor-f1:active .skill-category-card,
+body.cursor-f1:active .education-card {
+    cursor: var(--cursor-f1-active, var(--cursor-f1, default));
+}
+
+/* ==========================================================
+   3. SPECIAL THEME: PROJECT HAIL MARY (Orange Pixel Pointer)
+   ========================================================== */
+:root {
+    --cursor-phm: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="8" height="8" fill="%23e58835"/></svg>') 0 0, auto;
+}
+
+body.cursor-phm,
+body.cursor-phm a,
+body.cursor-phm button,
+body.cursor-phm [role="button"],
+body.cursor-phm select,
+body.cursor-phm summary,
+body.cursor-phm [role="tab"],
+body.cursor-phm [role="menuitem"],
+body.cursor-phm [role="option"],
+body.cursor-phm .tab,
+body.cursor-phm .tree-item,
+body.cursor-phm .activity-icon,
+body.cursor-phm .activity-btn,
+body.cursor-phm .menubar-btn,
+body.cursor-phm .menu-item,
+body.cursor-phm .cmd-item,
+body.cursor-phm .statusbar-item,
+body.cursor-phm .cta-button,
+body.cursor-phm .settings-theme-btn,
+body.cursor-phm .settings-action-btn,
+body.cursor-phm .term-action-btn,
+body.cursor-phm .term-session-tab,
+body.cursor-phm .term-session-close-btn,
+body.cursor-phm .term-autocomplete-item,
+body.cursor-phm .project-card,
+body.cursor-phm .skill-category-card,
+body.cursor-phm .education-card,
+body.cursor-phm .shortcuts-card,
+body.cursor-phm .close-btn,
+body.cursor-phm .tab-close-btn,
+body.cursor-phm .sidebar-toggle-btn,
+body.cursor-phm .window-control-btn,
+body.cursor-phm .btn-primary,
+body.cursor-phm .btn-secondary,
+body.cursor-phm .btn-terminal,
+body.cursor-phm .social-link-btn,
+body.cursor-phm .sidebar-header,
+body.cursor-phm .explorer-section-header,
+body.cursor-phm .folder-toggle,
+body.cursor-phm .contact-link-card,
+body.cursor-phm .contact-submit-btn,
+body.cursor-phm .sc-github-link,
+body.cursor-phm [onclick] {
+    cursor: var(--cursor-phm);
+}
+
+body.cursor-phm a *,
+body.cursor-phm button *,
+body.cursor-phm [role="button"] *,
+body.cursor-phm .tab *,
+body.cursor-phm .tree-item *,
+body.cursor-phm .activity-btn *,
+body.cursor-phm .activity-icon *,
+body.cursor-phm .menubar-btn *,
+body.cursor-phm .menu-item *,
+body.cursor-phm .cmd-item *,
+body.cursor-phm .statusbar-item *,
+body.cursor-phm .settings-theme-btn *,
+body.cursor-phm .term-action-btn *,
+body.cursor-phm .term-session-tab *,
+body.cursor-phm .term-session-close-btn *,
+body.cursor-phm .tab-close-btn *,
+body.cursor-phm .project-card *,
+body.cursor-phm .skill-category-card *,
+body.cursor-phm .education-card * {
+    cursor: inherit;
+}
+
+/* ==========================================================
+   4. SPECIAL THEME: INTERSTELLAR (Particle Trail & Clean Pointer)
+   ========================================================== */
+body.cursor-interstellar,
+body.cursor-interstellar a,
+body.cursor-interstellar button,
+body.cursor-interstellar [role="button"],
+body.cursor-interstellar select,
+body.cursor-interstellar summary,
+body.cursor-interstellar [role="tab"],
+body.cursor-interstellar [role="menuitem"],
+body.cursor-interstellar [role="option"],
+body.cursor-interstellar .tab,
+body.cursor-interstellar .tree-item,
+body.cursor-interstellar .activity-icon,
+body.cursor-interstellar .activity-btn,
+body.cursor-interstellar .menubar-btn,
+body.cursor-interstellar .menu-item,
+body.cursor-interstellar .cmd-item,
+body.cursor-interstellar .statusbar-item,
+body.cursor-interstellar .cta-button,
+body.cursor-interstellar .settings-theme-btn,
+body.cursor-interstellar .settings-action-btn,
+body.cursor-interstellar .term-action-btn,
+body.cursor-interstellar .term-session-tab,
+body.cursor-interstellar .term-session-close-btn,
+body.cursor-interstellar .term-autocomplete-item,
+body.cursor-interstellar .project-card,
+body.cursor-interstellar .skill-category-card,
+body.cursor-interstellar .education-card,
+body.cursor-interstellar .shortcuts-card,
+body.cursor-interstellar .close-btn,
+body.cursor-interstellar .tab-close-btn,
+body.cursor-interstellar .sidebar-toggle-btn,
+body.cursor-interstellar .window-control-btn,
+body.cursor-interstellar .btn-primary,
+body.cursor-interstellar .btn-secondary,
+body.cursor-interstellar .btn-terminal,
+body.cursor-interstellar .social-link-btn,
+body.cursor-interstellar .sidebar-header,
+body.cursor-interstellar .explorer-section-header,
+body.cursor-interstellar .folder-toggle,
+body.cursor-interstellar .contact-link-card,
+body.cursor-interstellar .contact-submit-btn,
+body.cursor-interstellar .sc-github-link,
+body.cursor-interstellar [onclick] {
+    cursor: default;
+}
+
+body.cursor-interstellar a *,
+body.cursor-interstellar button *,
+body.cursor-interstellar [role="button"] *,
+body.cursor-interstellar .tab *,
+body.cursor-interstellar .tree-item *,
+body.cursor-interstellar .activity-btn *,
+body.cursor-interstellar .activity-icon *,
+body.cursor-interstellar .menubar-btn *,
+body.cursor-interstellar .menu-item *,
+body.cursor-interstellar .cmd-item *,
+body.cursor-interstellar .statusbar-item *,
+body.cursor-interstellar .settings-theme-btn *,
+body.cursor-interstellar .term-action-btn *,
+body.cursor-interstellar .term-session-tab *,
+body.cursor-interstellar .term-session-close-btn *,
+body.cursor-interstellar .tab-close-btn *,
+body.cursor-interstellar .project-card *,
+body.cursor-interstellar .skill-category-card *,
+body.cursor-interstellar .education-card * {
+    cursor: inherit;
+}
+
+/* ==========================================================
+   5. NATIVE INTERACTION CURSORS (Text, Resize, Drag)
+   Must NEVER be overridden by any theme cursor
+   ========================================================== */
+/* Text editing areas MUST retain native text cursor */
+input,
+input:active,
+textarea,
+textarea:active,
+.terminal-input,
+.terminal-input:active,
+.xterm,
+.xterm-cursor-layer,
+[contenteditable="true"],
+[contenteditable="true"]:active {
+    cursor: text !important;
+}
+
+/* Resize handles must retain native resize cursors */
+.terminal-resize-handle,
+.terminal-resize-handle:active,
+.sidebar-resize-handle,
+.sidebar-resize-handle:active {
+    cursor: row-resize !important;
+}
+
+/* Draggable elements while actively dragging */
+.tab.tab-dragging,
+.tab.tab-dragging * {
+    cursor: grabbing !important;
+}
+
+/* ==========================================================
+   6. MOTION & TOUCH PREFERENCES
+   ========================================================== */
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    body.has-portfolio-cursor,
+    body.has-portfolio-cursor *,
+    body.cursor-f1,
+    body.cursor-f1 *,
+    body.cursor-phm,
+    body.cursor-phm *,
+    body.cursor-interstellar,
+    body.cursor-interstellar * {
+        transition: none !important;
+    }
+}
+
+/* Touch devices: disable custom cursors */
+@media (hover: none) {
+    body,
+    body * {
+        cursor: auto !important;
+    }
+}
