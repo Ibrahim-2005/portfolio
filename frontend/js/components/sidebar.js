@@ -23,7 +23,14 @@ export function getHomeNode() {
 export async function initSidebar() {
     state.setFallbackNodeProvider(getHomeNode);
     const sidebarContent = document.querySelector('.sidebar-content');
-    sidebarContent.innerHTML = '<div style="padding: 10px; color: var(--fg-muted);">Loading...</div>';
+    sidebarContent.innerHTML = `
+        <div class="sidebar-skeleton" aria-label="Loading files">
+            <div class="sidebar-skeleton-item"><div class="sidebar-skeleton-icon skeleton-shimmer"></div><div class="sidebar-skeleton-text skeleton-shimmer" style="width: 65%;"></div></div>
+            <div class="sidebar-skeleton-item"><div class="sidebar-skeleton-icon skeleton-shimmer"></div><div class="sidebar-skeleton-text skeleton-shimmer" style="width: 80%;"></div></div>
+            <div class="sidebar-skeleton-item"><div class="sidebar-skeleton-icon skeleton-shimmer"></div><div class="sidebar-skeleton-text skeleton-shimmer" style="width: 70%;"></div></div>
+            <div class="sidebar-skeleton-item"><div class="sidebar-skeleton-icon skeleton-shimmer"></div><div class="sidebar-skeleton-text skeleton-shimmer" style="width: 85%;"></div></div>
+            <div class="sidebar-skeleton-item"><div class="sidebar-skeleton-icon skeleton-shimmer"></div><div class="sidebar-skeleton-text skeleton-shimmer" style="width: 60%;"></div></div>
+        </div>`;
 
     const items = await api.getSidebar() || [];
 

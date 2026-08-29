@@ -12,14 +12,47 @@ import { renderResume } from './resume-view.js';
 // Cache to avoid re-rendering content for the same tab repeatedly
 const contentCache = {};
 
+// Tab scroll positions map for scroll preservation across tabs
+const tabScrollPositions = new Map();
+let currentRenderedTabId = null;
+
+function getWorkspaceSkeletonHtml() {
+    return `
+        <div class="workspace-skeleton" aria-label="Loading content">
+            <div class="workspace-skeleton-comment skeleton-shimmer"></div>
+            <div class="workspace-skeleton-heading skeleton-shimmer"></div>
+            <div class="workspace-skeleton-tagline skeleton-shimmer"></div>
+            <div class="workspace-skeleton-cards">
+                <div class="workspace-skeleton-card skeleton-shimmer"></div>
+                <div class="workspace-skeleton-card skeleton-shimmer"></div>
+            </div>
+        </div>`;
+}
+
 export async function renderContent() {
     const pane = document.querySelector('.content-pane');
+    if (!pane) return;
+
+    if (currentRenderedTabId !== null) {
+        tabScrollPositions.set(currentRenderedTabId, pane.scrollTop);
+    }
+
     const activeTab = state.getActiveTab();
 
     if (!activeTab) {
+        currentRenderedTabId = null;
         pane.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--fg-muted);">No file is open</div>';
         return;
     }
+
+    const restoreTabScroll = () => {
+        currentRenderedTabId = activeTab.id;
+        if (activeTab.slug === 'home' || (activeTab.title && activeTab.title.toLowerCase() === 'home')) {
+            pane.scrollTop = 0;
+        } else if (tabScrollPositions.has(activeTab.id)) {
+            pane.scrollTop = tabScrollPositions.get(activeTab.id);
+        }
+    };
 
     // Special case for Keyboard Shortcuts (virtual)
     if (activeTab.slug === 'shortcuts') {
@@ -214,6 +247,7 @@ export async function renderContent() {
                 </div>
             </div>
         </div>`;
+        restoreTabScroll();
         return;
     }
 
@@ -221,30 +255,34 @@ export async function renderContent() {
     // Special case for Home tab (static)
     if (activeTab.slug === "home" || activeTab.title.toLowerCase() === "home") {
         pane.innerHTML = await renderHome();
+        restoreTabScroll();
         return;
     }
 
     // Special case for Projects tab (custom rendering via its own API)
     if (activeTab.slug === 'projects') {
-        pane.innerHTML = '<div style="color:var(--fg-muted);">Loading projects...</div>';
+        pane.innerHTML = getWorkspaceSkeletonHtml();
         const html = await renderProjects();
         pane.innerHTML = html;
+        restoreTabScroll();
         return;
     }
 
     // Special case for Skills tab (custom rendering via its own API)
     if (activeTab.slug === 'skills') {
-        pane.innerHTML = '<div style="color:var(--fg-muted);">Loading skills...</div>';
+        pane.innerHTML = getWorkspaceSkeletonHtml();
         const html = await renderSkills();
         pane.innerHTML = html;
+        restoreTabScroll();
         return;
     }
 
     // Special case for Resume tab
     if (activeTab.slug === 'resume') {
-        pane.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--fg-muted);">Loading resume...</div>';
+        pane.innerHTML = getWorkspaceSkeletonHtml();
         const html = await renderResume();
         pane.innerHTML = html;
+        restoreTabScroll();
         return;
     }
 
@@ -252,11 +290,12 @@ export async function renderContent() {
     // Check cache
     if (contentCache[activeTab.id] && activeTab.slug !== 'readme' && activeTab.slug !== 'certificates') {
         pane.innerHTML = contentCache[activeTab.id];
+        restoreTabScroll();
         return;
     }
 
     // Loading State
-    pane.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--fg-muted);">Loading...</div>';
+    pane.innerHTML = getWorkspaceSkeletonHtml();
 
     let html = '';
 
@@ -338,4 +377,5 @@ export async function renderContent() {
 
     contentCache[activeTab.id] = html;
     pane.innerHTML = html;
+    restoreTabScroll();
 }

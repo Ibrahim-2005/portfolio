@@ -1,0 +1,113 @@
+/* components/skeleton.css */
+/* IDE-authentic subtle shimmer and pulse skeleton loading experience */
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--bg-hover) 65%, transparent) 0%,
+        color-mix(in srgb, var(--accent) 12%, var(--bg-hover)) 50%,
+        color-mix(in srgb, var(--bg-hover) 65%, transparent) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.8s ease-in-out infinite;
+    border-radius: var(--radius-sm, 4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-shimmer {
+        animation: none !important;
+        background: color-mix(in srgb, var(--bg-hover) 80%, transparent) !important;
+    }
+}
+
+/* Sidebar Skeleton Tree */
+.sidebar-skeleton {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-skeleton-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 22px;
+}
+
+.sidebar-skeleton-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.sidebar-skeleton-text {
+    height: 11px;
+    border-radius: 3px;
+    flex-grow: 1;
+}
+
+/* Workspace / Content Pane Skeleton */
+.workspace-skeleton {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2.2vw, 24px);
+    box-sizing: border-box;
+}
+
+.workspace-skeleton-comment {
+    width: 90px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.workspace-skeleton-heading {
+    width: clamp(180px, 45%, 340px);
+    height: 38px;
+    border-radius: 5px;
+}
+
+.workspace-skeleton-tagline {
+    width: clamp(240px, 65%, 480px);
+    height: 18px;
+    border-radius: 4px;
+}
+
+.workspace-skeleton-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.workspace-skeleton-badge {
+    width: 85px;
+    height: 24px;
+    border-radius: 12px;
+}
+
+.workspace-skeleton-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.workspace-skeleton-card {
+    height: 110px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid var(--border-subtle);
+}
