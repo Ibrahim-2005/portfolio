@@ -146,7 +146,7 @@
 
 .project-desc {
     margin: 0 0 1rem;
-    color: var(--fg-default);
+    color: var(--fg-main);
     font-size: 0.95rem;
     line-height: 1.6;
 }
@@ -188,7 +188,7 @@
 .project-highlights li {
     position: relative;
     padding-left: 0.9rem;
-    color: var(--fg-default);
+    color: var(--fg-main);
     font-size: 0.9rem;
     line-height: 1.5;
 }

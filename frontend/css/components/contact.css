@@ -18,7 +18,7 @@
 
 .contact-heading {
   font-family: var(--font-display);
-  color: var(--fg-default);
+  color: var(--fg-active);
   font-size: 2.5rem;
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
@@ -252,7 +252,7 @@ img.contact-card-icon,
   align-self: flex-start;
   background: transparent;
   border: 1px solid var(--border-color);
-  color: var(--fg-default);
+  color: var(--fg-main);
   font-family: var(--font-mono);
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-sm, 4px);
@@ -351,7 +351,7 @@ img.contact-card-icon,
 .contact-form-textarea {
   background: var(--bg-sidebar);
   border: 1px solid var(--border-color);
-  color: var(--fg-default);
+  color: var(--fg-main);
   font-family: var(--font-main);
   font-size: 1rem;
   padding: 0.75rem;

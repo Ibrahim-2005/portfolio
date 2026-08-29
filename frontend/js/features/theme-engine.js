@@ -2,19 +2,19 @@
 // Handles reading/writing the active theme to local storage and the DOM
 
 export const themes = [
-    { id: 'dark-plus', name: 'Dark+', dot: '🟣', contrast: 'dark' },
-    { id: 'light-plus', name: 'Light+', dot: '🔵', contrast: 'light' },
-    { id: 'dracula', name: 'Dracula', dot: '🧛', contrast: 'dark' },
-    { id: 'one-dark-pro', name: 'One Dark Pro', dot: '⚛️', contrast: 'dark' },
-    { id: 'monokai', name: 'Monokai', dot: '🦎', contrast: 'dark' },
-    { id: 'nord', name: 'Nord', dot: '❄️', contrast: 'dark' },
-    { id: 'solarized-dark', name: 'Solarized Dark', dot: '☀️', contrast: 'dark' },
-    { id: 'night-owl', name: 'Night Owl', dot: '🦉', contrast: 'dark' },
-    { id: 'solarized-light', name: 'Solarized Light', dot: '🌞', contrast: 'light' },
-    { id: 'github-light', name: 'GitHub Light', dot: '🐙', contrast: 'light' },
-    { id: 'project-hail-mary', name: 'Project Hail Mary', dot: '📚', description: 'Deep space / science', contrast: 'dark' },
-    { id: 'interstellar', name: 'Interstellar', dot: '🚀', description: 'Cosmic / cinematic', contrast: 'dark' },
-    { id: 'f1', name: 'F1', dot: '🏎️', description: 'Racing / telemetry', contrast: 'dark' }
+    { id: 'dark-plus', name: 'Dark+', icon: '🟣', dot: '🟣', color: '#007acc', contrast: 'dark' },
+    { id: 'light-plus', name: 'Light+', icon: '🔵', dot: '🔵', color: '#007fd4', contrast: 'light' },
+    { id: 'dracula', name: 'Dracula', icon: '🧛', dot: '🧛', color: '#ff79c6', contrast: 'dark' },
+    { id: 'one-dark-pro', name: 'One Dark Pro', icon: '⚛️', dot: '⚛️', color: '#61afef', contrast: 'dark' },
+    { id: 'monokai', name: 'Monokai', icon: '🦎', dot: '🦎', color: '#f92672', contrast: 'dark' },
+    { id: 'nord', name: 'Nord', icon: '❄️', dot: '❄️', color: '#88c0d0', contrast: 'dark' },
+    { id: 'solarized-dark', name: 'Solarized Dark', icon: '☀️', dot: '☀️', color: '#2aa198', contrast: 'dark' },
+    { id: 'night-owl', name: 'Night Owl', icon: '🦉', dot: '🦉', color: '#c792ea', contrast: 'dark' },
+    { id: 'solarized-light', name: 'Solarized Light', icon: '🌞', dot: '🌞', color: '#b58900', contrast: 'light' },
+    { id: 'github-light', name: 'GitHub Light', icon: '🐙', dot: '🐙', color: '#0366d6', contrast: 'light' },
+    { id: 'project-hail-mary', name: 'Project Hail Mary', icon: '📚', dot: '📚', color: '#e58835', description: 'Deep space / science', contrast: 'dark' },
+    { id: 'interstellar', name: 'Interstellar', icon: '🚀', dot: '🚀', color: '#f5b971', description: 'Cosmic / cinematic', contrast: 'dark' },
+    { id: 'f1', name: 'F1', icon: '🏎️', dot: '🏎️', color: '#e10600', description: 'Racing / telemetry', contrast: 'dark' }
 ];
 
 export function initTheme() {
@@ -36,8 +36,12 @@ export function setTheme(themeId, save = true) {
     
     // Update status bar UI
     const themeNameEl = document.getElementById('current-theme-name');
+    const themeIconEl = document.getElementById('current-theme-icon');
     if (themeNameEl) {
         themeNameEl.textContent = themeObj.name;
+    }
+    if (themeIconEl) {
+        themeIconEl.textContent = themeObj.icon;
     }
 
     // Dispatch event for other features to listen to

@@ -10,13 +10,56 @@ html[data-theme="solarized-light"] {
     --bg-terminal: #fdf6e3;
     --bg-panel-header: #eee8d5;
     
-    --fg-main: #657b83;
-    --fg-muted: #93a1a1;
+    --fg-main: #586e75;
+    --fg-muted: #586e75;
     --fg-active: #073642;
     
     --accent: #b58900;
-    --border-color: #d33682;
+    --accent-strong: #795a00;
+    --border-color: #d5cbb4;
     
     --terminal-fg: #657b83;
     --terminal-prompt: #859900;
+}
+
+/* Ensure command palette selected items remain high-contrast on Solarized gold accent */
+html[data-theme="solarized-light"] .cmd-item.selected {
+    color: #002b36;
+}
+
+html[data-theme="solarized-light"] .cmd-item.selected .cmd-item-shortcut,
+html[data-theme="solarized-light"] .cmd-item.selected .cmd-item-path {
+    color: rgba(0, 43, 54, 0.75);
+}
+
+/* Solarized Light Menubar Readability */
+html[data-theme="solarized-light"] .app-menubar {
+    background: var(--bg-titlebar);
+    border-bottom: 1px solid var(--border-color);
+}
+
+html[data-theme="solarized-light"] .menubar-btn {
+    color: #073642;
+}
+
+html[data-theme="solarized-light"] .menubar-btn:hover,
+html[data-theme="solarized-light"] .menubar-item.is-open .menubar-btn {
+    color: var(--fg-active);
+    background: color-mix(in srgb, var(--accent) 15%, var(--bg-hover));
+}
+
+html[data-theme="solarized-light"] .menu-dropdown {
+    background: #fdf6e3;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px rgba(0, 43, 54, 0.15);
+}
+
+html[data-theme="solarized-light"] .menu-item {
+    color: var(--fg-main);
+}
+
+html[data-theme="solarized-light"] .menu-item:hover,
+html[data-theme="solarized-light"] .menu-item:focus-visible {
+    background: var(--accent);
+    color: #002b36;
 }

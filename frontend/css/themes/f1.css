@@ -11,10 +11,11 @@ html[data-theme="f1"] {
     --bg-panel-header: #111111;
     
     --fg-main: #e0e0e0;
-    --fg-muted: #7a7a7a;
+    --fg-muted: #8c8c8c;
     --fg-active: #ffffff;
     
     --accent: #e10600;
+    --accent-strong: #ff4d47;
     --border-color: #333333;
     
     --terminal-fg: #e0e0e0;

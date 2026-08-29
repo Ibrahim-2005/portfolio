@@ -161,15 +161,16 @@ function renderSettingsThemeList() {
         const leftSpan = document.createElement('span');
         leftSpan.className = 'theme-btn-left';
 
-        const dotSpan = document.createElement('span');
-        dotSpan.className = `theme-color-dot dot-${theme.id}`;
-        dotSpan.textContent = theme.dot || '🎨';
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'theme-emoji-icon';
+        iconSpan.textContent = theme.icon || theme.dot || '🎨';
+        iconSpan.setAttribute('aria-hidden', 'true');
 
         const nameSpan = document.createElement('span');
         nameSpan.className = 'theme-btn-name';
         nameSpan.textContent = theme.name;
 
-        leftSpan.appendChild(dotSpan);
+        leftSpan.appendChild(iconSpan);
         leftSpan.appendChild(nameSpan);
         btn.appendChild(leftSpan);
 

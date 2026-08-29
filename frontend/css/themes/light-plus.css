@@ -15,8 +15,41 @@ html[data-theme="light-plus"] {
     --fg-active: #000000;
     
     --accent: #007fd4;
+    --accent-strong: #005fb8;
     --border-color: #cccccc;
     
     --terminal-fg: #333333;
     --terminal-prompt: #008000;
+}
+
+/* Light+ Menubar Readability */
+html[data-theme="light-plus"] .app-menubar {
+    background: var(--bg-titlebar);
+    border-bottom: 1px solid var(--border-color);
+}
+
+html[data-theme="light-plus"] .menubar-btn {
+    color: #24292e;
+}
+
+html[data-theme="light-plus"] .menubar-btn:hover,
+html[data-theme="light-plus"] .menubar-item.is-open .menubar-btn {
+    color: var(--fg-active);
+    background: color-mix(in srgb, var(--accent) 15%, var(--bg-hover));
+}
+
+html[data-theme="light-plus"] .menu-dropdown {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="light-plus"] .menu-item {
+    color: var(--fg-main);
+}
+
+html[data-theme="light-plus"] .menu-item:hover,
+html[data-theme="light-plus"] .menu-item:focus-visible {
+    background: var(--accent);
+    color: #ffffff;
 }

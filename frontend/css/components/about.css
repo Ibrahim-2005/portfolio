@@ -4,7 +4,7 @@
   width: 100%;
   max-width: none;
   box-sizing: border-box;
-  color: var(--fg-default);
+  color: var(--fg-main);
 }
 
 .about-page-comment {
@@ -346,14 +346,14 @@
 }
 
 .about-education-degree {
-  color: var(--fg-default);
+  color: var(--fg-main);
   font-size: 0.98rem;
   line-height: 1.5;
 }
 
 .about-education-description {
   margin-top: 1rem;
-  color: var(--fg-muted);
+  color: var(--fg-main);
   line-height: 1.55;
   font-size: 0.95rem;
 }

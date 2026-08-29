@@ -220,6 +220,8 @@ function filterItems(rawQuery = '') {
                 type: 'theme',
                 id: t.id,
                 name: t.name,
+                icon: t.icon || t.dot || '🎨',
+                color: t.color,
                 isActive: t.id === getCurrentTheme()
             }));
 
@@ -496,8 +498,9 @@ function createThemeRow(item, idx) {
     leftGroup.className = 'cmd-item-left';
 
     const iconSpan = document.createElement('span');
-    iconSpan.className = 'icon cmd-file-icon';
-    iconSpan.textContent = '🎨';
+    iconSpan.className = 'icon cmd-theme-icon';
+    iconSpan.textContent = item.icon || '🎨';
+    iconSpan.setAttribute('aria-hidden', 'true');
 
     const nameSpan = document.createElement('span');
     nameSpan.className = 'cmd-item-name';

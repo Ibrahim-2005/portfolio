@@ -242,7 +242,7 @@
     background: color-mix(in srgb, var(--accent) 16%, transparent);
     border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
     border-radius: 4px;
-    color: #ffffff;
+    color: var(--fg-active, #ffffff);
     text-decoration: none;
     font-size: 11.5px;
     font-weight: 600;
@@ -397,12 +397,14 @@
 .settings-theme-btn:hover,
 .settings-action-btn:hover {
     background: var(--bg-hover);
-    color: #ffffff;
+    color: var(--fg-active, #ffffff);
 }
 
 .settings-theme-btn.active {
     background: color-mix(in srgb, var(--accent) 18%, transparent);
-    color: #ffffff;
+    color: var(--fg-active, #ffffff);
+    border-left: 2.5px solid var(--accent);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .theme-btn-left,
@@ -415,7 +417,16 @@
     white-space: nowrap;
 }
 
-.theme-color-dot,
+.theme-emoji-icon {
+    font-size: 13px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    flex-shrink: 0;
+}
+
 .action-icon {
     font-size: 11px;
     flex-shrink: 0;
@@ -522,7 +533,7 @@
 
 .settings-connect-link:hover {
     background: var(--bg-hover);
-    color: #ffffff;
+    color: var(--fg-active, #ffffff);
 }
 
 .connect-arrow {
@@ -531,7 +542,7 @@
 }
 
 .settings-connect-link:hover .connect-arrow {
-    color: #ffffff;
+    color: var(--fg-active, #ffffff);
 }
 
 .settings-separator {

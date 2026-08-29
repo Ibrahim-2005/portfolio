@@ -53,17 +53,21 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
-.legend-core-text { color: #4CC9F0; }
-.legend-hands-on-text { color: #F72585; }
-.legend-working-text { color: #B8F23D; }
+.legend-core-text { color: #4CC9F0; background: transparent; border: none; }
+.legend-hands-on-text { color: #F72585; background: transparent; border: none; }
+.legend-working-text { color: #B8F23D; background: transparent; border: none; }
 
 .legend-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     display: inline-block;
+    flex-shrink: 0;
 }
 
 .dot-core { background: #4CC9F0; }
@@ -256,7 +260,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    color: var(--fg-default);
+    color: var(--fg-main);
     font-size: 0.82rem;
 }
 
@@ -286,6 +290,74 @@
     background: color-mix(in srgb, #B8F23D 15%, transparent);
     color: #B8F23D;
     border: 1px solid color-mix(in srgb, #B8F23D 30%, transparent);
+}
+
+/* High-contrast skill level badges for Light themes */
+html[data-theme="light-plus"] .skill-level-badge.level-core,
+html[data-theme="github-light"] .skill-level-badge.level-core,
+html[data-theme="solarized-light"] .skill-level-badge.level-core {
+    color: #0284c7;
+    background: color-mix(in srgb, #0284c7 12%, transparent);
+    border: 1px solid color-mix(in srgb, #0284c7 35%, transparent);
+}
+
+html[data-theme="light-plus"] .skill-level-badge.level-hands-on,
+html[data-theme="github-light"] .skill-level-badge.level-hands-on,
+html[data-theme="solarized-light"] .skill-level-badge.level-hands-on {
+    color: #be185d;
+    background: color-mix(in srgb, #be185d 12%, transparent);
+    border: 1px solid color-mix(in srgb, #be185d 35%, transparent);
+}
+
+html[data-theme="light-plus"] .skill-level-badge.level-working,
+html[data-theme="github-light"] .skill-level-badge.level-working,
+html[data-theme="solarized-light"] .skill-level-badge.level-working {
+    color: #3f6212;
+    background: color-mix(in srgb, #3f6212 12%, transparent);
+    border: 1px solid color-mix(in srgb, #3f6212 35%, transparent);
+}
+
+/* Light themes: clean text and dot colors for legend, NO boxes or borders */
+html[data-theme="light-plus"] .legend-core-text,
+html[data-theme="github-light"] .legend-core-text,
+html[data-theme="solarized-light"] .legend-core-text {
+    color: #0284c7;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+html[data-theme="light-plus"] .dot-core,
+html[data-theme="github-light"] .dot-core,
+html[data-theme="solarized-light"] .dot-core {
+    background: #0284c7;
+}
+
+html[data-theme="light-plus"] .legend-hands-on-text,
+html[data-theme="github-light"] .legend-hands-on-text,
+html[data-theme="solarized-light"] .legend-hands-on-text {
+    color: #be185d;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+html[data-theme="light-plus"] .dot-hands-on,
+html[data-theme="github-light"] .dot-hands-on,
+html[data-theme="solarized-light"] .dot-hands-on {
+    background: #be185d;
+}
+
+html[data-theme="light-plus"] .legend-working-text,
+html[data-theme="github-light"] .legend-working-text,
+html[data-theme="solarized-light"] .legend-working-text {
+    color: #3f6212;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+html[data-theme="light-plus"] .dot-working,
+html[data-theme="github-light"] .dot-working,
+html[data-theme="solarized-light"] .dot-working {
+    background: #3f6212;
 }
 
 /* Category Accents */

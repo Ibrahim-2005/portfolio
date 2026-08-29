@@ -15,8 +15,41 @@ html[data-theme="github-light"] {
     --fg-active: #000000;
     
     --accent: #0366d6;
+    --accent-strong: #0256b9;
     --border-color: #e1e4e8;
     
     --terminal-fg: #24292e;
     --terminal-prompt: #28a745;
+}
+
+/* GitHub Light Menubar Readability */
+html[data-theme="github-light"] .app-menubar {
+    background: var(--bg-titlebar);
+    border-bottom: 1px solid var(--border-color);
+}
+
+html[data-theme="github-light"] .menubar-btn {
+    color: #24292e;
+}
+
+html[data-theme="github-light"] .menubar-btn:hover,
+html[data-theme="github-light"] .menubar-item.is-open .menubar-btn {
+    color: var(--fg-active);
+    background: color-mix(in srgb, var(--accent) 15%, var(--bg-hover));
+}
+
+html[data-theme="github-light"] .menu-dropdown {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+html[data-theme="github-light"] .menu-item {
+    color: var(--fg-main);
+}
+
+html[data-theme="github-light"] .menu-item:hover,
+html[data-theme="github-light"] .menu-item:focus-visible {
+    background: var(--accent);
+    color: #ffffff;
 }
