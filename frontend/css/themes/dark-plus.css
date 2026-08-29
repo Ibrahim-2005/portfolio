@@ -4,6 +4,7 @@ html[data-theme="dark-plus"] {
     --bg-sidebar: #252526;
     --bg-titlebar: #323233;
     --bg-statusbar: #007acc;
+    --fg-statusbar: #ffffff;
     --bg-tab-active: #1e1e1e;
     --bg-tab-inactive: #2d2d2d;
     --bg-terminal: #1e1e1e;

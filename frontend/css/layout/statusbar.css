@@ -1,16 +1,20 @@
 /* Status Bar Layout */
 .statusbar {
-    height: var(--statusbar-height);
-    background: linear-gradient(90deg, var(--bg-statusbar), color-mix(in srgb, var(--bg-statusbar) 72%, #8b5cf6 28%));
-    color: #ffffff; /* Usually distinct regardless of theme */
+    height: var(--statusbar-height, 22px);
+    background: var(--bg-statusbar);
+    color: var(--fg-statusbar, #ffffff);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
-    font-size: 12px;
+    padding: 0 8px;
+    font-size: 11.5px;
+    font-family: var(--font-code, "JetBrains Mono", monospace), var(--font-main, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
     flex-shrink: 0;
     user-select: none;
-    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 20;
+    overflow: hidden;
 }
 
 .statusbar-left,
@@ -18,23 +22,109 @@
     display: flex;
     align-items: center;
     height: 100%;
+    gap: 2px;
 }
 
 .statusbar-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    padding: 0 8px;
+    gap: 5px;
     height: 100%;
-    cursor: pointer;
+    padding: 0 7px;
+    background: transparent;
+    border: none;
     color: inherit;
-    transition: background var(--motion-fast), transform var(--motion-fast);
+    font-size: 11.5px;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;
+    box-sizing: border-box;
+    white-space: nowrap;
+    transition: background-color var(--motion-fast, 150ms);
 }
 
 .statusbar-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
+    background-color: color-mix(in srgb, var(--fg-statusbar, #fff) 18%, transparent);
 }
 
-.statusbar-item .icon {
-    margin-right: 4px;
+.statusbar-item:focus-visible {
+    outline: 1px solid var(--fg-statusbar, #fff);
+    outline-offset: -1px;
+}
+
+.statusbar-item.active {
+    background-color: color-mix(in srgb, var(--fg-statusbar, #fff) 25%, transparent);
+}
+
+.statusbar-item .statusbar-icon,
+.statusbar-item svg.statusbar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    line-height: 1;
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+.statusbar-branch-name {
+    font-weight: 500;
+}
+
+.statusbar-sync-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    margin-left: 2px;
+    flex-shrink: 0;
+}
+
+.statusbar-sync-icon svg {
+    display: block;
+    width: 13px;
+    height: 13px;
+}
+
+.statusbar-short-sha {
+    font-size: 10.5px;
+    opacity: 0.8;
+    margin-left: 2px;
+}
+
+.statusbar-short-sha:empty {
+    display: none;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 600px) {
+    .statusbar {
+        padding: 0 4px;
+    }
+
+    .statusbar-item {
+        padding: 0 5px;
+        font-size: 11px;
+        gap: 4px;
+    }
+
+    .statusbar-short-sha {
+        display: none;
+    }
+
+    .statusbar-terminal-label {
+        display: none;
+    }
+}
+
+@media (max-width: 380px) {
+    .statusbar-sync-icon {
+        display: none;
+    }
+
+    .statusbar-item {
+        padding: 0 4px;
+    }
 }

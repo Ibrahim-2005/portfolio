@@ -4,6 +4,7 @@ html[data-theme="solarized-dark"] {
     --bg-sidebar: #00212b;
     --bg-titlebar: #00212b;
     --bg-statusbar: #859900;
+    --fg-statusbar: #002b36;
     --bg-tab-active: #002b36;
     --bg-tab-inactive: #00212b;
     --bg-terminal: #002b36;

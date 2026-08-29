@@ -4,6 +4,7 @@ html[data-theme="monokai"] {
     --bg-sidebar: #1e1f1c;
     --bg-titlebar: #1e1f1c;
     --bg-statusbar: #a6e22e;
+    --fg-statusbar: #272822;
     --bg-tab-active: #272822;
     --bg-tab-inactive: #1e1f1c;
     --bg-terminal: #272822;

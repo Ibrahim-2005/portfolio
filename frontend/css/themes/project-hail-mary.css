@@ -4,6 +4,7 @@ html[data-theme="project-hail-mary"] {
     --bg-sidebar: #120d09;
     --bg-titlebar: #120d09;
     --bg-statusbar: #d66428;
+    --fg-statusbar: #ffffff;
     --bg-tab-active: #1c1511;
     --bg-tab-inactive: #120d09;
     --bg-terminal: #1c1511;

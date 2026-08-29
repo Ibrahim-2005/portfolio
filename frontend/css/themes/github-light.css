@@ -4,6 +4,7 @@ html[data-theme="github-light"] {
     --bg-sidebar: #f6f8fa;
     --bg-titlebar: #f6f8fa;
     --bg-statusbar: #24292e;
+    --fg-statusbar: #ffffff;
     --bg-tab-active: #ffffff;
     --bg-tab-inactive: #f6f8fa;
     --bg-terminal: #ffffff;

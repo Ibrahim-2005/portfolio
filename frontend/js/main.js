@@ -7,6 +7,7 @@ import { initCursorEngine } from './features/cursor-engine.js';
 import { initPetCompanions } from './features/pet-companion.js';
 import { initUiPolish } from './features/ui-polish.js';
 import { initTerminal } from './components/terminal.js';
+import { initStatusbar } from './components/statusbar.js';
 import { initWindowControls } from './features/window-controls.js';
 import { initMenubar } from './components/menubar.js';
 import { initActivityBar } from './components/activity-bar.js';
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initMenubar();
     initActivityBar();
+    initStatusbar();
     initPalette();
     initShortcuts();
     initCursorEngine();

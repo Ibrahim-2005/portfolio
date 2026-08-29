@@ -4,6 +4,7 @@ html[data-theme="dracula"] {
     --bg-sidebar: #21222c;
     --bg-titlebar: #191a21;
     --bg-statusbar: #bd93f9;
+    --fg-statusbar: #282a36;
     --bg-tab-active: #282a36;
     --bg-tab-inactive: #21222c;
     --bg-terminal: #282a36;

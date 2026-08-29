@@ -4,6 +4,7 @@ html[data-theme="light-plus"] {
     --bg-sidebar: #f3f3f3;
     --bg-titlebar: #dddddd;
     --bg-statusbar: #007acc;
+    --fg-statusbar: #ffffff;
     --bg-tab-active: #ffffff;
     --bg-tab-inactive: #ececec;
     --bg-terminal: #ffffff;

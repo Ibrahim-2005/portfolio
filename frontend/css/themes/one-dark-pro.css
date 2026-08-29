@@ -4,6 +4,7 @@ html[data-theme="one-dark-pro"] {
     --bg-sidebar: #21252b;
     --bg-titlebar: #21252b;
     --bg-statusbar: #98c379;
+    --fg-statusbar: #21252b;
     --bg-tab-active: #282c34;
     --bg-tab-inactive: #21252b;
     --bg-terminal: #282c34;

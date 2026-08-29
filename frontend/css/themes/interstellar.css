@@ -4,6 +4,7 @@ html[data-theme="interstellar"] {
     --bg-sidebar: #02040a;
     --bg-titlebar: #02040a;
     --bg-statusbar: #050814; /* Uses gradient in status bar sometimes, but fallback to dark */
+    --fg-statusbar: #ffffff;
     --bg-tab-active: #050814;
     --bg-tab-inactive: #02040a;
     --bg-terminal: #050814;

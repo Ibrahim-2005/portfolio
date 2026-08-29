@@ -4,6 +4,7 @@ html[data-theme="night-owl"] {
     --bg-sidebar: #01121f;
     --bg-titlebar: #01121f;
     --bg-statusbar: #82aaff;
+    --fg-statusbar: #011627;
     --bg-tab-active: #011627;
     --bg-tab-inactive: #01121f;
     --bg-terminal: #011627;

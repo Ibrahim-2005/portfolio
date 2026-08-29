@@ -4,6 +4,7 @@ html[data-theme="nord"] {
     --bg-sidebar: #242933;
     --bg-titlebar: #242933;
     --bg-statusbar: #88c0d0;
+    --fg-statusbar: #242933;
     --bg-tab-active: #2e3440;
     --bg-tab-inactive: #242933;
     --bg-terminal: #2e3440;

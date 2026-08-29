@@ -574,30 +574,71 @@
             href="https://github.com/Ibrahim-2005/portfolio"
             target="_blank"
             rel="noopener noreferrer"
-            class="statusbar-item"
-            title="GitHub Repository"
+            class="statusbar-item statusbar-git"
+            title="Source Control: main"
+            id="status-git-branch"
+            aria-label="Source Control: main branch"
           >
-            <span class="icon"></span> main
+            <svg class="statusbar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="7" cy="6.5" r="2.5"></circle>
+              <circle cx="7" cy="17.5" r="2.5"></circle>
+              <circle cx="17.5" cy="12" r="2.5"></circle>
+              <line x1="7" y1="9" x2="7" y2="15"></line>
+              <line x1="7" y1="12" x2="15" y2="12"></line>
+            </svg>
+            <span class="statusbar-branch-name" id="status-branch-name">main</span>
+            <span class="statusbar-sync-icon" id="status-sync-icon" title="Synchronized" aria-label="Synchronized">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 11a8.1 8.1 0 0 0-15.5-2m-.5-5v5h5"></path>
+                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5"></path>
+              </svg>
+            </span>
+            <span class="statusbar-short-sha" id="status-short-sha"></span>
           </a>
         </div>
         <div class="statusbar-right">
-          <span
-            class="statusbar-item"
-            title="Select Theme"
-            id="status-theme-toggle"
-            style="cursor: pointer"
-          >
-            <span class="icon">🎨</span>
-            <span id="current-theme-name">Dark+</span>
-          </span>
-          <span class="statusbar-item">
-            <span class="icon">✉</span> Contact
-          </span>
           <button
-            class="statusbar-item term-toggle-status-btn"
-            title="Toggle Terminal"
+            type="button"
+            class="statusbar-item"
+            id="status-theme-toggle"
+            title="Select Color Theme"
+            aria-label="Select Color Theme"
           >
-            <span class="icon">🖵</span>
+            <svg class="statusbar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+              <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+              <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+              <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+            </svg>
+            <span id="current-theme-name">Dark+</span>
+          </button>
+          <button
+            type="button"
+            class="statusbar-item"
+            id="status-contact-btn"
+            title="Open Contact"
+            aria-label="Open Contact"
+          >
+            <svg class="statusbar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            <span>Contact</span>
+          </button>
+          <button
+            type="button"
+            class="statusbar-item term-toggle-status-btn"
+            id="status-terminal-btn"
+            title="Toggle Terminal"
+            aria-label="Toggle Terminal"
+          >
+            <svg class="statusbar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="m7 9 3 3-3 3"></path>
+              <line x1="13" y1="15" x2="17" y2="15"></line>
+            </svg>
+            <span class="statusbar-terminal-label">Terminal</span>
           </button>
         </div>
       </footer>

@@ -4,6 +4,7 @@ html[data-theme="f1"] {
     --bg-sidebar: #111111;
     --bg-titlebar: #111111;
     --bg-statusbar: #e10600; /* F1 Red */
+    --fg-statusbar: #ffffff;
     --bg-tab-active: #1a1a1a;
     --bg-tab-inactive: #111111;
     --bg-terminal: #1a1a1a;
