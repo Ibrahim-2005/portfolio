@@ -214,6 +214,14 @@ class State {
             this.notify();
         }
     }
+
+    reorderTabs(fromIndex, toIndex) {
+        if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0 ||
+            fromIndex >= this.openTabs.length || toIndex >= this.openTabs.length) return;
+        const [movedTab] = this.openTabs.splice(fromIndex, 1);
+        this.openTabs.splice(toIndex, 0, movedTab);
+        this.notify();
+    }
     
     getActiveTab() {
         return this.openTabs.find(t => t.id === this.activeTabId);

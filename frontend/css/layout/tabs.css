@@ -58,8 +58,40 @@
 
 .tab.active {
     background: linear-gradient(180deg, color-mix(in srgb, var(--bg-tab-active) 94%, transparent), var(--bg-tab-active));
-    color: white;
+    color: var(--fg-active, #ffffff);
     box-shadow: inset 0 2px 0 var(--accent), 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+/* Drag and Drop Tab States */
+.tab.tab-dragging {
+    opacity: 0.45;
+    background: color-mix(in srgb, var(--bg-tab-inactive) 60%, transparent);
+}
+
+.tab.drop-indicator-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    z-index: 20;
+    pointer-events: none;
+}
+
+.tab.drop-indicator-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    z-index: 20;
+    pointer-events: none;
 }
 
 .tab:hover {
@@ -102,7 +134,7 @@
 
 .tab .close-btn:hover {
     background: var(--bg-hover);
-    color: white;
+    color: var(--fg-active, #ffffff);
     transform: scale(1.08);
 }
 
