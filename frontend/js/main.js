@@ -12,6 +12,18 @@ import { initWindowControls } from './features/window-controls.js';
 import { initMenubar } from './components/menubar.js';
 import { initActivityBar } from './components/activity-bar.js';
 import { api } from './core/api.js';
+import { state } from './core/state.js';
+import { setTheme, getCurrentTheme } from './features/theme-engine.js';
+import { openTabBySlug } from './components/sidebar.js';
+import { openPaletteWithMode, closePalette } from './components/command-palette.js';
+
+// Dev & Test helpers on window
+window.state = state;
+window.setTheme = setTheme;
+window.getCurrentTheme = getCurrentTheme;
+window.openTabBySlug = openTabBySlug;
+window.openPaletteWithMode = openPaletteWithMode;
+window.closePalette = closePalette;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System

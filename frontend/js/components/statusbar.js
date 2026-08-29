@@ -1,4 +1,4 @@
-﻿// frontend/js/components/statusbar.js
+// frontend/js/components/statusbar.js
 // Handles dynamic state synchronization, interactions, and accessibility for the PortfolioOS Status Bar
 
 import { api } from '../core/api.js';
@@ -12,12 +12,13 @@ export function initStatusbar() {
 
     // 1. Theme state synchronization
     const themeNameEl = document.getElementById('current-theme-name');
+    const themeIconEl = document.getElementById('current-theme-icon');
     const syncTheme = (themeId) => {
-        if (!themeNameEl) return;
         const currentId = themeId || getCurrentTheme();
         const found = themes.find(t => t.id === currentId);
         if (found) {
-            themeNameEl.textContent = found.name;
+            if (themeNameEl) themeNameEl.textContent = found.name;
+            if (themeIconEl) themeIconEl.textContent = found.icon || found.dot || '🎨';
         }
     };
     syncTheme();
