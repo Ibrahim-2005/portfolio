@@ -202,7 +202,7 @@
     text-transform: uppercase;
     border-radius: var(--radius-sm, 4px);
     background: color-mix(in srgb, var(--accent) 18%, transparent);
-    color: var(--accent);
+    color: var(--fg-active);
     border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
 }
 

@@ -1,8 +1,10 @@
 /* Content Pane Layout */
 .content-pane {
     flex-grow: 1;
+    box-sizing: border-box;
     padding: clamp(24px, 4vw, 56px);
     overflow-y: auto;
+    scrollbar-gutter: stable;
     background:
         linear-gradient(180deg, color-mix(in srgb, var(--bg-main) 72%, transparent), color-mix(in srgb, var(--bg-main) 88%, transparent)),
         radial-gradient(circle at 88% 18%, var(--accent-soft), transparent 19rem);
@@ -118,7 +120,7 @@
 .shortcuts-title {
     font-size: 1.8rem;
     font-weight: 600;
-    color: var(--fg-default);
+    color: var(--fg-active);
     margin-bottom: 6px;
 }
 
@@ -190,7 +192,7 @@
 }
 
 .shortcuts-col-name {
-    color: var(--fg-default);
+    color: var(--fg-main);
     font-size: 0.92rem;
     text-align: left;
 }
@@ -227,7 +229,7 @@
 .shortcuts-browser-card-title {
     font-size: 0.88rem;
     font-weight: 600;
-    color: var(--fg-default);
+    color: var(--fg-main);
     margin-bottom: 6px;
     display: flex;
     align-items: center;
@@ -244,7 +246,7 @@
 .browser-desc {
     display: block;
     font-size: 0.9rem;
-    color: var(--fg-default);
+    color: var(--fg-main);
 }
 
 .browser-hint {
