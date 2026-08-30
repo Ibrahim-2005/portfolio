@@ -42,7 +42,7 @@ jobs:
       - name: Run database migrations
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
-          SECRET_KEY: test-secret-key
+          SECRET_KEY: ci-test-secret-key-portfolioos-2026
           ADMIN_EMAIL: admin@example.com
           ADMIN_PASSWORD: password123
         run: |
@@ -57,7 +57,7 @@ jobs:
       - name: Run Pytest
         env:
           DATABASE_URL: postgresql://test:test@localhost:5432/test
-          SECRET_KEY: test-secret-key
+          SECRET_KEY: ci-test-secret-key-portfolioos-2026
           ADMIN_EMAIL: admin@example.com
           ADMIN_PASSWORD: password123
         run: |
