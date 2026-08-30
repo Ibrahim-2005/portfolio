@@ -5,7 +5,7 @@ import { state } from '../core/state.js';
 import { getFiles, toggleSidebar } from './sidebar.js';
 import { iconService } from '../services/icon-service.js';
 import { openPaletteWithMode } from './command-palette.js';
-import { toggleTerminal, openTerminal, clearTerminalOutput, runLastTerminalCommand, newTerminalSession } from './terminal.js';
+import { toggleTerminal, openTerminal, clearTerminal, runLastTerminalCommand, newTerminalSession } from './terminal.js';
 
 let activeMenu = null;
 let currentZoom = 1.0;
@@ -56,6 +56,9 @@ export function closeAllMenus() {
         item.classList.remove('is-open');
         const btn = item.querySelector('.menubar-btn');
         if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.menu-item.has-submenu').forEach(item => {
+        item.classList.remove('submenu-open');
     });
 }
 
@@ -127,7 +130,6 @@ function renderMenubar(container) {
             <div class="menu-dropdown" role="menu">
                 <div class="menu-item" data-action="find">
                     <span class="menu-item-label">Find...</span>
-                    <span class="menu-item-shortcut">Ctrl+F</span>
                 </div>
                 <div class="menu-item" data-action="select-all">
                     <span class="menu-item-label">Select All</span>
@@ -259,6 +261,10 @@ function renderMenubar(container) {
     container.querySelectorAll('.menu-item[data-action]').forEach(item => {
         item.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (item.classList.contains('has-submenu')) {
+                item.classList.toggle('submenu-open');
+                return;
+            }
             const action = item.dataset.action;
             executeMenuAction(action);
             closeAllMenus();
@@ -465,7 +471,8 @@ function executeMenuAction(action) {
             newTerminalSession();
             break;
         case 'clear-terminal':
-            clearTerminalOutput();
+            openTerminal();
+            clearTerminal();
             break;
 
         // --- HELP ---

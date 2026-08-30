@@ -115,4 +115,53 @@
         font-size: 10px;
         text-overflow: ellipsis;
     }
+
+    html {
+        overflow-x: hidden;
+    }
+
+    /* Menubar Mobile Overrides */
+    .app-menubar {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+    }
+
+    .menu-dropdown {
+        max-width: calc(100vw - 16px);
+    }
+
+    /* Right-side dropdowns align right on mobile */
+    .menubar-item[data-menu="terminal"] .menu-dropdown,
+    .menubar-item[data-menu="help"] .menu-dropdown {
+        left: auto;
+        right: 0;
+    }
+
+    /* Open Recent submenu expands inline inside parent dropdown on narrow mobile */
+    .menu-item.has-submenu {
+        flex-wrap: wrap;
+    }
+
+    .menu-item.has-submenu .menu-item-label {
+        flex: 1;
+    }
+
+    .menu-item.has-submenu .submenu-dropdown {
+        width: 100% !important;
+        flex-basis: 100%;
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-top: 1px solid var(--border-color) !important;
+        margin-top: 4px;
+        padding-left: 8px !important;
+    }
+
+    .menu-item.has-submenu.submenu-open > .submenu-dropdown {
+        display: flex !important;
+    }
 }

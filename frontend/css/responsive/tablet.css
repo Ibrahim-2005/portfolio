@@ -64,3 +64,28 @@
         max-width: 140px;
     }
 }
+
+/* Menubar Tablet Overrides (<= 768px) */
+@media screen and (max-width: 768px) {
+    html {
+        overflow-x: hidden;
+    }
+
+    .app-menubar {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+    }
+
+    /* Terminal and Help dropdowns align right so they stay within viewport */
+    .menubar-item[data-menu="terminal"] .menu-dropdown,
+    .menubar-item[data-menu="help"] .menu-dropdown {
+        left: auto;
+        right: 0;
+    }
+
+    /* Submenu click/touch toggle */
+    .menu-item.has-submenu.submenu-open > .submenu-dropdown {
+        display: flex !important;
+    }
+}
