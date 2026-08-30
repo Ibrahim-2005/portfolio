@@ -152,10 +152,8 @@ function renderSettingsThemeList() {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'settings-theme-btn';
-        if (theme.description) {
-            btn.classList.add('has-tooltip');
-            btn.title = theme.description;
-        }
+        btn.title = theme.description ? `${theme.name} — ${theme.description}` : theme.name;
+        btn.setAttribute('aria-label', theme.name);
         btn.dataset.theme = theme.id;
 
         const leftSpan = document.createElement('span');
@@ -174,18 +172,14 @@ function renderSettingsThemeList() {
         leftSpan.appendChild(nameSpan);
         btn.appendChild(leftSpan);
 
-        if (theme.description) {
-            const subtitleSpan = document.createElement('span');
-            subtitleSpan.className = 'theme-hover-subtitle';
-            subtitleSpan.textContent = theme.description;
-            btn.appendChild(subtitleSpan);
-        }
-
         const checkSpan = document.createElement('span');
         checkSpan.className = 'theme-check';
         if (theme.id === currentTheme) {
             btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
             checkSpan.textContent = '✓';
+        } else {
+            btn.setAttribute('aria-pressed', 'false');
         }
         btn.appendChild(checkSpan);
 
@@ -208,9 +202,11 @@ function syncSettingsThemeState() {
         const checkSpan = btn.querySelector('.theme-check');
         if (isMatch) {
             btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
             if (checkSpan) checkSpan.textContent = '✓';
         } else {
             btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
             if (checkSpan) checkSpan.textContent = '';
         }
     });

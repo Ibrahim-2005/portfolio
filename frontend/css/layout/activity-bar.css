@@ -286,7 +286,7 @@
     position: absolute;
     bottom: 8px; /* Aligned above the Settings activity icon */
     left: calc(var(--activity-bar-width, 60px) + 6px);
-    width: 300px;
+    width: 312px;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
     scrollbar-width: thin;
@@ -346,27 +346,12 @@
 }
 
 .settings-theme-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    max-height: 195px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--border-color) 60%, transparent) transparent;
-    padding-right: 3px;
-}
-
-.settings-theme-list::-webkit-scrollbar {
-    width: 4px;
-}
-
-.settings-theme-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.settings-theme-list::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--border-color) 60%, transparent);
-    border-radius: 2px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px 6px;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
 }
 
 .settings-action-list {
@@ -375,7 +360,25 @@
     gap: 2px;
 }
 
-.settings-theme-btn,
+.settings-theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 4px 6px;
+    min-height: 25px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--fg-main);
+    font-family: var(--font-code);
+    font-size: 10.5px;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--motion-fast), color var(--motion-fast);
+    min-width: 0;
+}
+
 .settings-action-btn {
     display: flex;
     align-items: center;
@@ -400,6 +403,16 @@
     color: var(--fg-active, #ffffff);
 }
 
+.settings-theme-btn:focus-visible,
+.settings-action-btn:focus-visible,
+.settings-connect-link:focus-visible,
+.settings-author-link:focus-visible {
+    outline: 2px solid var(--accent, #007acc);
+    outline-offset: 1px;
+    background: var(--bg-hover);
+    color: var(--fg-active, var(--fg-main));
+}
+
 .settings-theme-btn.active {
     background: color-mix(in srgb, var(--accent) 18%, transparent);
     color: var(--fg-active, #ffffff);
@@ -407,7 +420,17 @@
     box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
-.theme-btn-left,
+.theme-btn-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1;
+}
+
 .action-btn-left {
     display: flex;
     align-items: center;
@@ -417,8 +440,15 @@
     white-space: nowrap;
 }
 
+.theme-btn-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10.5px;
+}
+
 .theme-emoji-icon {
-    font-size: 13px;
+    font-size: 12.5px;
     line-height: 1;
     display: inline-flex;
     align-items: center;
@@ -433,27 +463,16 @@
 }
 
 .theme-check {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--accent, #a855f7);
-    width: 14px;
+    width: 12px;
     text-align: right;
     flex-shrink: 0;
 }
 
 .theme-hover-subtitle {
-    display: none;
-    font-size: 9.5px;
-    color: var(--accent-strong, #b56bff);
-    font-style: italic;
-    margin-left: auto;
-    margin-right: 4px;
-    flex-shrink: 0;
-}
-
-.settings-theme-btn:hover .theme-hover-subtitle,
-.settings-theme-btn:focus-visible .theme-hover-subtitle {
-    display: inline-block;
+    display: none !important;
 }
 
 .action-shortcut {
@@ -464,7 +483,8 @@
 
 .settings-theme-btn:hover .action-shortcut,
 .settings-action-btn:hover .action-shortcut {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--fg-active, var(--fg-main));
+    opacity: 1;
 }
 
 /* Shortcuts List */
@@ -605,8 +625,8 @@
     }
 }
 
-/* Hide on mobile/tablet */
-@media screen and (max-width: 1024px) {
+/* Hide on mobile (mobile Settings explicitly deferred) */
+@media screen and (max-width: 599px) {
     .activity-bar,
     .source-control-popover,
     .settings-popover {
