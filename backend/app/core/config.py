@@ -23,8 +23,10 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     # ── CORS ──────────────────────────────────────────────────────────────────
-    # Comma-separated list of allowed origins, e.g. "http://localhost:5500,https://example.com"
-    ALLOWED_ORIGINS: str = "http://localhost:5500,http://127.0.0.1:5500"
+    # Comma-separated list of allowed origins, supplied strictly via environment
+    # (.env for local development, environment variables for production).
+    # Never hardcoded with localhost or wildcard "*" in application code.
+    ALLOWED_ORIGINS: str = ""
 
     # ── Assets ────────────────────────────────────────────────────────────────
     RESUME_FILE_PATH: str = "../frontend/assets/resume/Mohamed_ IbrahimY_ Resume.pdf"
@@ -47,8 +49,10 @@ class Settings(BaseSettings):
 
     @property
     def allowed_origins_list(self) -> list[str]:
-        """Return ALLOWED_ORIGINS as a Python list."""
-        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
+        """Return ALLOWED_ORIGINS as a Python list with stripped whitespace."""
+        if not self.ALLOWED_ORIGINS:
+            return []
+        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
 
 
 # Module-level singleton — import this everywhere

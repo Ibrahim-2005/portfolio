@@ -30,12 +30,13 @@ def main() -> None:
     email = os.environ.get("ADMIN_EMAIL")
     password = os.environ.get("ADMIN_PASSWORD")
 
-    if not email:
-        print("ERROR: ADMIN_EMAIL environment variable is not set.", file=sys.stderr)
-        sys.exit(1)
-    if not password:
-        print("ERROR: ADMIN_PASSWORD environment variable is not set.", file=sys.stderr)
-        sys.exit(1)
+    if not email or not password:
+        print(
+            "WARNING: ADMIN_EMAIL and/or ADMIN_PASSWORD environment variables are not set. "
+            "Skipping initial admin user creation.",
+            file=sys.stderr,
+        )
+        return
 
     hashed = hash_password(password)
 
