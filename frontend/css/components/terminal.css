@@ -1,5 +1,7 @@
 /* Terminal Component Layout */
 .terminal-panel {
+    position: relative;
+    z-index: 15;
     height: var(--terminal-height, 260px);
     background:
         linear-gradient(180deg, var(--surface-glass-strong), color-mix(in srgb, var(--bg-terminal) 92%, transparent)),
@@ -118,6 +120,18 @@
     background: color-mix(in srgb, #f87171 18%, transparent);
 }
 
+.term-session-tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    color: var(--fg-main);
+}
+
+.term-session-close-btn:focus-visible {
+    outline: 1px solid #f87171;
+    outline-offset: 1px;
+    opacity: 1;
+}
+
 .terminal-actions {
     display: flex;
     align-items: center;
@@ -146,6 +160,12 @@
 .term-action-btn:hover {
     color: var(--fg-main);
     background: var(--bg-hover);
+}
+
+.term-action-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    color: var(--fg-main);
 }
 
 .terminal-body {

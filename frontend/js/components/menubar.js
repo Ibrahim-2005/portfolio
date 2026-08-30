@@ -7,6 +7,7 @@ import { iconService } from '../services/icon-service.js';
 import { openPaletteWithMode } from './command-palette.js';
 import { toggleTerminal, openTerminal, clearTerminal, runLastTerminalCommand, newTerminalSession } from './terminal.js';
 import { API_BASE_URL } from '../core/api.js';
+import { toggleSettings, toggleSourceControl } from './activity-bar.js';
 
 let activeMenu = null;
 let currentZoom = 1.0;
@@ -65,6 +66,8 @@ export function closeAllMenus() {
 
 function openMenu(menuName) {
     closeAllMenus();
+    toggleSettings(false);
+    toggleSourceControl(false);
     activeMenu = menuName;
     const targetItem = document.querySelector(`.menubar-item[data-menu="${menuName}"]`);
     if (targetItem) {

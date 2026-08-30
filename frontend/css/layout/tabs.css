@@ -99,6 +99,12 @@
     color: var(--fg-active);
 }
 
+.tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    z-index: 21;
+}
+
 .tab .icon,
 .tab-icon {
     display: inline-flex;
@@ -128,7 +134,8 @@
 }
 
 .tab:hover .close-btn,
-.tab.active .close-btn {
+.tab.active .close-btn,
+.tab .close-btn:focus-visible {
     opacity: 1;
 }
 
@@ -136,6 +143,11 @@
     background: var(--bg-hover);
     color: var(--fg-active, #ffffff);
     transform: scale(1.08);
+}
+
+.tab .close-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
 }
 
 .mobile-tab-dropdown-btn {

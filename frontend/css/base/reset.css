@@ -42,7 +42,7 @@ button {
 
 :focus-visible {
     outline: 2px solid var(--accent-strong, var(--accent));
-    outline-offset: 3px;
+    outline-offset: 2px;
 }
 
 input, textarea {

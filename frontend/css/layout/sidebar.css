@@ -101,8 +101,10 @@
 }
 
 .tree-item:focus-visible {
-    outline: 1px solid var(--accent);
-    outline-offset: -1px;
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    background: var(--bg-hover);
+    color: var(--fg-active, #ffffff);
 }
 
 .tree-item .icon,

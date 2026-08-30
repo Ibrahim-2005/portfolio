@@ -8,6 +8,8 @@ import { state } from '../core/state.js';
 import { toggleTerminal } from './terminal.js';
 import { toggleFullscreen } from '../features/window-controls.js';
 import { API_BASE_URL } from '../core/api.js';
+import { closeAllMenus } from './menubar.js';
+import { toggleSettings, toggleSourceControl } from './activity-bar.js';
 
 let isPaletteOpenInternal = false;
 let currentMode = 'all'; // 'all', 'files', 'commands', 'themes'
@@ -164,6 +166,9 @@ export function togglePalette() {
 }
 
 export function openPaletteWithMode(mode = 'all') {
+    closeAllMenus();
+    toggleSettings(false);
+    toggleSourceControl(false);
     isPaletteOpenInternal = true;
     currentMode = mode;
     const overlay = document.getElementById('command-palette-overlay');

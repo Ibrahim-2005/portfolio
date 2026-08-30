@@ -49,8 +49,8 @@
 }
 
 .statusbar-item:focus-visible {
-    outline: 1px solid var(--fg-statusbar, #fff);
-    outline-offset: -1px;
+    outline: 2px solid var(--fg-statusbar, #fff);
+    outline-offset: -2px;
 }
 
 .statusbar-item.active {

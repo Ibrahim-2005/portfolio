@@ -363,6 +363,7 @@ img.contact-card-icon,
 .contact-form-textarea:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 .contact-form-textarea {
@@ -384,6 +385,11 @@ img.contact-card-icon,
     background var(--motion-fast, 0.1s),
     color var(--motion-fast, 0.1s);
   margin-top: 0.5rem;
+}
+
+.contact-form-submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .contact-form-submit:hover:not(:disabled) {

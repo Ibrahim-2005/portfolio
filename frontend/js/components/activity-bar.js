@@ -6,6 +6,7 @@ import { openPaletteWithMode } from './command-palette.js';
 import { toggleTerminal } from './terminal.js';
 import { api, API_BASE_URL } from '../core/api.js';
 import { themes, setTheme, getCurrentTheme } from '../features/theme-engine.js';
+import { closeAllMenus } from './menubar.js';
 
 let sourceControlLoaded = false;
 
@@ -76,6 +77,7 @@ export function toggleSourceControl(forceState) {
 
     if (shouldOpen) {
         toggleSettings(false);
+        closeAllMenus();
         popover.classList.add('open');
         if (scBtn) scBtn.classList.add('active');
         if (!sourceControlLoaded) {
@@ -96,6 +98,7 @@ export function toggleSettings(forceState) {
 
     if (shouldOpen) {
         toggleSourceControl(false);
+        closeAllMenus();
         syncSettingsThemeState();
         popover.classList.add('open');
         if (setBtn) setBtn.classList.add('active');

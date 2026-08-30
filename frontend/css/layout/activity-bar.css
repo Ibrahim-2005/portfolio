@@ -60,6 +60,12 @@
     color: var(--fg-main, #ffffff);
 }
 
+.activity-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    color: var(--fg-main, #ffffff);
+}
+
 .activity-btn.active::before {
     content: '';
     position: absolute;
@@ -83,7 +89,7 @@
     border-radius: var(--radius-sm, 6px);
     box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 3px 12px rgba(0, 0, 0, 0.35);
     padding: 14px;
-    z-index: 1200;
+    z-index: 900;
     display: none;
     flex-direction: column;
     gap: 10px;
@@ -297,7 +303,7 @@
     border-radius: var(--radius-sm, 6px);
     box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 3px 12px rgba(0, 0, 0, 0.35);
     padding: 14px;
-    z-index: 1200;
+    z-index: 900;
     display: none;
     flex-direction: column;
     gap: 12px;
