@@ -458,7 +458,7 @@ function executeMenuAction(action) {
 
         // --- GO ---
         case 'go-to-file':
-            openPaletteWithMode('all');
+            openPaletteWithMode('files');
             break;
 
         // --- RUN ---

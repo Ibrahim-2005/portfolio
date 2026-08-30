@@ -22,6 +22,7 @@ const commands = [
         name: 'Preferences: Color Theme',
         icon: '🎨',
         shortcut: 'Ctrl+K Ctrl+T',
+        keywords: ['theme', 'color', 'appearance', 'palette', 'skin'],
         action: () => openPaletteWithMode('themes')
     },
     {
@@ -29,6 +30,7 @@ const commands = [
         name: 'Preferences: Open Keyboard Shortcuts',
         icon: '⌨',
         shortcut: 'Ctrl+K S',
+        keywords: ['shortcuts', 'keyboard', 'hotkeys', 'keybindings', 'keys'],
         action: () => openShortcutsView()
     },
     {
@@ -36,6 +38,7 @@ const commands = [
         name: 'File: Go to File...',
         icon: '📄',
         shortcut: 'Ctrl+P',
+        keywords: ['file', 'open', 'goto', 'find', 'navigate'],
         action: () => openPaletteWithMode('files')
     },
     {
@@ -43,6 +46,7 @@ const commands = [
         name: 'View: Toggle Primary Side Bar',
         icon: '▤',
         shortcut: 'Ctrl+B',
+        keywords: ['sidebar', 'side bar', 'explorer', 'tree', 'toggle sidebar'],
         action: () => toggleSidebar()
     },
     {
@@ -50,6 +54,7 @@ const commands = [
         name: 'View: Toggle Terminal',
         icon: '▭',
         shortcut: 'Ctrl+`',
+        keywords: ['terminal', 'console', 'bash', 'shell', 'cli', 'cmd'],
         action: () => toggleTerminal()
     },
     {
@@ -57,6 +62,7 @@ const commands = [
         name: 'View: Toggle Full Screen',
         icon: '⛶',
         shortcut: 'F11',
+        keywords: ['fullscreen', 'full screen', 'maximize', 'window'],
         action: () => toggleFullscreen()
     },
     {
@@ -64,6 +70,7 @@ const commands = [
         name: 'File: Close Active Tab',
         icon: '×',
         shortcut: '',
+        keywords: ['close tab', 'close editor', 'exit tab', 'tab'],
         action: () => {
             if (state.activeTabId) {
                 state.closeTab(state.activeTabId);
@@ -75,6 +82,7 @@ const commands = [
         name: 'File: Close All Tabs',
         icon: '🗑',
         shortcut: 'Ctrl+K W',
+        keywords: ['close all tabs', 'close all', 'clear tabs'],
         action: () => state.closeAllTabs()
     },
     {
@@ -82,6 +90,7 @@ const commands = [
         name: 'File: Download Resume (PDF)',
         icon: '⬇',
         shortcut: '',
+        keywords: ['resume', 'cv', 'pdf', 'download resume', 'bio'],
         action: () => {
             const a = document.createElement('a');
             a.href = `${API_BASE_URL}/resume`;
@@ -207,6 +216,77 @@ export function closePalette() {
     if (input) input.blur();
 }
 
+function matchCommand(command, query) {
+    if (!query) return true;
+    const clean = query.trim().toLowerCase();
+    if (!clean) return true;
+
+    // 1. Direct name match
+    if (command.name.toLowerCase().includes(clean)) return true;
+
+    // 2. Direct ID match
+    if (command.id.toLowerCase().includes(clean)) return true;
+
+    // 3. Shortcut match (ignoring spaces)
+    if (command.shortcut) {
+        const normShortcut = command.shortcut.toLowerCase().replace(/\s+/g, '');
+        const normQuery = clean.replace(/\s+/g, '');
+        if (normShortcut.includes(normQuery)) return true;
+    }
+
+    // 4. Keywords match
+    if (command.keywords && Array.isArray(command.keywords)) {
+        if (command.keywords.some(k => k.toLowerCase().includes(clean))) return true;
+    }
+
+    // 5. Normalized alphanumeric match (e.g. "sidebar" matches "Side Bar", "fullscreen" matches "Full Screen")
+    const normName = command.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normClean = clean.replace(/[^a-z0-9]/g, '');
+    if (normClean && normName.includes(normClean)) return true;
+
+    return false;
+}
+
+function matchFile(file, query) {
+    if (!query) return true;
+    const clean = query.trim().toLowerCase();
+    if (!clean) return true;
+
+    // Strip leading path slashes or dot-slashes, e.g. "/about", "./home"
+    const stripped = clean.replace(/^[./\\]+/, '').trim();
+    const target = stripped || clean;
+
+    const title = (file.title || '').toLowerCase();
+    const ext = (file.extension || '').toLowerCase();
+    const fullName = `${title}${ext}`;
+    const slug = (file.slug || '').toLowerCase();
+
+    // 1. Exact or partial full name match (e.g. "about.html", "about", ".html")
+    if (fullName.includes(target) || fullName.includes(clean)) return true;
+
+    // 2. Title or slug match
+    if (title.includes(target) || slug.includes(target)) return true;
+
+    // 3. Extension match without dot (e.g. user typed "py", "sql", "html", "pdf")
+    const extWithoutDot = ext.replace('.', '');
+    if (extWithoutDot && (extWithoutDot === target || extWithoutDot.includes(target))) return true;
+
+    // 4. Technology / language synonyms
+    const fileSynonyms = {
+        py: ['python', 'py'],
+        html: ['html', 'markup', 'web'],
+        sql: ['sql', 'database', 'postgres', 'db'],
+        json: ['json', 'data', 'skills'],
+        edu: ['education', 'academic', 'degrees', 'university', 'college'],
+        sh: ['bash', 'shell', 'script', 'terminal', 'sh'],
+        pdf: ['pdf', 'resume', 'cv', 'document']
+    };
+    const syns = fileSynonyms[extWithoutDot] || [];
+    if (syns.some(s => s.includes(target) || target.includes(s))) return true;
+
+    return false;
+}
+
 function filterItems(rawQuery = '') {
     let query = (rawQuery || '').trim();
     let isCommandPrefix = false;
@@ -235,9 +315,10 @@ function filterItems(rawQuery = '') {
             const activeIndex = filteredItems.findIndex(t => t.isActive);
             if (activeIndex !== -1) selectedIndex = activeIndex;
         }
-    } else if (currentMode === 'commands' || isCommandPrefix) {
+    } else if (currentMode === 'commands') {
+        // STRICT COMMANDS MODE: Only commands. No files, themes, or unrelated entries.
         filteredItems = commands
-            .filter(c => c.name.toLowerCase().includes(query))
+            .filter(c => matchCommand(c, query))
             .map(c => ({
                 type: 'command',
                 id: c.id,
@@ -248,12 +329,10 @@ function filterItems(rawQuery = '') {
             }));
         selectedIndex = 0;
     } else if (currentMode === 'files') {
+        // STRICT FILES MODE: Only files. No commands, themes, or unrelated entries.
         const files = getFiles();
         filteredItems = files
-            .filter(f => {
-                const fullName = `${f.title}${f.extension || ''}`.toLowerCase();
-                return fullName.includes(query) || (f.slug && f.slug.toLowerCase().includes(query));
-            })
+            .filter(f => matchFile(f, query))
             .map(f => ({
                 type: 'file',
                 id: f.id,
@@ -263,38 +342,45 @@ function filterItems(rawQuery = '') {
             }));
         selectedIndex = 0;
     } else {
-        // Unified mode ('all')
-        const matchedCommands = commands
-            .filter(c => c.name.toLowerCase().includes(query))
-            .map(c => ({
-                type: 'command',
-                id: c.id,
-                name: c.name,
-                icon: c.icon,
-                shortcut: c.shortcut,
-                action: c.action
-            }));
-
-        const files = getFiles();
-        const matchedFiles = files
-            .filter(f => {
-                const fullName = `${f.title}${f.extension || ''}`.toLowerCase();
-                return fullName.includes(query) || (f.slug && f.slug.toLowerCase().includes(query));
-            })
-            .map(f => ({
-                type: 'file',
-                id: f.id,
-                name: `${f.title}${f.extension || ''}`,
-                slug: f.slug,
-                node: f
-            }));
-
-        if (query === '') {
-            filteredItems = [...matchedCommands, ...matchedFiles];
+        // UNIFIED MODE ('all')
+        if (isCommandPrefix) {
+            filteredItems = commands
+                .filter(c => matchCommand(c, query))
+                .map(c => ({
+                    type: 'command',
+                    id: c.id,
+                    name: c.name,
+                    icon: c.icon,
+                    shortcut: c.shortcut,
+                    action: c.action
+                }));
+            selectedIndex = 0;
         } else {
+            const matchedCommands = commands
+                .filter(c => matchCommand(c, query))
+                .map(c => ({
+                    type: 'command',
+                    id: c.id,
+                    name: c.name,
+                    icon: c.icon,
+                    shortcut: c.shortcut,
+                    action: c.action
+                }));
+
+            const files = getFiles();
+            const matchedFiles = files
+                .filter(f => matchFile(f, query))
+                .map(f => ({
+                    type: 'file',
+                    id: f.id,
+                    name: `${f.title}${f.extension || ''}`,
+                    slug: f.slug,
+                    node: f
+                }));
+
             filteredItems = [...matchedCommands, ...matchedFiles];
+            selectedIndex = 0;
         }
-        selectedIndex = 0;
     }
 
     if (selectedIndex >= filteredItems.length) {
