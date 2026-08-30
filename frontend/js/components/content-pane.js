@@ -9,8 +9,27 @@ import { renderEducation } from './education-view.js';
 import { renderContact } from './contact-view.js';
 import { renderResume } from './resume-view.js';
 
-// Cache to avoid re-rendering content for the same tab repeatedly
-const contentCache = {};
+// Bounded cache (max 25 entries) to avoid memory leaks while optimizing tab switching
+const MAX_CACHE_ENTRIES = 25;
+const contentCache = new Map();
+
+function setCachedContent(key, value) {
+    if (contentCache.size >= MAX_CACHE_ENTRIES) {
+        const oldestKey = contentCache.keys().next().value;
+        contentCache.delete(oldestKey);
+    }
+    contentCache.set(key, value);
+}
+
+function getCachedContent(key) {
+    if (contentCache.has(key)) {
+        const val = contentCache.get(key);
+        contentCache.delete(key);
+        contentCache.set(key, val);
+        return val;
+    }
+    return null;
+}
 
 // Tab scroll positions map for scroll preservation across tabs
 const tabScrollPositions = new Map();
@@ -288,8 +307,9 @@ export async function renderContent() {
 
 
     // Check cache
-    if (contentCache[activeTab.id] && activeTab.slug !== 'readme' && activeTab.slug !== 'certificates') {
-        pane.innerHTML = contentCache[activeTab.id];
+    const cachedHtml = getCachedContent(activeTab.id);
+    if (cachedHtml && activeTab.slug !== 'readme' && activeTab.slug !== 'certificates') {
+        pane.innerHTML = cachedHtml;
         restoreTabScroll();
         return;
     }
@@ -297,16 +317,8 @@ export async function renderContent() {
     // Loading State
     pane.innerHTML = getWorkspaceSkeletonHtml();
 
-    let html = '';
-
-    if (activeTab.slug === 'home' || activeTab.title.toLowerCase() === 'home') {
-        html = await renderHome();
-    } else if (activeTab.slug === 'about') {
+    if (activeTab.slug === 'about') {
         html = await renderAbout();
-    } else if (activeTab.slug === 'projects') {
-        html = await renderProjects();
-    } else if (activeTab.slug === 'skills') {
-        html = await renderSkills();
     } else if (activeTab.slug === 'education') {
         html = await renderEducation();
     } else if (activeTab.slug === 'contact') {
@@ -375,7 +387,7 @@ export async function renderContent() {
         html = '<div style="color:red;padding:2rem;">Failed to load content. Unknown page.</div>';
     }
 
-    contentCache[activeTab.id] = html;
+    setCachedContent(activeTab.id, html);
     pane.innerHTML = html;
     restoreTabScroll();
 }

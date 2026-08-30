@@ -129,8 +129,8 @@
 }
 
 .cmd-item.selected {
-    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 68%, #a855f7 32%));
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 68%, var(--accent-strong, var(--accent)) 32%));
+    color: var(--fg-active, #ffffff);
     box-shadow: 0 4px 14px var(--glow-primary);
 }
 

@@ -1,5 +1,15 @@
 import { api } from "../core/api.js";
 
+function escapeHtml(unsafe) {
+  if (unsafe === null || unsafe === undefined) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function renderAbout() {
   const [config, education] = await Promise.all([
     api.getPageConfig("about"),
@@ -13,14 +23,26 @@ export async function renderAbout() {
   const parseMd = (text) => {
     if (!text) return "";
 
-    const highlighted = text.replace(
+    const highlighted = String(text).replace(
       /==(.*?)==/g,
       '<span class="highlight">$1</span>',
     );
 
-    return window.marked
-      ? window.marked.parse(highlighted)
-      : `<p>${highlighted.replace(/\n/g, "<br>")}</p>`;
+    let rawHtml = "";
+    if (window.marked && typeof window.marked.parse === "function") {
+      const parsed = window.marked.parse(highlighted);
+      if (window.DOMPurify && typeof window.DOMPurify.sanitize === "function") {
+        return window.DOMPurify.sanitize(parsed, {
+          ALLOWED_TAGS: [
+            "p", "br", "strong", "em", "b", "i", "u", "span", "code", "pre",
+            "ul", "ol", "li", "a", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote"
+          ],
+          ALLOWED_ATTR: ["class", "href", "target", "rel", "title"]
+        });
+      }
+      return `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`;
+    }
+    return `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`;
   };
 
   const aboutMeHtml = parseMd(config.about_me);
@@ -28,12 +50,12 @@ export async function renderAbout() {
 
   let focusLeftHtml = "";
   if (config.current_focus && config.current_focus.length > 0) {
-    focusLeftHtml = `<ul>${config.current_focus.map((f) => `<li><span class="emoji">${f.emoji}</span> <span>${f.text}</span></li>`).join("")}</ul>`;
+    focusLeftHtml = `<ul>${config.current_focus.map((f) => `<li><span class="emoji">${escapeHtml(f.emoji)}</span> <span>${escapeHtml(f.text)}</span></li>`).join("")}</ul>`;
   }
 
   let focusRightHtml = "";
   if (config.currently_learning && config.currently_learning.length > 0) {
-    focusRightHtml = `<ul>${config.currently_learning.map((f) => `<li><span class="emoji">${f.emoji}</span> <span>${f.text}</span></li>`).join("")}</ul>`;
+    focusRightHtml = `<ul>${config.currently_learning.map((f) => `<li><span class="emoji">${escapeHtml(f.emoji)}</span> <span>${escapeHtml(f.text)}</span></li>`).join("")}</ul>`;
   }
 
   let focusSection = "";
@@ -62,11 +84,11 @@ export async function renderAbout() {
                         <div class="about-card about-education-card">
                             <div class="about-education-content">
                                 <div class="about-education-title">
-                                    ${ed.institution}
+                                    ${escapeHtml(ed.institution)}
                                 </div>
 
                                 <div class="about-education-degree">
-                                    ${ed.qualification || ed.degree}
+                                    ${escapeHtml(ed.qualification || ed.degree || "")}
                                 </div>
 
                                 ${
@@ -81,7 +103,7 @@ export async function renderAbout() {
                             </div>
 
                             <div class="about-education-dates">
-                                ${ed.start_year || ""} – ${ed.end_year || "Present"}
+                                ${escapeHtml(ed.start_year || "")} – ${escapeHtml(ed.end_year || "Present")}
                             </div>
                         </div>
                     </article>
@@ -96,7 +118,7 @@ export async function renderAbout() {
   if (config.closing_title || closingHtml) {
     closingSection = `
         <h3 class="about-section-heading about-closing-heading">
-            ${config.closing_title || "WHAT I BUILD"}
+            ${escapeHtml(config.closing_title || "WHAT I BUILD")}
         </h3>
 
         <div class="about-card about-closing-card">
@@ -109,9 +131,9 @@ export async function renderAbout() {
 
   return `
 <div class="about-page-container">
-    <div class="about-page-comment">${config.top_text || "// about me"}</div>
-    <h1 class="about-page-heading">${config.big_text || "About Me"}</h1>
-    <h2 class="about-page-tagline">${config.tagline || ""}</h2>
+    <div class="about-page-comment">${escapeHtml(config.top_text || "// about me")}</div>
+    <h1 class="about-page-heading">${escapeHtml(config.big_text || "About Me")}</h1>
+    <h2 class="about-page-tagline">${escapeHtml(config.tagline || "")}</h2>
     
     <div class="about-card about-intro-card">
         ${aboutMeHtml}

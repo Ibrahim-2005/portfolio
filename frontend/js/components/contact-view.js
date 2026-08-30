@@ -36,7 +36,10 @@ export async function renderContact() {
                 if (l.icon.startsWith('http')) {
                     iconHtml = `<img src="${escapeHtml(l.icon)}" alt="${escapeHtml(l.platform)} logo" class="contact-card-icon" />`;
                 } else if (l.icon.includes('<svg')) {
-                    iconHtml = `<div class="contact-card-icon svg-wrapper">${l.icon}</div>`;
+                    const cleanSvg = window.DOMPurify && typeof window.DOMPurify.sanitize === 'function'
+                        ? window.DOMPurify.sanitize(l.icon, { USE_PROFILES: { svg: true } })
+                        : l.icon.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+                    iconHtml = `<div class="contact-card-icon svg-wrapper">${cleanSvg}</div>`;
                 } else {
                     iconHtml = `<div class="contact-card-icon text-icon">${escapeHtml(l.icon)}</div>`;
                 }
@@ -66,12 +69,9 @@ export async function renderContact() {
         linksHtml = '<p style="color: var(--fg-muted);">No contact links available.</p>';
     }
 
-    const introText = `
-        <div class="contact-intro-text">
-            <p></p>
-            <p></p>
-        </div>
-    `;
+    const introText = config.intro_text
+        ? `<div class="contact-intro-text"><p>${escapeHtml(config.intro_text)}</p></div>`
+        : '';
 
     return `
 <div class="contact-container">

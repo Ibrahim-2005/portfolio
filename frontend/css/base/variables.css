@@ -26,9 +26,9 @@
     --surface-glass-strong: color-mix(in srgb, var(--bg-titlebar) 86%, transparent);
     --border-subtle: color-mix(in srgb, var(--border-color) 68%, transparent);
     --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
-    --accent-strong: color-mix(in srgb, var(--accent) 78%, #ffffff 22%);
+    --accent-strong: color-mix(in srgb, var(--accent) 78%, var(--fg-active, #ffffff) 22%);
     --glow-primary: color-mix(in srgb, var(--accent) 34%, transparent);
-    --glow-secondary: rgba(181, 107, 255, 0.2);
+    --glow-secondary: color-mix(in srgb, var(--accent) 22%, transparent);
     --shadow-soft: 0 18px 55px rgba(0, 0, 0, 0.24);
     --shadow-panel: 0 24px 70px rgba(0, 0, 0, 0.34);
     --shadow-lift: 0 20px 45px rgba(0, 0, 0, 0.32);

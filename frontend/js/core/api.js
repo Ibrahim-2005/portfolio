@@ -11,18 +11,28 @@ function getSessionId() {
     return sid;
 }
 
-async function fetchJSON(endpoint) {
+const DEFAULT_TIMEOUT_MS = 10000;
+
+async function fetchJSON(endpoint, timeoutMs = DEFAULT_TIMEOUT_MS) {
     const url = `${API_BASE_URL}${endpoint}`;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) {
             console.error(`API Error: ${response.status} ${response.statusText} for ${url}`);
             return null; // Return null on error to handle gracefully
         }
         return await response.json();
     } catch (error) {
-        console.error('Network Error:', error);
+        if (error.name === 'AbortError') {
+            console.warn(`Request timeout (${timeoutMs}ms) for ${url}`);
+        } else {
+            console.error('Network Error:', error);
+        }
         return null;
+    } finally {
+        clearTimeout(timer);
     }
 }
 
@@ -58,26 +68,33 @@ export const api = {
     // Contact Submission
     submitContactMessage: async (payload) => {
         const url = `${API_BASE_URL}/contact`;
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: payload.name,
-                email: payload.email,
-                phone: payload.phone || null,
-                subject: payload.subject || null,
-                message: payload.message
-            })
-        });
-        if (!response.ok) {
-            let errMsg = 'Failed to submit message';
-            try {
-                const errData = await response.json();
-                errMsg = errData.detail || errMsg;
-            } catch (e) {}
-            throw new Error(errMsg);
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 15000);
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    name: payload.name,
+                    email: payload.email,
+                    phone: payload.phone || null,
+                    subject: payload.subject || null,
+                    message: payload.message
+                })
+            });
+            if (!response.ok) {
+                let errMsg = 'Failed to submit message';
+                try {
+                    const errData = await response.json();
+                    errMsg = errData.detail || errMsg;
+                } catch (e) {}
+                throw new Error(errMsg);
+            }
+            return await response.json();
+        } finally {
+            clearTimeout(timer);
         }
-        return await response.json();
     },
 
     // Analytics

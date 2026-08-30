@@ -6,6 +6,33 @@ window.navigateTab = (slug) => {
   openTabBySlug(slug);
 };
 
+function escapeHtml(unsafe) {
+  if (unsafe === null || unsafe === undefined) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function sanitizeUrl(url) {
+  if (!url) return "#";
+  const trimmed = String(url).trim();
+  try {
+    const parsed = new URL(trimmed, window.location.origin);
+    if (["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol)) {
+      return trimmed;
+    }
+    return "#";
+  } catch {
+    if (trimmed.startsWith("/") || trimmed.startsWith("#")) {
+      return trimmed;
+    }
+    return "#";
+  }
+}
+
 export async function renderHome() {
   const config = await api.getPageConfig("home");
 
@@ -16,7 +43,7 @@ export async function renderHome() {
   const rolesHtml =
     config.roles && config.roles.length > 0
       ? config.roles
-          .map((r) => `<span class="badge">${r.label}</span>`)
+          .map((r) => `<span class="badge">${escapeHtml(r.label)}</span>`)
           .join("\n        ")
       : "";
 
@@ -28,7 +55,7 @@ export async function renderHome() {
           .sort((a, b) => a.sort_order - b.sort_order)
           .map(
             (s) =>
-              `<a href="${s.url}" target="_blank" style="color: var(--fg-muted); text-decoration: none; font-size: 1.2rem; transition: color 0.2s;" onmouseover="this.style.color='var(--fg-default)'" onmouseout="this.style.color='var(--fg-muted)'" title="${s.platform}">${s.icon || s.platform}</a>`,
+              `<a href="${escapeHtml(sanitizeUrl(s.url))}" target="_blank" rel="noopener noreferrer" style="color: var(--fg-muted); text-decoration: none; font-size: 1.2rem; transition: color 0.2s;" onmouseover="this.style.color='var(--fg-default)'" onmouseout="this.style.color='var(--fg-muted)'" title="${escapeHtml(s.platform)}">${escapeHtml(s.icon || s.platform)}</a>`,
           )
           .join("") +
         `</div>`
@@ -36,20 +63,20 @@ export async function renderHome() {
 
   return `
 <div class="home-content">
-    <div class="home-comment">${config.top_text || "// main.py"}</div>
-    <h1 class="home-title">${config.name || "Mohamed Ibrahim Y"}</h1>
-    <h2 class="home-tagline">${config.tagline || "Building real, working software 🚀"}</h2>
+    <div class="home-comment">${escapeHtml(config.top_text || "// main.py")}</div>
+    <h1 class="home-title">${escapeHtml(config.name || "Mohamed Ibrahim Y")}</h1>
+    <h2 class="home-tagline">${escapeHtml(config.tagline || "Building real, working software 🚀")}</h2>
     
     <div class="home-badges">
         ${rolesHtml}
     </div>
     
-    <p class="home-intro">${config.intro || ""}</p>
+    <p class="home-intro">${escapeHtml(config.intro || "")}</p>
     
     <div class="home-ctas">
-        <button class="cta-button primary" onclick="window.navigateTab('projects')">${config.action_projects_label || "Projects"}</button>
-        <button class="cta-button" onclick="window.navigateTab('about')">${config.action_about_label || "About Me"}</button>
-        <button class="cta-button" onclick="window.navigateTab('contact')">${config.action_contact_label || "Contact"}</button>
+        <button class="cta-button primary" onclick="window.navigateTab('projects')">${escapeHtml(config.action_projects_label || "Projects")}</button>
+        <button class="cta-button" onclick="window.navigateTab('about')">${escapeHtml(config.action_about_label || "About Me")}</button>
+        <button class="cta-button" onclick="window.navigateTab('contact')">${escapeHtml(config.action_contact_label || "Contact")}</button>
     </div>
     
     ${socialLinksHtml}

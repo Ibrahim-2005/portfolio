@@ -136,17 +136,16 @@ The whole point of the metaphor is that it should *feel* like an editor — real
 
 | Shortcut | Action |
 |---|---|
-| `Ctrl/Cmd + Shift + P` | Open command palette (theme switch, quick-jump to any section) |
-| `` Ctrl/Cmd + ` `` | Toggle terminal panel |
+| `Ctrl/Cmd + Shift + P` | Open command palette (`> ` commands mode) |
+| `Ctrl/Cmd + P` | Quick Open (`@ ` files mode) |
+| `` Ctrl/Cmd + ` `` | Toggle integrated terminal panel |
 | `Ctrl/Cmd + B` | Toggle sidebar visibility |
-| `Ctrl/Cmd + P` | Quick-open — fuzzy search jump to any section (separate from command palette; classic VS Code "go to file") |
-| `Ctrl/Cmd + W` | Close active tab |
-| `Ctrl/Cmd + Tab` | Cycle to next open tab |
-| `Ctrl/Cmd + Shift + Tab` | Cycle to previous open tab |
+| `Ctrl/Cmd + K` then `T` | Open theme picker (`# ` themes mode) |
+| `Ctrl/Cmd + K` then `S` | Open Keyboard Shortcuts reference tab |
+| `Ctrl/Cmd + K` then `W` | Close all open tabs (resets to home.py) |
 | `↑ / ↓` | Navigate sidebar tree items when sidebar has focus |
 | `Enter` | Open focused sidebar item |
-| `Esc` | Close command palette / quick-open / terminal (whichever is topmost) |
-| `Ctrl/Cmd + K` then `Ctrl/Cmd + T` | Open theme picker directly (VS Code's real shortcut for this — a nice authentic touch) |
+| `Esc` | Close topmost overlay (palette, terminal, active chord) |
 
 Implementation notes:
 - Use a single global keydown listener with a shortcut registry (map of key combo → handler), not scattered per-component listeners — avoids conflicts and makes shortcuts easy to list/display in a "Keyboard Shortcuts" reference accessible from the command palette itself

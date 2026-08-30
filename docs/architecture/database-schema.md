@@ -61,6 +61,11 @@ erDiagram
         string email
         string hashed_password
     }
+    RESUME_FILE {
+        int id PK
+        string filename
+        bytes file_data
+    }
 ```
 
 ## Table Notes
@@ -78,6 +83,8 @@ erDiagram
 **`analytics_events`** — append-only log. `session_id` is a random client-generated UUID stored in `localStorage`, not tied to any personal identity — no auth or PII required to log an event.
 
 **`admin_user`** — single row in practice (just Ibrahim). `hashed_password` via bcrypt or argon2, never stored plaintext.
+
+**`resume_file`** — persistent binary storage for the uploaded resume PDF (`filename` and `file_data` bytea/blob), ensuring persistence across container restarts on ephemeral hosting.
 
 ## Indexing Notes
 - `sections.slug` — unique index (used for direct lookups)

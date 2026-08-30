@@ -37,7 +37,7 @@ If you prefer not to use the Blueprint:
    - **Name**: `portfolio-os-api` (or similar)
    - **Environment**: Python
    - **Build Command**: `cd backend && pip install -r requirements.txt`
-   - **Start Command**: `cd backend && alembic upgrade head && python create_admin.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+   - **Start Command**: `cd backend && alembic upgrade head && python create_admin.py && python seed.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 4. Add the following **Environment Variables**:
    - `DATABASE_URL`: Paste the Internal Database URL from Step 1.
    - `SECRET_KEY`: Generate a random string (e.g., `openssl rand -hex 32`) and paste it here.
@@ -48,9 +48,10 @@ If you prefer not to use the Blueprint:
 ## 3. Initial Setup & Migrations
 
 The configuration is designed to be fully automated. When the service builds and starts, the `startCommand` will sequentially:
-1. **Run Migrations:** `alembic upgrade head` ensures your database schema is strictly up-to-date. The application will intentionally refuse to start if migrations fail.
-2. **Create Admin User:** `python create_admin.py` runs idempotently to create or update the admin credentials you supplied via `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
-3. **Start the API:** `uvicorn` spins up the FastAPI server, listening on Render's dynamic `$PORT`.
+1. **Run Migrations:** `alembic upgrade head` ensures your database schema is strictly up-to-date.
+2. **Create Admin User:** `python create_admin.py` runs idempotently to create or update admin credentials.
+3. **Seed Initial Content:** `python seed.py` idempotently seeds default page configs, sidebar items, skills, and projects if not already populated.
+4. **Start the API:** `uvicorn` spins up the FastAPI server, listening on Render's dynamic `$PORT`.
 
 If you wish to seed dummy data, you can SSH into the Render instance (via the **Shell** tab) and execute:
 ```bash

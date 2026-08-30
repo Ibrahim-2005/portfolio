@@ -317,8 +317,8 @@
 }
 
 .education-error-state {
-    border-color: #f87171;
-    color: #f87171;
+    border-color: var(--danger, #f87171);
+    color: var(--danger, #f87171);
 }
 
 /* Responsive adjustments */

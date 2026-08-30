@@ -26,7 +26,7 @@ def submit_contact(
     payload: MessageCreate,
     db: Session = Depends(get_db),
 ) -> MessageOut:
-    """Submit a message via the contact form."""
+    """Submit a message via the contact form (rate-limited to 5 submissions per minute)."""
     new_message = Message(
         name=payload.name,
         email=payload.email,

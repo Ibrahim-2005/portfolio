@@ -67,6 +67,7 @@ export async function initSidebar() {
         document.addEventListener('click', (e) => {
             if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
                 sidebar.classList.remove('open');
+                toggleBtn.setAttribute('aria-expanded', 'false');
             }
         });
     }
@@ -75,10 +76,13 @@ export async function initSidebar() {
 export function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     if (!sidebar) return;
+    const toggleBtn = document.querySelector('.sidebar-toggle-btn');
     if (window.innerWidth <= 1024) {
-        sidebar.classList.toggle('open');
+        const isOpen = sidebar.classList.toggle('open');
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', String(isOpen));
     } else {
-        sidebar.classList.toggle('collapsed');
+        const isCollapsed = sidebar.classList.toggle('collapsed');
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
     }
     const explorerBtn = document.querySelector('.activity-btn[data-action="explorer"]');
     if (explorerBtn) {

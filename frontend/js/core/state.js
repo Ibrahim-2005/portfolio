@@ -39,6 +39,11 @@ class State {
 
     subscribe(listener) {
         this.listeners.push(listener);
+        return () => this.unsubscribe(listener);
+    }
+
+    unsubscribe(listener) {
+        this.listeners = this.listeners.filter(l => l !== listener);
     }
 
     notify() {

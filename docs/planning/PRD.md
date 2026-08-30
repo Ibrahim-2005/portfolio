@@ -1,7 +1,7 @@
 # PRD — PortfolioOS (Product Requirements Document)
 
 ## 1. Product Summary
-PortfolioOS is a personal developer portfolio site presented as a full VS Code simulation — sidebar file tree, tabbed content panes, a working terminal, and 10 switchable editor themes — backed by a real FastAPI + PostgreSQL service instead of static HTML. The portfolio is itself a demonstrable full-stack project, not just a display case for other projects.
+PortfolioOS is a personal developer portfolio site presented as a full VS Code simulation — sidebar file tree, tabbed content panes, a working terminal, and 13 switchable editor themes — backed by a real FastAPI + PostgreSQL service instead of static HTML. The portfolio is itself a demonstrable full-stack project, not just a display case for other projects.
 
 ## 2. Problem Statement
 Generic portfolio templates blend together in a recruiter's inbox. Ibrahim needs a portfolio that (a) proves backend/full-stack competency through the site's own engineering, not just its written descriptions, and (b) stays approachable for non-technical recruiters and HR who won't know or care what VS Code is.

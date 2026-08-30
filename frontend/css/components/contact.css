@@ -394,7 +394,7 @@ img.contact-card-icon,
 
 .contact-form-submit:hover:not(:disabled) {
   background: var(--accent);
-  color: #fff;
+  color: var(--fg-active, #ffffff);
 }
 
 .contact-form-submit:disabled {
@@ -415,8 +415,8 @@ img.contact-card-icon,
   font-size: 0.95rem;
 }
 .contact-form-feedback.success {
-  color: #28a745;
+  color: var(--success, #28a745);
 }
 .contact-form-feedback.error {
-  color: #dc3545;
+  color: var(--danger, #dc3545);
 }

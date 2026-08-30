@@ -61,11 +61,34 @@ function getActiveSession() {
     return sessions.find(s => s.id === activeSessionId) || sessions[0];
 }
 
-function renderSessionsBar() {
+let sessionBarDelegated = false;
+
+export function renderSessionsBar() {
     if (!terminalSessionsBar) {
         terminalSessionsBar = document.getElementById('terminal-sessions-bar');
     }
     if (!terminalSessionsBar) return;
+
+    if (!sessionBarDelegated) {
+        terminalSessionsBar.addEventListener('click', (e) => {
+            const closeBtn = e.target.closest('.term-session-close-btn');
+            if (closeBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                const sessionTab = closeBtn.closest('.term-session-tab');
+                if (sessionTab && sessionTab.dataset.sessionId) {
+                    closeTerminalSession(sessionTab.dataset.sessionId);
+                }
+                return;
+            }
+            const sessionTab = e.target.closest('.term-session-tab');
+            if (sessionTab && sessionTab.dataset.sessionId) {
+                e.stopPropagation();
+                switchSession(sessionTab.dataset.sessionId);
+            }
+        });
+        sessionBarDelegated = true;
+    }
 
     terminalSessionsBar.innerHTML = '';
     sessions.forEach(sess => {
@@ -91,18 +114,7 @@ function renderSessionsBar() {
         closeBtn.title = `Close ${sess.name}`;
         closeBtn.setAttribute('role', 'button');
         closeBtn.setAttribute('aria-label', `Close ${sess.name}`);
-        closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            closeTerminalSession(sess.id);
-        });
         btn.appendChild(closeBtn);
-
-        btn.addEventListener('click', (e) => {
-            if (e.target.closest('.term-session-close-btn')) return;
-            e.stopPropagation();
-            switchSession(sess.id);
-        });
 
         terminalSessionsBar.appendChild(btn);
     });

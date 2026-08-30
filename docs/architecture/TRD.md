@@ -41,7 +41,7 @@ flowchart TB
 - **Performance**: initial page interactive in under 2s on a typical connection; API responses under 300ms for content reads
 - **Security**: admin routes require valid JWT; passwords hashed (bcrypt/argon2); input validated via Pydantic; rate limiting on contact/guestbook POST endpoints to prevent spam
 - **Availability**: single-instance is acceptable for a portfolio (no HA requirement)
-- **Responsiveness**: usable down to ~375px width; sidebar collapses to a toggleable drawer on mobile
+- **Responsiveness**: fully responsive across desktop (1920px, 1440px, 1366px), tablet (1024px, 768px), and mobile down to 360px/320px viewport widths; collapsible sidebar and touch-friendly controls.
 - **Accessibility**: sufficient color contrast in every theme; terminal and navigation reachable via keyboard
 
 ## 4. Environments

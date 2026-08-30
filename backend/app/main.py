@@ -19,8 +19,6 @@ from app.core.security import _wire_db_dependency, get_current_admin_user
 
 # ── Admin routers (JWT-protected) ─────────────────────────────────────────────
 from app.routers.admin import analytics as adm_analytics
-
-# ── Auth router (public — login endpoint) ─────────────────────────────────────
 from app.routers.admin import auth as adm_auth
 from app.routers.admin import contact_links as adm_contact_links
 from app.routers.admin import education as adm_education
@@ -28,6 +26,8 @@ from app.routers.admin import guestbook as adm_guestbook
 from app.routers.admin import messages as adm_messages
 from app.routers.admin import pages as adm_pages
 from app.routers.admin import projects as adm_projects
+from app.routers.admin import resume as adm_resume
+from app.routers.admin import sidebar as adm_sidebar
 from app.routers.admin import skill_domains as adm_skill_domains
 from app.routers.admin import skills as adm_skills
 
@@ -39,11 +39,11 @@ from app.routers.public import education as pub_education
 from app.routers.public import guestbook as pub_guestbook
 from app.routers.public import pages as pub_pages
 from app.routers.public import projects as pub_projects
-
-# ── Public routers ────────────────────────────────────────────────────────────
 from app.routers.public import resume as pub_resume
+from app.routers.public import sidebar as pub_sidebar
 from app.routers.public import skill_domains as pub_skill_domains
 from app.routers.public import skills as pub_skills
+from app.routers.public import source_control as pub_source_control
 
 # ── Wire the DB dependency into get_current_admin_user ────────────────────────
 _wire_db_dependency()
@@ -82,9 +82,6 @@ app.include_router(pub_skill_domains.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_contact_links.router, prefix=_PUBLIC_PREFIX)
 
 app.include_router(pub_resume.router, prefix=_PUBLIC_PREFIX)
-from app.routers.public import sidebar as pub_sidebar
-from app.routers.public import source_control as pub_source_control
-
 app.include_router(pub_sidebar.router, prefix=_PUBLIC_PREFIX)
 app.include_router(pub_source_control.router, prefix=_PUBLIC_PREFIX)
 
@@ -104,9 +101,6 @@ app.include_router(adm_pages.router, prefix=_ADMIN_PREFIX, dependencies=_admin_d
 app.include_router(adm_education.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_skill_domains.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_contact_links.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
-from app.routers.admin import resume as adm_resume
-from app.routers.admin import sidebar as adm_sidebar
-
 app.include_router(adm_resume.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 app.include_router(adm_sidebar.router, prefix=_ADMIN_PREFIX, dependencies=_admin_deps)
 
