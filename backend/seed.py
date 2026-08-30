@@ -311,7 +311,7 @@ def is_database_empty(db) -> bool:
         return False
     if db.query(SidebarItem).first():
         return False
-    return True
+    return not db.query(SidebarItem).first()
 
 
 def run_seed(db=None) -> bool:
@@ -341,7 +341,7 @@ def run_seed(db=None) -> bool:
     except Exception as e:
         print(f"Error seeding database: {e}")
         db.rollback()
-        raise e
+        raise
     finally:
         if should_close:
             db.close()
