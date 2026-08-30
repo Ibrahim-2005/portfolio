@@ -317,6 +317,7 @@ export async function renderContent() {
     // Loading State
     pane.innerHTML = getWorkspaceSkeletonHtml();
 
+    let html = '';
     if (activeTab.slug === 'about') {
         html = await renderAbout();
     } else if (activeTab.slug === 'education') {
