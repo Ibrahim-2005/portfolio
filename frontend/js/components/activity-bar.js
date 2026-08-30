@@ -4,7 +4,7 @@
 import { toggleSidebar } from './sidebar.js';
 import { openPaletteWithMode } from './command-palette.js';
 import { toggleTerminal } from './terminal.js';
-import { api } from '../core/api.js';
+import { api, API_BASE_URL } from '../core/api.js';
 import { themes, setTheme, getCurrentTheme } from '../features/theme-engine.js';
 
 let sourceControlLoaded = false;
@@ -234,11 +234,10 @@ function toggleFullscreen() {
     }
 }
 
-function downloadResumeFile() {
+export function downloadResumeFile() {
     const a = document.createElement('a');
-    a.href = 'assets/resume/Mohamed_ IbrahimY_ Resume.pdf';
-    a.download = 'Mohamed_ IbrahimY_ Resume.pdf';
-    a.target = '_blank';
+    a.href = `${API_BASE_URL}/resume`;
+    a.download = 'Resume.pdf';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

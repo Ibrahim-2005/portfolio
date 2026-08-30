@@ -7,6 +7,7 @@ import { iconService } from '../services/icon-service.js';
 import { state } from '../core/state.js';
 import { toggleTerminal } from './terminal.js';
 import { toggleFullscreen } from '../features/window-controls.js';
+import { API_BASE_URL } from '../core/api.js';
 
 let isPaletteOpenInternal = false;
 let currentMode = 'all'; // 'all', 'files', 'commands', 'themes'
@@ -81,9 +82,8 @@ const commands = [
         shortcut: '',
         action: () => {
             const a = document.createElement('a');
-            a.href = 'assets/resume/Mohamed_ IbrahimY_ Resume.pdf';
-            a.download = 'Mohamed_ IbrahimY_ Resume.pdf';
-            a.target = '_blank';
+            a.href = `${API_BASE_URL}/resume`;
+            a.download = 'Resume.pdf';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

@@ -1,5 +1,5 @@
 // components/terminal.js - Terminal logic and command parser
-import { api } from '../core/api.js';
+import { api, API_BASE_URL } from '../core/api.js';
 import { openTabBySlug } from './sidebar.js';
 import { setTheme, themes } from '../features/theme-engine.js';
 
@@ -462,9 +462,8 @@ function executeCommand(cmdStr) {
         case 'resume':
             printLine('Downloading resume...', false, 'success');
             const a = document.createElement('a');
-            a.href = 'assets/resume/Mohamed_ IbrahimY_ Resume.pdf';
-            a.download = 'Mohamed_ IbrahimY_ Resume.pdf';
-            a.target = '_blank';
+            a.href = `${API_BASE_URL}/resume`;
+            a.download = 'Resume.pdf';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

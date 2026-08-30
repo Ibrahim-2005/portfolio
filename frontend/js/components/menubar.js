@@ -6,6 +6,7 @@ import { getFiles, toggleSidebar } from './sidebar.js';
 import { iconService } from '../services/icon-service.js';
 import { openPaletteWithMode } from './command-palette.js';
 import { toggleTerminal, openTerminal, clearTerminal, runLastTerminalCommand, newTerminalSession } from './terminal.js';
+import { API_BASE_URL } from '../core/api.js';
 
 let activeMenu = null;
 let currentZoom = 1.0;
@@ -382,9 +383,8 @@ function executeMenuAction(action) {
             break;
         case 'download-resume': {
             const a = document.createElement('a');
-            a.href = 'assets/resume/Mohamed_ IbrahimY_ Resume.pdf';
-            a.download = 'Mohamed_ IbrahimY_ Resume.pdf';
-            a.target = '_blank';
+            a.href = `${API_BASE_URL}/resume`;
+            a.download = 'Resume.pdf';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
