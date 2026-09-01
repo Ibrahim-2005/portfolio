@@ -25,6 +25,11 @@
     display: none; /* Hidden on desktop (>1024px) */
 }
 
+.mobile-experience-note {
+    display: none; /* Hidden on desktop (>1024px) */
+}
+
+
 
 @media screen and (max-width: 1024px) {
 
@@ -206,6 +211,21 @@
         flex-direction: column;
         gap: 8px;
     }
+
+    .mobile-experience-note {
+        display: block !important;
+        font-family: var(--font-code, monospace);
+        font-size: 11px;
+        line-height: 1.45;
+        color: var(--fg-muted, #858585);
+        text-align: center;
+        padding: 10px 4px 6px 4px;
+        letter-spacing: 0.1px;
+        user-select: none;
+        word-break: normal;
+        overflow-wrap: break-word;
+    }
+
 
 
     .sidebar-title {
