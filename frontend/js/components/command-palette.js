@@ -167,6 +167,32 @@ export function initPalette() {
             closePalette();
         }
     });
+
+    // Global keyboard navigation within palette for devices/tablets with physical keyboards
+    document.addEventListener('keydown', (e) => {
+        if (!isPaletteOpenInternal) return;
+        if (document.activeElement === input) return; // already handled by input listener
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (filteredItems.length > 0) {
+                const nextIndex = (selectedIndex + 1) % filteredItems.length;
+                updateSelectedIndex(nextIndex, true);
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (filteredItems.length > 0) {
+                const nextIndex = (selectedIndex - 1 + filteredItems.length) % filteredItems.length;
+                updateSelectedIndex(nextIndex, true);
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            executeSelectedItem();
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closePalette();
+        }
+    });
 }
 
 export function togglePalette() {
@@ -205,8 +231,14 @@ export function openPaletteWithMode(mode = 'all') {
     }
 
     filterItems(input.value);
-    input.focus();
+
+    // On desktop (>1024px), focus input for immediate typing.
+    // On non-desktop (<=1024px), do NOT auto-focus to prevent triggering the mobile virtual keyboard.
+    if (window.innerWidth > 1024) {
+        input.focus();
+    }
 }
+
 
 export function closePalette() {
     isPaletteOpenInternal = false;

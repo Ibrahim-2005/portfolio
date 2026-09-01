@@ -257,24 +257,41 @@ export function downloadResumeFile() {
     document.body.removeChild(a);
 }
 
-async function loadSourceControlData() {
-    const contentArea = document.getElementById('sc-content-area');
-    if (!contentArea) return;
+let cachedSourceControlData = null;
 
-    contentArea.innerHTML = '<div class="sc-loading">Fetching repository status...</div>';
+export async function loadSourceControlData() {
+    const desktopArea = document.getElementById('sc-content-area');
+    const sidebarArea = document.getElementById('sidebar-sc-content');
+
+    if (!desktopArea && !sidebarArea) return;
+
+    if (cachedSourceControlData) {
+        if (desktopArea) renderSourceControl(desktopArea, cachedSourceControlData);
+        if (sidebarArea) renderSourceControl(sidebarArea, cachedSourceControlData);
+        return;
+    }
+
+    if (desktopArea) desktopArea.innerHTML = '<div class="sc-loading">Fetching repository status...</div>';
+    if (sidebarArea) sidebarArea.innerHTML = '<div class="sc-loading">Fetching repository status...</div>';
 
     try {
         const data = await api.getSourceControl();
 
         if (data && data.status === 'ok') {
             sourceControlLoaded = true;
-            renderSourceControl(contentArea, data);
+            cachedSourceControlData = data;
+            if (desktopArea) renderSourceControl(desktopArea, data);
+            if (sidebarArea) renderSourceControl(sidebarArea, data);
         } else {
-            renderSourceControlError(contentArea, data?.repo_url || 'https://github.com/Ibrahim-2005/portfolio');
+            const repoUrl = data?.repo_url || 'https://github.com/Ibrahim-2005/portfolio';
+            if (desktopArea) renderSourceControlError(desktopArea, repoUrl);
+            if (sidebarArea) renderSourceControlError(sidebarArea, repoUrl);
         }
     } catch (err) {
         console.error('Failed to load source control data:', err);
-        renderSourceControlError(contentArea, 'https://github.com/Ibrahim-2005/portfolio');
+        const repoUrl = 'https://github.com/Ibrahim-2005/portfolio';
+        if (desktopArea) renderSourceControlError(desktopArea, repoUrl);
+        if (sidebarArea) renderSourceControlError(sidebarArea, repoUrl);
     }
 }
 
@@ -284,6 +301,7 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
 
 function renderSourceControl(container, data) {
     const branchName = escapeHtml(data.branch || 'main');

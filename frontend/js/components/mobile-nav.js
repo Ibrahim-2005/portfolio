@@ -2,7 +2,8 @@
 import { state } from '../core/state.js';
 import { iconService } from '../services/icon-service.js';
 import { flatFileNodes, getFiles } from './sidebar.js';
-import { toggleSettings } from './activity-bar.js';
+import { toggleSettings, loadSourceControlData } from './activity-bar.js';
+
 
 
 let isPaletteOpen = false;
@@ -84,7 +85,9 @@ export function openMobileSidebar() {
     if (sidebar) sidebar.classList.add('open');
     if (backdrop) backdrop.classList.add('active');
     if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', 'true');
+    loadSourceControlData();
 }
+
 
 /**
  * Closes the mobile/tablet sidebar drawer.
