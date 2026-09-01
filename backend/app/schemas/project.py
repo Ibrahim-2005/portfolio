@@ -49,7 +49,7 @@ class ProjectOut(BaseModel):
                 elif isinstance(item, dict):
                     result.append(item)
                 elif hasattr(item, "name"):
-                    result.append({"name": getattr(item, "name"), "icon": getattr(item, "icon", None)})
+                    result.append({"name": item.name, "icon": getattr(item, "icon", None)})
             return result
         return []
 
@@ -96,7 +96,7 @@ class ProjectCreate(BaseModel):
                 elif isinstance(item, dict):
                     result.append(item)
                 elif hasattr(item, "name"):
-                    result.append({"name": getattr(item, "name"), "icon": getattr(item, "icon", None)})
+                    result.append({"name": item.name, "icon": getattr(item, "icon", None)})
             return result
         return []
 
@@ -129,6 +129,6 @@ class ProjectUpdate(BaseModel):
                 elif isinstance(item, dict):
                     result.append(item)
                 elif hasattr(item, "name"):
-                    result.append({"name": getattr(item, "name"), "icon": getattr(item, "icon", None)})
+                    result.append({"name": item.name, "icon": getattr(item, "icon", None)})
             return result
         return None

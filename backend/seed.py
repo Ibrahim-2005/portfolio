@@ -383,9 +383,9 @@ def seed_contact_links(db):
 
 
 def seed_admin_user(db):
-    from app.models.admin_user import AdminUser
     from app.core.config import settings
     from app.core.security import hash_password
+    from app.models.admin_user import AdminUser
 
     if db.query(AdminUser).first():
         print("Admin user already exists. Skipping admin user seed.")
@@ -417,7 +417,7 @@ def is_database_empty(db) -> bool:
         return False
     if db.query(SidebarItem).first():
         return False
-    return True
+    return not db.query(SidebarItem).first()
 
 
 def run_seed(db=None) -> bool:
