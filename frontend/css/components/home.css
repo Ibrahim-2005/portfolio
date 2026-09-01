@@ -9,7 +9,7 @@
   min-height: 100%;
   justify-content: center;
   position: relative;
-  padding: clamp(18px, 3.5vw, 46px);
+  padding: clamp(18px, 3.5vw, 46px) clamp(18px, 3.5vw, 46px) 30px;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   background:

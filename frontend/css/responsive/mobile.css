@@ -2,18 +2,26 @@
 /* For screens < 600px */
 @media screen and (max-width: 599px) {
     .content-pane {
-        padding: 14px;
+        padding: 12px;
     }
 
     .home-content {
         min-height: auto;
-        padding: 28px 24px;
+        padding: 24px 18px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
+    .content-pane .home-title,
     .home-title {
-        font-size: clamp(2.8rem, 14vw, 4rem);
-        line-height: 0.9;
-        letter-spacing: -0.03em;
+        font-size: clamp(2rem, 9.5vw, 2.75rem);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        word-break: normal;
+        overflow-wrap: break-word;
+        max-width: 100%;
     }
 
     .home-ctas,
