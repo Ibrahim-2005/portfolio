@@ -631,11 +631,12 @@
     }
 }
 
-/* Hide on mobile (mobile Settings explicitly deferred) */
-@media screen and (max-width: 599px) {
+/* Hide on mobile and tablet (<= 1024px) */
+@media screen and (max-width: 1024px) {
     .activity-bar,
-    .source-control-popover,
-    .settings-popover {
+    .source-control-popover {
         display: none !important;
     }
 }
+
+

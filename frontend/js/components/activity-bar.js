@@ -92,6 +92,7 @@ export function toggleSourceControl(forceState) {
 export function toggleSettings(forceState) {
     const popover = document.getElementById('settings-popover');
     const setBtn = document.querySelector('.activity-btn[data-action="settings"]');
+    const backdrop = document.getElementById('sidebar-backdrop');
     if (!popover) return;
 
     const shouldOpen = forceState !== undefined ? forceState : !popover.classList.contains('open');
@@ -102,11 +103,21 @@ export function toggleSettings(forceState) {
         syncSettingsThemeState();
         popover.classList.add('open');
         if (setBtn) setBtn.classList.add('active');
+        if (backdrop && window.innerWidth <= 1024) {
+            backdrop.classList.add('active');
+        }
     } else {
         popover.classList.remove('open');
         if (setBtn) setBtn.classList.remove('active');
+        if (backdrop && window.innerWidth <= 1024) {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar || !sidebar.classList.contains('open')) {
+                backdrop.classList.remove('active');
+            }
+        }
     }
 }
+
 
 function initSettingsPopover() {
     const popover = document.getElementById('settings-popover');

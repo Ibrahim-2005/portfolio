@@ -26,46 +26,27 @@
         width: 100%;
     }
 
-    /* Sidebar Drawer */
-    .sidebar {
-        width: 85% !important;
-        max-width: 320px;
+    /* Workspace fills remaining horizontal space */
+    .workspace {
+        flex: 1 1 auto;
+        min-width: 0;
     }
 
-    /* Tabs as Dropdown */
-    .tabs {
-        flex-wrap: wrap;
-        overflow: visible;
-        position: relative;
-    }
 
-    /* Hide non-active tabs initially on mobile */
-    .tabs:not(.dropdown-open) .tab:not(.active) {
-        display: none;
-    }
-    
-    /* Make active tab expand to fill space next to dropdown toggle */
-    .tabs:not(.dropdown-open) .tab.active {
-        flex: 1;
-    }
-
-    .tabs.dropdown-open .tab {
-        display: flex;
-        width: 100%;
-        border-bottom: 1px solid var(--border-color);
-        background: var(--bg-panel-header);
-    }
-    
-    /* Dropdown toggle button styling */
+    /* Tab Bar completely removed on mobile */
+    .tabs,
+    .tabs-container,
     .mobile-tab-dropdown-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 44px;
-        min-width: 44px;
-        cursor: pointer;
-        color: var(--fg-muted);
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        overflow: hidden !important;
     }
+
 
     /* Terminal Mobile Fullscreen Overlay */
     .terminal-panel {
@@ -96,72 +77,18 @@
         padding: 14px 10px !important; /* Larger touch targets */
     }
 
-    /* Titlebar Search Pill on Mobile */
-    .titlebar-search-pill {
-        width: auto;
-        max-width: 170px;
-        padding: 0 6px;
-        font-size: 11px;
+    /* Title Bar, Menu Bar, and Activity Bar completely removed on mobile */
+    .titlebar,
+    .app-menubar,
+    .activity-bar,
+    .source-control-popover {
+        display: none !important;
     }
 
-    .titlebar-search-pill .pill-desc,
-    .titlebar-search-pill .pill-sep {
-        display: none;
-    }
-
-    /* Titlebar Easter Egg mobile constraint */
-    .titlebar-easter-egg {
-        max-width: 90px;
-        font-size: 10px;
-        text-overflow: ellipsis;
-    }
 
     html {
         overflow-x: hidden;
     }
 
-    /* Menubar Mobile Overrides */
-    .app-menubar {
-        overflow: visible !important;
-        overflow-x: visible !important;
-        overflow-y: visible !important;
-    }
-
-    .menu-dropdown {
-        max-width: calc(100vw - 16px);
-    }
-
-    /* Right-side dropdowns align right on mobile */
-    .menubar-item[data-menu="terminal"] .menu-dropdown,
-    .menubar-item[data-menu="help"] .menu-dropdown {
-        left: auto;
-        right: 0;
-    }
-
-    /* Open Recent submenu expands inline inside parent dropdown on narrow mobile */
-    .menu-item.has-submenu {
-        flex-wrap: wrap;
-    }
-
-    .menu-item.has-submenu .menu-item-label {
-        flex: 1;
-    }
-
-    .menu-item.has-submenu .submenu-dropdown {
-        width: 100% !important;
-        flex-basis: 100%;
-        position: static !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        box-shadow: none !important;
-        border: none !important;
-        border-top: 1px solid var(--border-color) !important;
-        margin-top: 4px;
-        padding-left: 8px !important;
-    }
-
-    .menu-item.has-submenu.submenu-open > .submenu-dropdown {
-        display: flex !important;
-    }
 }
+

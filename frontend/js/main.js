@@ -11,6 +11,7 @@ import { initStatusbar } from './components/statusbar.js';
 import { initWindowControls } from './features/window-controls.js';
 import { initMenubar } from './components/menubar.js';
 import { initActivityBar } from './components/activity-bar.js';
+import { initMobileNav, openMobilePagePalette, closeMobilePagePalette, toggleMobileSidebar } from './components/mobile-nav.js';
 import { api } from './core/api.js';
 import { state } from './core/state.js';
 import { setTheme, getCurrentTheme } from './features/theme-engine.js';
@@ -24,6 +25,9 @@ window.getCurrentTheme = getCurrentTheme;
 window.openTabBySlug = openTabBySlug;
 window.openPaletteWithMode = openPaletteWithMode;
 window.closePalette = closePalette;
+window.openMobilePagePalette = openMobilePagePalette;
+window.closeMobilePagePalette = closeMobilePagePalette;
+window.toggleMobileSidebar = toggleMobileSidebar;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme System
@@ -38,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initUiPolish();
     initWindowControls();
 
+    // Initialize Mobile/Tablet Navigation & Search Palette
+    initMobileNav();
+
     // Initialize the router which wires up state to UI
     initRouter();
     
@@ -50,3 +57,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fire initial page view analytics event
     api.postAnalyticsEvent('page_view', window.location.pathname);
 });
+

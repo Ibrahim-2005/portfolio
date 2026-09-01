@@ -77,9 +77,17 @@ export function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     if (!sidebar) return;
     const toggleBtn = document.querySelector('.sidebar-toggle-btn');
+    const hamburgerBtn = document.getElementById('mobile-hamburger-btn');
+    const backdrop = document.getElementById('sidebar-backdrop');
+
     if (window.innerWidth <= 1024) {
         const isOpen = sidebar.classList.toggle('open');
         if (toggleBtn) toggleBtn.setAttribute('aria-expanded', String(isOpen));
+        if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+        if (backdrop) {
+            if (isOpen) backdrop.classList.add('active');
+            else backdrop.classList.remove('active');
+        }
     } else {
         const isCollapsed = sidebar.classList.toggle('collapsed');
         if (toggleBtn) toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
@@ -133,9 +141,14 @@ function renderTree(nodes, container, depth) {
                 const sidebar = document.querySelector('.sidebar');
                 if (sidebar && window.innerWidth <= 1024) {
                     sidebar.classList.remove('open');
+                    const backdrop = document.getElementById('sidebar-backdrop');
+                    if (backdrop) backdrop.classList.remove('active');
+                    const hamburgerBtn = document.getElementById('mobile-hamburger-btn');
+                    if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', 'false');
                 }
             }
         });
+
 
         container.appendChild(item);
 

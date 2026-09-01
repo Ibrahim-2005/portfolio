@@ -1,91 +1,45 @@
 /* responsive/tablet.css */
 /* For screens 600px - 1024px */
 @media screen and (max-width: 1024px) {
-    /* Titlebar - show sidebar toggle button */
-    .sidebar-toggle-btn {
-        display: flex !important;
-        padding: 8px; /* 44px min touch target approx with padding */
-        min-height: 44px;
-        min-width: 44px;
-        align-items: center;
-        justify-content: center;
+    /* 1. Remove Title Bar on tablet & mobile */
+    /* 2. Remove Menu Bar on tablet & mobile */
+    /* 3. Remove Activity Bar on tablet & mobile */
+    .titlebar,
+    .app-menubar,
+    .activity-bar,
+    .source-control-popover {
+        display: none !important;
     }
 
-    /* Sidebar - Collapsible Overlay */
-    .sidebar {
-        position: absolute !important;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 950;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        box-shadow: 18px 0 46px rgba(0,0,0,0.34);
+
+    /* Workspace fills available width */
+    .workspace {
+        flex: 1 1 auto;
+        min-width: 0;
     }
 
-    .sidebar.open {
-        transform: translateX(0);
-    }
     
-    /* Ensure Mac buttons have 44x44 touch targets by padding */
-    .mac-btn {
-        position: relative;
+    /* Remove Tab Bar on tablet & mobile */
+    .tabs,
+    .tabs-container,
+    .mobile-tab-dropdown-btn {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        overflow: hidden !important;
     }
-    .mac-btn::after {
-        content: '';
-        position: absolute;
-        top: -16px;
-        bottom: -16px;
-        left: -16px;
-        right: -16px;
-    }
-    
-    /* Tab close button padding for touch */
-    .close-btn {
-        min-height: 44px;
-        min-width: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: -10px; /* offset the massive target box visually */
-    }
+
     .home-title {
+
         font-size: clamp(3rem, 7vw, 5.5rem);
     }
 
-    /* Titlebar Search Pill Tablet Adjustment */
-    .titlebar-search-pill {
-        min-width: 180px;
-        max-width: 260px;
-        gap: 10px;
-    }
-
-    .titlebar-easter-egg {
-        max-width: 140px;
-    }
-}
-
-/* Menubar Tablet Overrides (<= 768px) */
-@media screen and (max-width: 768px) {
     html {
         overflow-x: hidden;
     }
-
-    .app-menubar {
-        overflow: visible !important;
-        overflow-x: visible !important;
-        overflow-y: visible !important;
-    }
-
-    /* Terminal and Help dropdowns align right so they stay within viewport */
-    .menubar-item[data-menu="terminal"] .menu-dropdown,
-    .menubar-item[data-menu="help"] .menu-dropdown {
-        left: auto;
-        right: 0;
-    }
-
-    /* Submenu click/touch toggle */
-    .menu-item.has-submenu.submenu-open > .submenu-dropdown {
-        display: flex !important;
-    }
 }
+

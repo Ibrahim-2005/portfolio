@@ -94,6 +94,7 @@
     <link rel="stylesheet" href="css/layout/tabs.css" />
     <link rel="stylesheet" href="css/layout/content-pane.css" />
     <link rel="stylesheet" href="css/layout/statusbar.css" />
+    <link rel="stylesheet" href="css/layout/mobile-nav.css" />
 
     <!-- Components -->
     <link rel="stylesheet" href="css/components/terminal.css" />
@@ -256,8 +257,48 @@
         aria-label="Application Menu"
       ></nav>
 
+      <!-- Mobile & Tablet Top Navigation Bar (<= 1024px) -->
+      <header class="mobile-nav-header" id="mobile-nav-header" aria-label="Mobile Navigation">
+        <button
+          type="button"
+          class="mobile-nav-btn mobile-hamburger-btn"
+          id="mobile-hamburger-btn"
+          aria-label="Toggle Sidebar Navigation"
+          aria-expanded="false"
+          aria-controls="app-sidebar"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="mobile-nav-title" id="mobile-nav-title">
+          <span class="mobile-nav-icon" id="mobile-nav-icon"></span>
+          <span class="mobile-nav-filename" id="mobile-nav-filename">home.py</span>
+        </div>
+
+        <button
+          type="button"
+          class="mobile-nav-btn mobile-search-btn"
+          id="mobile-search-btn"
+          aria-label="Search Pages"
+          aria-haspopup="dialog"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+          </svg>
+        </button>
+      </header>
+
       <div class="main-body">
+        <!-- Sidebar Backdrop for Mobile/Tablet Drawer -->
+        <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
         <!-- Desktop Activity Bar -->
+
         <aside class="activity-bar" id="activity-bar" aria-label="Activity Bar">
           <div class="activity-bar-top">
             <button
@@ -355,11 +396,12 @@
         <div id="settings-popover" class="settings-popover" role="dialog" aria-label="Settings">
           <div class="settings-header">
             <span class="settings-title">SETTINGS</span>
+            <button type="button" class="settings-close-btn" id="settings-close-btn" aria-label="Close Settings">✕</button>
           </div>
 
           <div class="settings-separator"></div>
 
-          <div class="settings-section">
+          <div class="settings-section settings-theme-section">
             <div class="settings-section-header">
               <span class="settings-section-icon">🎨</span>
               <span class="settings-section-title">COLOR THEME</span>
@@ -369,7 +411,7 @@
 
           <div class="settings-separator"></div>
 
-          <div class="settings-section">
+          <div class="settings-section settings-actions-section">
             <div class="settings-section-header">
               <span class="settings-section-icon">⚡</span>
               <span class="settings-section-title">QUICK ACTIONS</span>
@@ -406,9 +448,9 @@
             </div>
           </div>
 
-          <div class="settings-separator"></div>
+          <div class="settings-separator settings-shortcuts-separator"></div>
 
-          <div class="settings-section">
+          <div class="settings-section settings-shortcuts-section">
             <div class="settings-section-header">
               <span class="settings-section-icon">⌨️</span>
               <span class="settings-section-title">KEYBOARD SHORTCUTS</span>
@@ -447,7 +489,7 @@
 
           <div class="settings-separator"></div>
 
-          <div class="settings-section">
+          <div class="settings-section settings-connect-section">
             <div class="settings-section-header">
               <span class="settings-section-icon">🔗</span>
               <span class="settings-section-title">CONNECT</span>
@@ -477,7 +519,32 @@
 
         <!-- Sidebar -->
         <aside class="sidebar">
-          <div class="sidebar-header">PORTFOLIO</div>
+          <div class="sidebar-header">
+            <span class="sidebar-title">FILES</span>
+            <div class="sidebar-header-actions">
+              <button
+                type="button"
+                class="sidebar-header-btn sidebar-settings-btn"
+                id="sidebar-settings-btn"
+                aria-label="Settings"
+                title="Settings"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="sidebar-header-btn sidebar-close-btn"
+                id="sidebar-close-btn"
+                aria-label="Close Sidebar"
+                title="Close"
+              >✕</button>
+            </div>
+          </div>
+
+
 
           <!-- Pet Companion Container -->
           <div id="pet-container"></div>
@@ -677,7 +744,49 @@
       </div>
     </div>
 
+    <!-- Non-Desktop Page Search Palette (<= 1024px) -->
+    <div
+      id="mobile-page-palette-overlay"
+      class="mobile-page-palette-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search Pages"
+      style="display: none;"
+    >
+      <div class="mobile-page-palette">
+        <div class="mobile-page-palette-search">
+          <span class="mobile-palette-search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="mobile-palette-input"
+            class="mobile-palette-input"
+            placeholder="Go to file"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-label="Go to File"
+          />
+          <button
+            type="button"
+            id="mobile-palette-close-btn"
+            class="mobile-palette-close-btn"
+            aria-label="Close Search Palette"
+          >✕</button>
+        </div>
+        <div id="mobile-palette-list" class="mobile-palette-list" role="listbox">
+          <!-- Page files injected dynamically -->
+        </div>
+      </div>
+    </div>
+
     <!-- External Libraries -->
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.9/dist/purify.min.js"></script>
 
