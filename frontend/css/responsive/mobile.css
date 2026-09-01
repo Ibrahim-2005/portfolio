@@ -26,11 +26,30 @@
         width: 100%;
     }
 
-    /* Workspace fills remaining horizontal space */
-    .workspace {
-        flex: 1 1 auto;
-        min-width: 0;
+    .app-container {
+        height: 100vh !important;
+        height: 100dvh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
     }
+
+    .main-body {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        overflow: hidden !important;
+    }
+
+    /* Workspace fills remaining space between top nav and status bar */
+    .workspace {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
 
 
     /* Tab Bar completely removed on mobile */
@@ -48,19 +67,27 @@
     }
 
 
-    /* Terminal Mobile Fullscreen Overlay */
+    /* Status Bar & Safe Area on Phone (<= 599px) */
+    .statusbar {
+        display: flex !important;
+        min-height: 26px !important;
+        height: calc(26px + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 0 8px env(safe-area-inset-bottom, 0px) 8px !important;
+        font-size: 11.5px !important;
+        flex-shrink: 0 !important;
+        z-index: 50 !important;
+    }
+
+    /* Terminal completely removed/hidden on Phone */
     .terminal-panel {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh; /* fallback, overridden by visualViewport JS */
-        z-index: 9000;
+        display: none !important;
     }
     
-    .terminal-panel .term-action-btn[aria-label="Maximize"] {
-        display: none;
+    .statusbar-item.term-toggle-status-btn,
+    #status-terminal-btn {
+        display: none !important;
     }
+
 
     /* Command Palette Bottom Sheet */
     .command-palette {

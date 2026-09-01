@@ -115,12 +115,14 @@
         top: 0;
         bottom: 0;
         left: 0;
-        width: 260px !important;
-        max-width: 82vw !important;
+        width: 280px !important;
+        max-width: 85vw !important;
         z-index: 950 !important;
         transform: translateX(-100%) !important;
-        transition: transform var(--motion-med) cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-        box-shadow: 18px 0 46px rgba(0, 0, 0, 0.55) !important;
+        transition: transform var(--motion-med) cubic-bezier(0.2, 0.8, 0.2, 1), visibility var(--motion-med) ease !important;
+        box-shadow: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
         display: flex !important;
         background: linear-gradient(180deg, color-mix(in srgb, var(--bg-sidebar, #181818) 96%, #000 4%), color-mix(in srgb, var(--bg-sidebar, #181818) 90%, #000 10%)) !important;
         backdrop-filter: blur(28px) saturate(1.3) !important;
@@ -128,6 +130,9 @@
 
     .sidebar.open {
         transform: translateX(0) !important;
+        box-shadow: 18px 0 46px rgba(0, 0, 0, 0.55) !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
     }
 
     .sidebar-header {
@@ -209,8 +214,10 @@
         max-height: 100vh !important;
         z-index: 960 !important;
         transform: translateX(-100%) !important;
-        transition: transform var(--motion-med) cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-        box-shadow: 18px 0 46px rgba(0, 0, 0, 0.55) !important;
+        transition: transform var(--motion-med) cubic-bezier(0.2, 0.8, 0.2, 1), visibility var(--motion-med) ease !important;
+        box-shadow: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
         display: flex !important;
         flex-direction: column !important;
         overflow-y: auto !important;
@@ -224,7 +231,11 @@
 
     .settings-popover.open {
         transform: translateX(0) !important;
+        box-shadow: 18px 0 46px rgba(0, 0, 0, 0.55) !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
     }
+
 
     .settings-header {
         display: flex !important;
@@ -267,6 +278,18 @@
         background: var(--bg-hover, rgba(255, 255, 255, 0.08)) !important;
     }
 
+    /* Single-Column Color Theme List on Non-Desktop (<= 1024px) */
+    .settings-theme-list {
+        grid-template-columns: 1fr !important;
+        gap: 3px !important;
+    }
+
+    .settings-theme-btn {
+        min-height: 32px !important;
+        padding: 5px 8px !important;
+        font-size: 11px !important;
+    }
+
     /* Mobile & Tablet Settings Exclusions */
     .settings-shortcuts-section,
     .settings-shortcuts-separator {
@@ -277,6 +300,7 @@
     .settings-action-btn[data-action="toggle-terminal"] {
         display: none !important;
     }
+
 
     .sidebar-backdrop {
         display: block;
