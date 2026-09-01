@@ -109,7 +109,7 @@
 }
 
 /* Mobile & Tablet Responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 599px) {
     .statusbar {
         padding: 0 4px;
     }

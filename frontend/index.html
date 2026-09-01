@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0"
     />
 
     <!-- Primary Meta Tags -->
@@ -59,13 +59,13 @@
       sizes="16x16"
       href="/assets/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
     <link rel="shortcut icon" href="/assets/favicon/favicon.ico" />
     <meta name="theme-color" content="#1e1e1e" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
     <!-- Base -->
@@ -117,6 +117,7 @@
     <link rel="stylesheet" href="css/responsive/mobile.css" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="app-container">
       <!-- Title Bar -->
       <header class="titlebar">
@@ -518,7 +519,7 @@
         </div>
 
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="app-sidebar">
           <div class="sidebar-header">
             <span class="sidebar-title">PORTFOLIO</span>
             <div class="sidebar-header-actions">
@@ -591,7 +592,7 @@
           </nav>
 
           <!-- Content Pane -->
-          <article class="content-pane">
+          <article class="content-pane" id="main-content" tabindex="-1">
             <div class="workspace-skeleton" aria-label="Loading workspace">
               <div class="workspace-skeleton-comment skeleton-shimmer"></div>
               <div class="workspace-skeleton-heading skeleton-shimmer"></div>

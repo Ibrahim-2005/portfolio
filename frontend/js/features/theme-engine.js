@@ -29,9 +29,13 @@ export function setTheme(themeId, save = true) {
     // Set the data attribute to cascade CSS vars
     document.documentElement.setAttribute('data-theme', themeId);
     
-    // Save to local storage
+    // Save to local storage safely
     if (save) {
-        localStorage.setItem('portfolio-theme', themeId);
+        try {
+            localStorage.setItem('portfolio-theme', themeId);
+        } catch (e) {
+            console.warn('Failed to persist theme to localStorage', e);
+        }
     }
     
     // Update status bar UI

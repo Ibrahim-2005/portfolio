@@ -112,14 +112,66 @@
         z-index: 50 !important;
     }
 
-    /* Terminal completely removed/hidden on Phone */
+    /* Mobile Full-Screen Terminal Overlay (< 600px) */
     .terminal-panel {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        z-index: 1100 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        background: var(--bg-terminal, #1e1e1e) !important;
+        border-top: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding-bottom: max(16px, env(safe-area-inset-bottom, 12px)) !important;
+    }
+
+    .terminal-panel.collapsed {
         display: none !important;
+    }
+
+    .terminal-panel .terminal-header {
+        height: 46px !important;
+        min-height: 46px !important;
+        padding: 0 10px 0 14px !important;
+        background: color-mix(in srgb, var(--bg-panel-header, #252526) 94%, #000 6%) !important;
+        border-bottom: 1px solid var(--border-subtle) !important;
+    }
+
+    .terminal-panel .term-action-btn {
+        min-width: 38px !important;
+        min-height: 38px !important;
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 17px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .terminal-panel .term-maximize-btn {
+        display: none !important; /* Full-screen already on mobile */
+    }
+
+    .terminal-panel .terminal-body {
+        flex: 1 1 auto !important;
+        padding: 12px 14px !important;
+    }
+
+    .terminal-panel .terminal-real-input {
+        font-size: 14px !important;
     }
     
     .statusbar-item.term-toggle-status-btn,
     #status-terminal-btn {
-        display: none !important;
+        display: inline-flex !important;
     }
 
 

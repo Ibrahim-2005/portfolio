@@ -24,9 +24,11 @@ export function openShortcutsView() {
 
 export function initShortcuts() {
     document.addEventListener('keydown', (e) => {
-        // Exclude inputs, unless it's the Escape key
-        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-        const isInputFocused = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select';
+        // Exclude inputs and contenteditable elements, unless it's the Escape key
+        const activeEl = document.activeElement;
+        const activeTag = activeEl ? activeEl.tagName.toLowerCase() : '';
+        const isContentEditable = activeEl ? (activeEl.isContentEditable || activeEl.getAttribute('contenteditable') === 'true') : false;
+        const isInputFocused = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || isContentEditable;
         
         if (isInputFocused && e.key !== 'Escape') {
             // Reset chord if input focused

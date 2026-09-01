@@ -18,19 +18,19 @@
         min-width: 0;
     }
 
-    
-    /* Remove Tab Bar on tablet & mobile */
-    .tabs,
-    .tabs-container,
-    .mobile-tab-dropdown-btn {
-        display: none !important;
-        height: 0 !important;
-        min-height: 0 !important;
-        max-height: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        border: none !important;
-        overflow: hidden !important;
+    /* Tab Bar restored on tablet (600px - 1024px) */
+    .tabs {
+        display: flex !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    .tab {
+        min-width: 110px;
+        max-width: 200px;
+        padding: 0 8px 0 10px;
     }
 
     .home-title {

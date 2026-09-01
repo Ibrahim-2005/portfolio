@@ -31,6 +31,28 @@ class ProjectOut(BaseModel):
     sort_order: int
     featured: bool
 
+    @field_validator("tech_stack", mode="before")
+    @classmethod
+    def _coerce_tech_stack(cls, v: object) -> list[dict[str, str | None]]:
+        """
+        Accept strings (e.g. ["Flask"]), dicts ({"name": "Flask", "icon": ...}),
+        or objects with .name attributes, coercing them cleanly.
+        """
+        if v is None:
+            return []
+        if isinstance(v, list):
+            result = []
+            for item in v:
+                if isinstance(item, str):
+                    if item.strip():
+                        result.append({"name": item.strip(), "icon": None})
+                elif isinstance(item, dict):
+                    result.append(item)
+                elif hasattr(item, "name"):
+                    result.append({"name": getattr(item, "name"), "icon": getattr(item, "icon", None)})
+            return result
+        return []
+
     @field_validator("highlights", mode="before")
     @classmethod
     def _split_highlights(cls, v: object) -> list[str]:
@@ -60,6 +82,24 @@ class ProjectCreate(BaseModel):
     sort_order: int = 0
     featured: bool = False
 
+    @field_validator("tech_stack", mode="before")
+    @classmethod
+    def _coerce_tech_stack(cls, v: object) -> list[dict[str, str | None]]:
+        if v is None:
+            return []
+        if isinstance(v, list):
+            result = []
+            for item in v:
+                if isinstance(item, str):
+                    if item.strip():
+                        result.append({"name": item.strip(), "icon": None})
+                elif isinstance(item, dict):
+                    result.append(item)
+                elif hasattr(item, "name"):
+                    result.append({"name": getattr(item, "name"), "icon": getattr(item, "icon", None)})
+            return result
+        return []
+
 
 # ── Admin input: update (partial) ─────────────────────────────────────────────
 class ProjectUpdate(BaseModel):
@@ -74,3 +114,21 @@ class ProjectUpdate(BaseModel):
     highlights: list[str] | None = None
     sort_order: int | None = None
     featured: bool | None = None
+
+    @field_validator("tech_stack", mode="before")
+    @classmethod
+    def _coerce_tech_stack(cls, v: object) -> list[dict[str, str | None]] | None:
+        if v is None:
+            return None
+        if isinstance(v, list):
+            result = []
+            for item in v:
+                if isinstance(item, str):
+                    if item.strip():
+                        result.append({"name": item.strip(), "icon": None})
+                elif isinstance(item, dict):
+                    result.append(item)
+                elif hasattr(item, "name"):
+                    result.append({"name": getattr(item, "name"), "icon": getattr(item, "icon", None)})
+            return result
+        return None

@@ -191,8 +191,7 @@ function animateTrail() {
 
     const trailEl = document.getElementById('cursor-trail');
     if (trailEl) {
-        trailEl.style.left = `${trailX}px`;
-        trailEl.style.top = `${trailY}px`;
+        trailEl.style.transform = `translate3d(${trailX}px, ${trailY}px, 0) translate(-50%, -50%)`;
     }
 
     animationFrameId = requestAnimationFrame(animateTrail);

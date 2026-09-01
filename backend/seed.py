@@ -30,7 +30,16 @@ def seed_projects(db):
     p1 = Project(
         title="Job Tracker API",
         description="> A production-ready 12-endpoint REST API for tracking the full job application lifecycle — Applied → Interview → Offer/Rejected — with complete status-history logging via a normalized relational schema. Built with strict per-user data isolation in mind from day one.",
-        tech_stack=["Flask", "PostgreSQL", "JWT (access/refresh)", "Flask-Caching", "Flask-Limiter", "APScheduler", "Pytest", "GitHub Actions"],
+        tech_stack=[
+            {"name": "Flask", "icon": "🐍"},
+            {"name": "PostgreSQL", "icon": "🐘"},
+            {"name": "JWT (access/refresh)", "icon": "🔐"},
+            {"name": "Flask-Caching", "icon": "⚡"},
+            {"name": "Flask-Limiter", "icon": "🛡️"},
+            {"name": "APScheduler", "icon": "⏱️"},
+            {"name": "Pytest", "icon": "🧪"},
+            {"name": "GitHub Actions", "icon": "🚀"}
+        ],
         highlights="\n".join([
             "JWT access/refresh authentication with strict per-user data isolation",
             "Response caching and rate limiting built in from the start",
@@ -43,7 +52,12 @@ def seed_projects(db):
     p2 = Project(
         title="Money Tracker (Expense & Income Tracking App)",
         description="> A full-stack personal finance web app for tracking expenses and income, with an interactive dashboard that gives instant income/expense/net-balance summaries. Built with a normalized schema and strict multi-user data isolation, so every user's financial data stays properly separated and secure.",
-        tech_stack=["Flask", "SQLite", "HTML/CSS", "Session-based auth"],
+        tech_stack=[
+            {"name": "Flask", "icon": "🐍"},
+            {"name": "SQLite", "icon": "🗄️"},
+            {"name": "HTML/CSS", "icon": "🎨"},
+            {"name": "Session-based auth", "icon": "🔒"}
+        ],
         highlights="\n".join([
             "Normalized relational schema for users, categories, and transactions",
             "Secure CRUD with strict multi-user data isolation",
@@ -56,7 +70,11 @@ def seed_projects(db):
     p3 = Project(
         title="Curated by Afza — Handmade Gifts E-Commerce",
         description="> A full Flask e-commerce platform built for a handmade gifts business, from initial build through a rigorous multi-audit technical review. Took the codebase through a 59-task, 14-phase remediation roadmap covering security hardening, a Cloudinary-backed media pipeline, and a full architectural cleanup.",
-        tech_stack=["Flask", "Cloudinary", "CSS/JS modular refactor"],
+        tech_stack=[
+            {"name": "Flask", "icon": "🐍"},
+            {"name": "Cloudinary", "icon": "☁️"},
+            {"name": "CSS/JS modular refactor", "icon": "📦"}
+        ],
         highlights="\n".join([
             "Refactored a monolithic stylesheet into 5 modular files and a monolithic JS file into 4 decoupled modules with a reusable cropper API",
             "Ran a full security and reliability audit, identifying and roadmapping fixes including an account-takeover path in the password reset flow",
@@ -69,7 +87,12 @@ def seed_projects(db):
     p4 = Project(
         title="Awaken Your Inner Power — Life Coaching Platform",
         description="> A complete Flask website built from scratch for a life-coaching business, live at awakenyourinnerpower.co.in. Owns and maintains the site end-to-end — from the booking system to the brand identity.",
-        tech_stack=["Flask", "FullCalendar.js", "CallMeBot WhatsApp API", "Admin dashboard"],
+        tech_stack=[
+            {"name": "Flask", "icon": "🐍"},
+            {"name": "FullCalendar.js", "icon": "📅"},
+            {"name": "CallMeBot WhatsApp API", "icon": "💬"},
+            {"name": "Admin dashboard", "icon": "⚡"}
+        ],
         highlights="\n".join([
             "FullCalendar.js-powered booking system with WhatsApp notifications via CallMeBot",
             "Full custom admin dashboard for site management",
@@ -191,7 +214,12 @@ def seed_singletons(db):
             name="Mohamed Ibrahim Y",
             tagline="Building real, working software 🚀",
             intro="I build and ship real software — REST APIs, CI/CD pipelines, and full-stack apps that go from my machine to a live URL.",
-            roles=[],
+            roles=[
+                {"label": "Backend Developer"},
+                {"label": "Full-Stack"},
+                {"label": "Freelancer & Educator"},
+                {"label": "Final-Year CSE"}
+            ],
             social_links=[]
         ))
 
@@ -296,6 +324,84 @@ def seed_sidebar(db):
     print("Sidebar Items seeded successfully.")
 
 
+def seed_education(db):
+    from app.models.education import Education
+
+    if db.query(Education).first():
+        print("Education already exists. Skipping education seed.")
+        return
+
+    print("Seeding Education...")
+    edu = Education(
+        qualification="B.E. Computer Science Engineering",
+        institution="Dhaanish Ahmed College of Engineering, Chennai",
+        start_year=2022,
+        end_year=2026,
+        grade="CGPA: 8.01 / 10",
+        description="Core coursework in Data Structures & Algorithms, Database Management Systems, Operating Systems, Computer Networks, and Object-Oriented Software Engineering.",
+        sort_order=1
+    )
+    db.add(edu)
+    db.commit()
+    print("Education seeded successfully.")
+
+
+def seed_contact_links(db):
+    from app.models.contact_link import ContactLink
+
+    if db.query(ContactLink).first():
+        print("Contact links already exist. Skipping contact links seed.")
+        return
+
+    print("Seeding Contact Links...")
+    links = [
+        ContactLink(
+            platform="Email",
+            url="mailto:ibrahimchennai2005@gmail.com",
+            icon="email",
+            enabled=True,
+            sort_order=1
+        ),
+        ContactLink(
+            platform="LinkedIn",
+            url="https://www.linkedin.com/in/mohamed-ibrahim-y/",
+            icon="linkedin",
+            enabled=True,
+            sort_order=2
+        ),
+        ContactLink(
+            platform="GitHub",
+            url="https://github.com/Ibrahim-2005",
+            icon="github",
+            enabled=True,
+            sort_order=3
+        ),
+    ]
+    db.add_all(links)
+    db.commit()
+    print("Contact links seeded successfully.")
+
+
+def seed_admin_user(db):
+    from app.models.admin_user import AdminUser
+    from app.core.config import settings
+    from app.core.security import hash_password
+
+    if db.query(AdminUser).first():
+        print("Admin user already exists. Skipping admin user seed.")
+        return
+
+    if settings.ADMIN_EMAIL and settings.ADMIN_PASSWORD:
+        print("Seeding Admin User...")
+        admin = AdminUser(
+            email=settings.ADMIN_EMAIL,
+            hashed_password=hash_password(settings.ADMIN_PASSWORD)
+        )
+        db.add(admin)
+        db.commit()
+        print("Admin User seeded successfully.")
+
+
 def is_database_empty(db) -> bool:
     """
     Check whether the database is fresh/unpopulated.
@@ -311,7 +417,7 @@ def is_database_empty(db) -> bool:
         return False
     if db.query(SidebarItem).first():
         return False
-    return not db.query(SidebarItem).first()
+    return True
 
 
 def run_seed(db=None) -> bool:
@@ -336,6 +442,9 @@ def run_seed(db=None) -> bool:
         seed_skills(db)
         seed_singletons(db)
         seed_sidebar(db)
+        seed_education(db)
+        seed_contact_links(db)
+        seed_admin_user(db)
         print("Database seeded successfully!")
         return True
     except Exception as e:

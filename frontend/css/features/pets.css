@@ -23,7 +23,7 @@ body.cursor-f1 {
     box-shadow: 0 0 10px 2px var(--accent);
     opacity: 0;
     transition: opacity 0.2s ease;
-    transform: translate(-50%, -50%);
+    will-change: transform;
 }
 
 /* Reduced Motion Support */
