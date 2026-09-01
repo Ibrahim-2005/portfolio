@@ -1,5 +1,94 @@
 import { api, API_BASE_URL } from "../core/api.js";
 
+async function ensurePdfJsLoaded() {
+    if (window.pdfjsLib) return window.pdfjsLib;
+
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = '/assets/vendor/pdfjs/pdf.min.js';
+        script.onload = () => {
+            if (window.pdfjsLib) {
+                window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/vendor/pdfjs/pdf.worker.min.js';
+                resolve(window.pdfjsLib);
+            } else {
+                reject(new Error('pdfjsLib not found on window'));
+            }
+        };
+        script.onerror = () => {
+            // Fallback to CDN if local fails
+            const cdnScript = document.createElement('script');
+            cdnScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+            cdnScript.onload = () => {
+                if (window.pdfjsLib) {
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                    resolve(window.pdfjsLib);
+                } else {
+                    reject(new Error('pdfjsLib CDN load failed'));
+                }
+            };
+            cdnScript.onerror = (e) => reject(e);
+            document.head.appendChild(cdnScript);
+        };
+        document.head.appendChild(script);
+    });
+}
+
+export async function initResumeViewer(resumeUrl = `${API_BASE_URL}/resume`) {
+    const isMobile = window.innerWidth <= 599;
+    const canvasContainer = document.getElementById('resume-canvas-container');
+    const iframe = document.querySelector('.desktop-resume-iframe');
+    const errorState = document.getElementById('resume-error');
+
+    if (!canvasContainer) return;
+
+    if (!isMobile) {
+        if (iframe) iframe.style.display = 'block';
+        canvasContainer.style.display = 'none';
+        return;
+    }
+
+    // On phone (<=599px), render PDF onto Canvas using PDF.js
+    if (iframe) iframe.style.display = 'none';
+    canvasContainer.style.display = 'flex';
+
+    try {
+        const pdfjs = await ensurePdfJsLoaded();
+        const loadingTask = pdfjs.getDocument(resumeUrl);
+        const pdf = await loadingTask.promise;
+
+        canvasContainer.innerHTML = '';
+        const containerWidth = canvasContainer.clientWidth || (window.innerWidth - 40);
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            const unscaledViewport = page.getViewport({ scale: 1.0 });
+            const scale = (containerWidth / unscaledViewport.width);
+            const dpr = window.devicePixelRatio || 1;
+            const viewport = page.getViewport({ scale: scale * dpr });
+
+            const canvas = document.createElement('canvas');
+            canvas.className = 'resume-page-canvas';
+            canvas.width = Math.floor(viewport.width);
+            canvas.height = Math.floor(viewport.height);
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+
+            const ctx = canvas.getContext('2d');
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+
+            await page.render(renderContext).promise;
+            canvasContainer.appendChild(canvas);
+        }
+    } catch (err) {
+        console.error('Failed to render mobile PDF canvas:', err);
+        if (canvasContainer) canvasContainer.style.display = 'none';
+        if (errorState) errorState.style.display = 'flex';
+    }
+}
+
 export async function renderResume() {
     let config;
     try {
@@ -48,19 +137,29 @@ export async function renderResume() {
                 <a href="${resumeUrl}" download="Resume.pdf" class="cta-button primary">Download PDF ↓</a>
             </div>
 
-            <div class="resume-preview-container">
+            <div class="resume-preview-container" id="resume-preview-container">
                 <iframe
                     src="${resumeUrl}"
-                    class="resume-iframe"
+                    class="resume-iframe desktop-resume-iframe"
                     title="Resume PDF Preview"
                     onerror="this.style.display='none'; document.getElementById('resume-error').style.display='flex';"
                 ></iframe>
+                <div id="resume-canvas-container" class="resume-canvas-container" style="display: none;">
+                    <div class="resume-loading-indicator" id="resume-loading-indicator">
+                        <span class="resume-loading-spinner"></span>
+                        <span>Loading resume...</span>
+                    </div>
+                </div>
                 <div id="resume-error" class="resume-error-state" style="display: none;">
                     <p style="color: var(--fg-muted);">Unable to load PDF preview.</p>
                     <a href="${resumeUrl}" download class="cta-button primary" style="margin-top: 1rem;">Download PDF Instead</a>
                 </div>
             </div>
         `;
+
+        setTimeout(() => {
+            initResumeViewer(resumeUrl);
+        }, 0);
     } else {
         resumeContentHtml = `
             <div class="resume-error-state" style="padding: 4rem 2rem;">

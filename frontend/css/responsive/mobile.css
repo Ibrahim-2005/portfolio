@@ -6,12 +6,14 @@
     }
 
     .home-content {
-        min-height: auto;
-        padding: 24px 18px;
+        min-height: 100%;
+        justify-content: center;
+        padding: 20px 16px;
         width: 100%;
         max-width: 100%;
         min-width: 0;
         box-sizing: border-box;
+        gap: 0.6rem;
     }
 
     .content-pane .home-title,
@@ -24,15 +26,39 @@
         max-width: 100%;
     }
 
+    .home-badges {
+        margin: 0.1rem 0;
+        gap: 0.45rem;
+    }
+
+    .home-intro {
+        margin: 0.15rem 0;
+        line-height: 1.45;
+    }
+
     .home-ctas,
     .home-stats {
-        gap: 10px;
+        gap: 8px;
+        margin-top: 0.2rem;
     }
 
     .cta-button,
     .stat-block {
         width: 100%;
     }
+
+    /* Phone Resume Preview */
+    .desktop-resume-iframe {
+        display: none !important;
+    }
+
+    .resume-preview-container {
+        height: auto !important;
+        min-height: 280px !important;
+        padding: 6px !important;
+        border: 1px solid var(--border-subtle);
+    }
+
 
     .app-container {
         height: 100vh !important;

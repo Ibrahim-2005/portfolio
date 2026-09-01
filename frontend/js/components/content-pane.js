@@ -7,7 +7,7 @@ import { renderHome } from './home-view.js';
 import { renderAbout } from './about-view.js';
 import { renderEducation } from './education-view.js';
 import { renderContact } from './contact-view.js';
-import { renderResume } from './resume-view.js';
+import { renderResume, initResumeViewer } from './resume-view.js';
 
 // Bounded cache (max 25 entries) to avoid memory leaks while optimizing tab switching
 const MAX_CACHE_ENTRIES = 25;
@@ -302,6 +302,7 @@ export async function renderContent() {
         const html = await renderResume();
         pane.innerHTML = html;
         restoreTabScroll();
+        initResumeViewer();
         return;
     }
 
