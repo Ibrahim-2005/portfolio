@@ -35,8 +35,28 @@ body.cursor-f1 {
     }
 }
 
+/* Mobile (< 600px) & Touch Fallback for Cursor Trail */
+@media (max-width: 599px) {
+    .cursor-trail,
+    #cursor-trail,
+    body.cursor-interstellar .cursor-trail {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+}
+
 /* Touch Fallback for Cursors */
 @media (hover: none) {
+    .cursor-trail,
+    #cursor-trail,
+    body.cursor-interstellar .cursor-trail {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
     * {
         cursor: auto !important; /* Disable custom cursors on touch devices */
     }

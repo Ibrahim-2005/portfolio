@@ -124,8 +124,10 @@
         display: none;
     }
 
-    .statusbar-terminal-label {
-        display: none;
+    .statusbar-terminal-label,
+    .statusbar-item.term-toggle-status-btn,
+    #status-terminal-btn {
+        display: none !important;
     }
 }
 

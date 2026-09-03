@@ -12,7 +12,7 @@ export const themes = [
     { id: 'night-owl', name: 'Night Owl', icon: '🦉', dot: '🦉', color: '#c792ea', contrast: 'dark' },
     { id: 'solarized-light', name: 'Solarized Light', icon: '🌞', dot: '🌞', color: '#b58900', contrast: 'light' },
     { id: 'github-light', name: 'GitHub Light', icon: '🐙', dot: '🐙', color: '#0366d6', contrast: 'light' },
-    { id: 'project-hail-mary', name: 'Project Hail Mary', icon: '📚', dot: '📚', color: '#e58835', description: 'Deep space / science', contrast: 'dark' },
+    { id: 'project-hail-mary', name: 'Project Hail Mary', icon: '🪨', dot: '🪨', color: '#e58835', description: 'Deep space / science', contrast: 'dark' },
     { id: 'interstellar', name: 'Interstellar', icon: '🚀', dot: '🚀', color: '#f5b971', description: 'Cosmic / cinematic', contrast: 'dark' },
     { id: 'f1', name: 'F1', icon: '🏎️', dot: '🏎️', color: '#e10600', description: 'Racing / telemetry', contrast: 'dark' }
 ];

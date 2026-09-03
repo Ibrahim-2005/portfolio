@@ -59,9 +59,13 @@ export function initCursorEngine() {
     }
 
     document.addEventListener('mousemove', (e) => {
-        if (!isInterstellarActive) return;
+        if (!isInterstellarActive || window.innerWidth < 600) return;
         mouseX = e.clientX;
         mouseY = e.clientY;
+    });
+
+    window.addEventListener('resize', () => {
+        applyCursor(getCurrentTheme());
     });
 
     // Apply cursor on initial startup
@@ -150,40 +154,60 @@ export function applyCursor(themeId) {
         animationFrameId = null;
     }
 
-    // Special themes retain their unique custom identities
+    const trailEl = document.getElementById('cursor-trail');
+    if (trailEl) {
+        trailEl.style.display = 'none';
+    }
+
+    const isMobile = window.innerWidth < 600;
+    const isTouch = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    // On mobile (< 600px), custom cursors and cursor dots are completely disabled
+    if (isMobile) {
+        return;
+    }
+
+    // Special themes retain their unique custom identities on desktop & tablet
     if (themeId === 'project-hail-mary') {
-        body.classList.add('cursor-phm');
+        if (!isTouch) body.classList.add('cursor-phm');
         return;
     }
 
     if (themeId === 'f1') {
-        body.classList.add('cursor-f1');
-        applyF1Cursor();
+        if (!isTouch) {
+            body.classList.add('cursor-f1');
+            applyF1Cursor();
+        }
         return;
     }
 
     if (themeId === 'interstellar') {
-        body.classList.add('cursor-interstellar');
-        isInterstellarActive = true;
-        trailX = mouseX;
-        trailY = mouseY;
-        animateTrail();
+        if (!isTouch) {
+            body.classList.add('cursor-interstellar');
+            isInterstellarActive = true;
+            if (trailEl) trailEl.style.display = '';
+            trailX = mouseX;
+            trailY = mouseY;
+            animateTrail();
+        }
         return;
     }
 
-    // Standard 10 themes get the theme-adaptive PortfolioOS precision cursor
-    const themeObj = themes.find(t => t.id === themeId);
-    const accentColor = (themeObj && themeObj.color) ? themeObj.color : '#007acc';
-    const cursorNormal = generateCursorSvg(accentColor, false);
-    const cursorActive = generateCursorSvg(accentColor, true);
+    if (!isTouch) {
+        // Standard 10 themes get the theme-adaptive PortfolioOS precision cursor
+        const themeObj = themes.find(t => t.id === themeId);
+        const accentColor = (themeObj && themeObj.color) ? themeObj.color : '#007acc';
+        const cursorNormal = generateCursorSvg(accentColor, false);
+        const cursorActive = generateCursorSvg(accentColor, true);
 
-    document.documentElement.style.setProperty('--portfolio-cursor', cursorNormal);
-    document.documentElement.style.setProperty('--portfolio-cursor-active', cursorActive);
-    body.classList.add('has-portfolio-cursor');
+        document.documentElement.style.setProperty('--portfolio-cursor', cursorNormal);
+        document.documentElement.style.setProperty('--portfolio-cursor-active', cursorActive);
+        body.classList.add('has-portfolio-cursor');
+    }
 }
 
 function animateTrail() {
-    if (!isInterstellarActive) return;
+    if (!isInterstellarActive || window.innerWidth < 600) return;
     
     // Ease the trail towards the cursor (gravitational drag effect)
     trailX += (mouseX - trailX) * 0.15;

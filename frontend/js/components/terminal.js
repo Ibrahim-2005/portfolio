@@ -313,6 +313,9 @@ export function toggleMaximizeTerminal() {
 }
 
 export const toggleTerminal = () => {
+    // Terminal is strictly unavailable on mobile (< 600px)
+    if (window.innerWidth < 600) return;
+
     if (!terminalPanel) {
         terminalPanel = document.getElementById('terminal-panel');
     }
@@ -336,6 +339,9 @@ export const toggleTerminal = () => {
 };
 
 export const openTerminal = () => {
+    // Terminal is strictly unavailable on mobile (< 600px)
+    if (window.innerWidth < 600) return;
+
     if (!terminalPanel) {
         terminalPanel = document.getElementById('terminal-panel');
     }
@@ -574,24 +580,12 @@ export function initTerminal() {
         });
     }
 
-    // Mobile Keyboard visualViewport Handling
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', () => {
-            if (isTerminalOpen && window.innerWidth <= 599) {
-                terminalPanel.style.height = `${window.visualViewport.height}px`;
-                terminalPanel.style.top = `${window.visualViewport.offsetTop}px`;
-            } else {
-                terminalPanel.style.height = '';
-                terminalPanel.style.top = '';
-            }
-        });
-
-        window.visualViewport.addEventListener('scroll', () => {
-            if (isTerminalOpen && window.innerWidth <= 599) {
-                terminalPanel.style.top = `${window.visualViewport.offsetTop}px`;
-            }
-        });
-    }
+    // Auto-close terminal if window resizes to mobile (< 600px)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth < 600 && isTerminalOpen) {
+            closeTerminal();
+        }
+    });
 
     // Autocomplete Suggestions on input
     if (termInput) {

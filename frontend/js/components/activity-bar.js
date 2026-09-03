@@ -137,10 +137,12 @@ function initSettingsPopover() {
             const action = btn.dataset.action;
             switch (action) {
                 case 'command-palette':
+                    if (window.innerWidth < 600) return;
                     toggleSettings(false);
                     openPaletteWithMode('all');
                     break;
                 case 'toggle-terminal':
+                    if (window.innerWidth < 600) return;
                     toggleSettings(false);
                     toggleTerminal();
                     break;
