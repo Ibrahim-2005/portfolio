@@ -1,81 +1,110 @@
 # Keyboard Shortcuts — PortfolioOS
 
-This document provides the authoritative reference for all keyboard shortcuts available in PortfolioOS, including browser compatibility rules, sequential chord architecture, and context-dependent bindings.
+| Attribute | Value |
+| --- | --- |
+| **Document Name** | Keyboard Shortcuts & Accelerator Specification |
+| **Product Name** | PortfolioOS |
+| **Document Version** | 1.0 |
+| **Status** | Approved |
+| **Release** | PortfolioOS v1.0 |
+| **Last Updated** | September 2026 |
+| **Target Repository** | [github.com/Ibrahim-2005/portfolio](https://github.com/Ibrahim-2005/portfolio) |
 
 ---
 
-## 1. General Principles & Browser Sandbox Constraints
+## 1. Overview & Platform Architecture
 
-PortfolioOS runs as a web-based operating system inside standard desktop browsers (Chromium, Firefox, Safari) and follows strict web platform best practices:
-- **No Hijacking of Critical Browser Commands**: Hard-reserved browser shortcuts (such as closing the browser tab with `Ctrl+W` or switching browser tabs with `Ctrl+Tab`) are intentionally **not intercepted**. Attempting to suppress these actions creates severe user disruption and is blocked by browser security sandboxes.
-- **Cross-Platform Compatibility**: All shortcuts support `Ctrl` on Windows/Linux and `Cmd` (`⌘`) on macOS.
-- **Input Focus Protection**: Shortcuts are safely bypassed when typing inside text inputs, textareas, or select dropdowns (except `Escape` for closing dialogs).
-- **Escape Cascade**: The `Escape` key dismisses overlays in strict priority order (Pending Chords → Command Palette → Menus → Terminal Panel).
-- **Chord Sequence Timeout**: Multi-key sequences (e.g. `Ctrl+K`) wait up to 2 seconds for the secondary key, and can be cancelled at any time by pressing `Escape`.
+PortfolioOS delivers a keyboard-driven desktop developer experience modeled after modern code editors. The shortcut architecture is managed centrally in [`frontend/js/features/keyboard-shortcuts.js`]
 
----
+### Core Principles
 
-## 2. Information Hierarchy & Available Shortcuts
-
-### Navigation & Palette
-| Command | Keybinding (Win/Linux) | Keybinding (macOS) | Scope |
-|---|---|---|---|
-| Show Command Palette | `Ctrl + Shift + P` | `Cmd + Shift + P` | Global |
-| Quick Open / Go to File | `Ctrl + P` | `Cmd + P` | Global |
-
-### Preferences (Sequential Chords)
-| Command | Keybinding (Win/Linux) | Keybinding (macOS) | Description |
-|---|---|---|---|
-| Color Theme Palette | `Ctrl + K` then `T` | `Cmd + K` then `T` | Opens palette in Themes Mode |
-| Open Keyboard Shortcuts | `Ctrl + K` then `S` | `Cmd + K` then `S` | Opens Shortcuts virtual tab |
-
-> **Note on Sequential Chords**: Press the first combination (`Ctrl+K` or `Cmd+K`), release it, then press the secondary key (`T` or `S`) within 2 seconds. Press `Escape` anytime to cancel.
-
-### View & Layout
-| Command | Keybinding (Win/Linux) | Keybinding (macOS) | Scope |
-|---|---|---|---|
-| Toggle Terminal Panel | ``Ctrl + ` `` | ``Cmd + ` `` | Global |
-| Toggle Primary Side Bar | `Ctrl + B` | `Cmd + B` | Global |
-| Toggle Full Screen | `F11` | `F11` | Global (Browser Native / Window Sync) |
-
-### Tabs & Editors
-| Command | Keybinding (Win/Linux) | Keybinding (macOS) | Scope |
-|---|---|---|---|
-| Close All Portfolio Tabs | `Ctrl + K` then `W` | `Cmd + K` then `W` | Global (Safely restores `home.py`) |
-
-### Context-Specific Navigation
-| Command | Keybinding | Required Context |
-|---|---|---|
-| Terminal Command History | `↑` / `↓` | **Terminal focused** |
-| Terminal Theme Autocomplete | `Tab` | **Terminal focused** |
-| Navigate Sidebar Tree | `↑` / `↓` | **Sidebar focused** |
-| Open Selected / Toggle Folder | `Enter` | **Sidebar focused** |
-
-### Overlays & Dialogs
-| Command | Keybinding | Scope |
-|---|---|---|
-| Close Active Overlay / Cancel Pending Chord | `Escape` | Global |
+- **Respect for Browser Sandboxes**: Hard-reserved browser shortcuts (such as closing a browser tab with `Ctrl+W` or switching browser tabs with `Ctrl+Tab`) are intentionally **not intercepted**. Attempting to suppress these actions creates severe user disruption and is blocked by browser security sandboxes.
+- **Cross-Platform Parity**: Every shortcut supports `Ctrl` on Windows/Linux and `Cmd` (`⌘`) on macOS.
+- **Input Focus Protection**: Hotkeys are safely bypassed when the user is actively typing inside text inputs, textareas, or `contenteditable` elements (with the exception of `Escape` for dismissing dialogs).
+- **Sequential Chord Engine**: Supports multi-key chord sequences (e.g. `Ctrl+K` followed by a secondary key) with a 2-second timeout window.
+- **Escape Cascade**: The `Escape` key dismisses UI overlays in strict priority order (Active Chord &rarr; Command Palette &rarr; Context Menus &rarr; Terminal Panel).
+- **Responsive Availability**: Keyboard accelerators and the integrated terminal are desktop and tablet capabilities (&ge; 600px). On mobile devices (< 600px), the terminal panel is completely suppressed, and touch navigation uses the compact header and search modal.
 
 ---
 
-## 3. Browser-Reserved Shortcuts (Not Intercepted by PortfolioOS)
+## 2. Global Shortcuts Reference
 
-The following combinations are intentionally left to native browser handling:
+### 2.1 Command Palette & Navigation
 
-| Shortcut | Native Browser Action | Why PortfolioOS Does Not Intercept | PortfolioOS Alternative |
-|---|---|---|---|
-| `Ctrl+W` / `Cmd+W` | Closes the browser tab | Browser security prevents web apps from reliably blocking tab closure; prevents accidental browser shutdown. | Click the `×` button on any editor tab, or use the Command Palette (`File: Close Active Tab`). |
-| `Ctrl+Tab` / `Ctrl+Shift+Tab` | Switches browser tabs | Handled by OS/browser window accelerators before web pages receive key events. | Click tab headers directly or use `Ctrl+P` Quick Open. |
-| `Ctrl+N` / `Cmd+N` | Opens a new browser window | Browser-level window accelerator; cannot be overridden by web pages. | Use `File > New Tab` via Menubar or open files via Sidebar/Palette. |
-| `Ctrl+O` / `Cmd+O` | Opens OS File dialog | Triggers browser's native file picker for local disks. | Use `Ctrl+P` (Quick Open / Go to File) to navigate portfolio sections. |
-| `Ctrl+=` / `Ctrl+-` / `Ctrl+0` | Browser zoom controls | Browser handles page zoom natively. | Use browser native zoom or Menubar View actions. |
+| Action | Windows / Linux | macOS | Scope | Notes |
+| --- | --- | --- | --- | --- |
+| **Show Command Palette** | `Ctrl + Shift + P` | `Cmd + Shift + P` | Global | Opens palette in action mode (`>`) |
+| **Quick Open / Go to File** | `Ctrl + P` | `Cmd + P` | Global | Opens palette in file search mode |
+| **Toggle Primary Sidebar** | `Ctrl + B` | `Cmd + B` | Global | Toggles Explorer file tree visibility |
+| **Toggle Terminal Panel** | ``Ctrl + ` `` | ``Cmd + ` `` | Global | Toggles bottom terminal (Desktop & Tablet only) |
+| **Toggle Full Screen** | `F11` | `F11` | Global | Syncs browser fullscreen with editor chrome |
 
 ---
 
-## 4. Terminal Command History Behavior
+### 2.2 Sequential Chords (`Ctrl + K` Chords)
 
-1. **History Storage**: Every executed non-empty command is saved to session history (ignoring consecutive duplicates).
-2. **Navigation (`↑` / `↓`)**:
-   - `↑` walks backward to older commands, preserving any unsent text as a draft.
-   - `↓` walks forward through newer commands, restoring the unsent text when stepping past the newest command.
-   - Cursor position automatically updates to the end of the line on each step.
+To execute a sequential chord: press `Ctrl+K` (or `Cmd+K`), release both keys, then press the secondary key within **2 seconds**. Pressing `Escape` at any point cancels the sequence.
+
+| Action | Sequence (Win/Linux) | Sequence (macOS) | Result |
+| --- | --- | --- | --- |
+| **Color Theme Palette** | `Ctrl + K` &rarr; `T` | `Cmd + K` &rarr; `T` | Opens palette focused in theme selection mode |
+| **Keyboard Shortcuts Reference** | `Ctrl + K` &rarr; `S` | `Cmd + K` &rarr; `S` | Opens Shortcuts cheat sheet virtual tab |
+| **Close All Editor Tabs** | `Ctrl + K` &rarr; `W` | `Cmd + K` &rarr; `W` | Closes all open tabs and restores `home.py` |
+
+---
+
+### 2.3 Context-Dependent Navigation
+
+#### When Terminal Panel is Focused
+
+| Key | Action |
+| --- | --- |
+| `↑` (Up Arrow) | Navigate backward to previous command in session history |
+| `↓` (Down Arrow) | Navigate forward through newer commands in session history |
+| `Tab` | Autocomplete `theme <name>` command or suggestion pills |
+| `Escape` | Defocuses terminal input or collapses terminal panel |
+
+#### When Explorer Sidebar is Focused
+
+| Key | Action |
+| --- | --- |
+| `↑` / `↓` | Move selection between virtual files |
+| `Enter` | Open selected virtual file in editor workspace |
+
+#### Overlays & Modals
+
+| Key | Action |
+|---|---|
+| `Esc` | Closes active overlay, command palette, context menu, or mobile drawer |
+
+---
+
+## 3. Responsive & Mobile Behavioral Rules
+
+- **Terminal Suppression on Mobile (< 600px)**: The integrated terminal panel and its toggle shortcut (``Ctrl+` ``) are disabled on mobile screens. Connecting an external hardware keyboard to a mobile phone will not open the terminal panel.
+- **Mobile Settings Actions**: On mobile viewports, the Settings drawer quick actions intentionally omit the *Toggle Terminal* and *Command Palette* buttons to maintain touch focus.
+- **Mobile Touch Search**: On mobile screens, quick navigation is accessible via the search icon in the top navigation header (`#mobile-nav-header`), which opens the mobile touch search modal.
+
+---
+
+## 4. Browser-Reserved Combinations (Not Intercepted)
+
+PortfolioOS deliberately allows the native browser to handle these keystrokes:
+
+| Shortcut | Native Browser Action | Architectural Rationale | PortfolioOS Equivalent |
+| --- | --- | --- | --- |
+| `Ctrl + W` / `Cmd + W` | Closes browser tab | Web apps cannot reliably intercept browser tab closure across all modern sandboxes. | Click the `×` button on any editor tab header, or run `File: Close Active Tab` via Command Palette. |
+| `Ctrl + Tab` | Cycles browser tabs | Processed at OS/browser level before web content receives key events. | Click tab headers directly or use `Ctrl+P` Quick Open. |
+| `Ctrl + N` / `Cmd + N` | New browser window | Native browser window accelerator. | Use Menubar `File > New Tab` or click virtual files in Sidebar. |
+| `Ctrl + O` / `Cmd + O` | Open local file dialog | Triggers OS local filesystem file picker. | Use `Ctrl+P` (Quick Open) to locate portfolio files. |
+| `Ctrl + +` / `Ctrl + -` | Zoom in / Zoom out | Native browser accessibility zoom. | Use native browser zoom (fully supported with fluid rem typography). |
+
+---
+
+## 5. Terminal History & Navigation Architecture
+
+The terminal input buffer implements standard shell behavior:
+
+1. **Deduplication**: Consecutive identical commands are deduplicated in history.
+2. **Draft Buffer Preservation**: If you begin typing an unfinished command (e.g. `theme dr`) and then press `↑` to browse history, your draft is preserved and automatically restored when you step back down with `↓`.
+3. **End-of-Line Cursor Placement**: Navigating history automatically moves the cursor to the end of the restored command string.
