@@ -1,0 +1,39 @@
+
+name: PortfolioOS Database Activity
+
+on:
+  schedule:
+    # Three checks per day (UTC)
+    - cron: "17 2,10,18 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  database-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PortfolioOS database
+        env:
+          PORTFOLIO_URL: ${{ vars.PORTFOLIO_URL }}
+        run: |
+          if [ -z "$PORTFOLIO_URL" ]; then
+            echo "PORTFOLIO_URL is not configured"
+            exit 1
+          fi
+
+          echo "Checking PortfolioOS database..."
+
+          STATUS=$(curl -sS -o response.json \
+            -w "%{http_code}" \
+            --max-time 30 \
+            "$PORTFOLIO_URL/api/pages/home")
+
+          echo "HTTP status: $STATUS"
+
+          if [ "$STATUS" != "200" ]; then
+            echo "Database check failed"
+            cat response.json
+            exit 1
+          fi
+
+          echo "PortfolioOS database check successful."
